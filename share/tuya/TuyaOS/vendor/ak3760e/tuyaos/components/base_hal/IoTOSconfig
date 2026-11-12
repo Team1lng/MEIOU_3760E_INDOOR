@@ -1,0 +1,25 @@
+
+menu "Tuya Base HAL"
+
+menu "Module"
+
+# Base HAL
+# config TUYA_BASE_HAL
+#    bool "Base HAL"
+#    default y
+comment "Base HAL: all modules are compiled by default"
+#    depends on TUYA_BASE_HAL
+
+endmenu
+
+menu "Test"
+
+# Base HAL test
+config TUYA_BASE_HAL_TEST
+    bool "Base HAL Test"
+    default n
+rsource "test/*/Config.in"
+
+endmenu
+
+endmenu

@@ -1,0 +1,18 @@
+menuconfig TUYA_PACKAGE_LIBPNG
+	bool "libpng"
+	select TUYA_PACKAGE_ZLIB
+	help
+	  Library for handling PNG (Portable Network Graphics)
+	  images.
+
+	  http://www.libpng.org/
+
+if TUYA_PACKAGE_LIBPNG
+
+config TUYA_PACKAGE_LIBPNG_VERSION
+	string "libpng version to use?"
+	default "libpng-1.6.37"
+	help
+	  Select which version to use.
+
+endif

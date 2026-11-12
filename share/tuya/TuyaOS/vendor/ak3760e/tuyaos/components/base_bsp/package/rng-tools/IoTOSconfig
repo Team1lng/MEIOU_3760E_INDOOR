@@ -1,0 +1,18 @@
+menuconfig TUYA_PACKAGE_RNG_TOOLS
+	bool "rng-tools"
+	select TUYA_PACKAGE_LIBSYSFS
+	select TUYA_PACKAGE_OPENSSL
+	help
+	  Daemon to use hardware random number generators.
+
+	  http://sourceforge.net/projects/gkernel/
+
+if TUYA_PACKAGE_RNG_TOOLS
+
+config TUYA_PACKAGE_RNG_TOOLS_VERSION
+	string "rng-tools version to use?"
+	default "rng-tools-6.10"
+	help
+	  Select which version to use.
+
+endif

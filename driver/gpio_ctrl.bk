@@ -1,0 +1,105 @@
+#include "gpio_ctrl.h"
+#include <string.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/ioctl.h>
+#include "fcntl.h"
+#include "kernel.h"
+#include "gpio_ioctl.h"
+#include "Amy_log.h"
+
+static int gpio_fd = -1;
+static int gpio_dev_get(void) {
+    if (gpio_fd < 0) {
+        gpio_fd = open("/dev/gpio", O_RDWR);
+    }
+    return gpio_fd;
+}
+
+/*
+    *dir:0:intput ,1:output
+    * config value bit[31:24]--slew rate, bit[23:16]--ie, bit[15:8]--drive
+    *     bit[7:0]--pupd config
+    * bit[31:24]--slew rate, 0: slow, 1: fast
+    * bit[23:16]--ie, input enable, 0: disable, 1: enable
+    * bit[15:8]--drive, drive strength, 4levels value: 0x0-0x3
+    * bit[7:0]--pupd config, bit[7:4] 1:enable/ 0:disable,
+    *     bit[3:0] 0:select PU /1:select PD
+    */
+int Amy_gpio_init(int pin, int dir, unsigned long config, int val) {
+    int fd = gpio_dev_get();
+    if (fd < 0) {
+        AMY_LOG_ERROR("gio dev init failed");
+        return -1;
+    }
+
+    t_gpio_cg  cfg;
+    //设置gpio
+    memset(&cfg, 0x00, sizeof(t_gpio_cg));
+    cfg.nr = pin;
+    ioctl(fd, IOC_GPIO_SET_PIN_AS_GPIO, &cfg);
+
+    //设置输入输出模式 0:input 1:output
+    memset(&cfg, 0x00, sizeof(t_gpio_cg));
+    cfg.nr = pin;
+    cfg.dir = dir;
+    ioctl(fd, IOC_GPIO_SET_PIN_DIR, &cfg);
+
+    //设置gpio配置
+    memset(&cfg, 0x00, sizeof(t_gpio_cg));
+    cfg.nr = pin;
+    cfg.config = config;
+    ioctl(fd, IOC_GPIO_SET_PIN_CONFIG, &cfg);
+
+    //设置gpio 输出数据
+    if (dir == 1) {
+        memset(&cfg, 0x00, sizeof(t_gpio_cg));
+        cfg.nr = pin;
+        cfg.data = val;
+        ioctl(fd, IOC_GPIO_SET_PIN_OUTPUT_DATA, &cfg);
+    }
+    return 0;
+}
+
+
+int Amy_gpio_set(int pin, int val) {
+    int fd = gpio_dev_get();
+    if (fd < 0) {
+        AMY_LOG_ERROR("gio dev init failed");
+        return -1;
+    }
+
+    t_gpio_cg  cfg;
+    memset(&cfg, 0x00, sizeof(t_gpio_cg));
+    cfg.nr = pin;
+    cfg.data = val;
+    ioctl(fd, IOC_GPIO_SET_PIN_OUTPUT_DATA, &cfg);
+    return 0;
+}
+
+int Amy_gpio_get(int pin, int* val) {
+    int fd = gpio_dev_get();
+    if (fd < 0) {
+        AMY_LOG_ERROR("gio dev init failed");
+        return -1;
+    }
+
+    t_gpio_cg  cfg;
+    memset(&cfg, 0x00, sizeof(t_gpio_cg));
+    cfg.nr = pin;
+    ioctl(fd, IOC_GPIO_GET_PIN_INPUT_DATA, &cfg);
+    *val = cfg.data;
+    return 0;
+}
+
+int Amy_gpio_isr(int pin, bool (*isr_cb)(int irq, void* dev)) {
+    int fd = gpio_dev_get();
+    if (fd < 0) {
+        AMY_LOG_ERROR("gio dev init failed");
+        return -1;
+    }
+    t_gpio_cg  cfg;
+    memset(&cfg, 0x00, sizeof(t_gpio_cg));
+    cfg.nr = pin;
+    ioctl(fd, IOC_GPIO_GET_PIN_INPUT_DATA, &cfg);
+}

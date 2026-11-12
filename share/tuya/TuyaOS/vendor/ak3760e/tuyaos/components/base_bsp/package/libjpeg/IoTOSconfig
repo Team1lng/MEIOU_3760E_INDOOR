@@ -1,0 +1,20 @@
+menuconfig TUYA_PACKAGE_LIBJPEG
+	bool "jpeg"
+	select TUYA_PACKAGE_HAS_JPEG
+	help
+	  The ubiquitous C library for manipulating JPEG images.
+
+	  http://www.ijg.org/
+
+if TUYA_PACKAGE_LIBJPEG
+
+config TUYA_PACKAGE_LIBJPEG_VERSION
+	string "libjpeg version to use?"
+	default "jpegsrc.v9d"
+	help
+	  Select which version to use.
+
+config TUYA_PACKAGE_HAS_JPEG
+	bool
+
+endif

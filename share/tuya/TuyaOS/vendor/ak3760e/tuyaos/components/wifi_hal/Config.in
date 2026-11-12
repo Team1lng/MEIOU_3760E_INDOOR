@@ -1,0 +1,19 @@
+menu "Tuya wifi hal Configuration"
+
+config TUYA_WIFI_MAIN_DEV
+	string "wifi main devices name"
+	default "wlan0"
+
+config TUYA_WIFI_CONCUR_DEV
+	string "wifi concurrent device name"
+	default "wlan1"
+
+config TUYA_WIFI_INFACE_IS_NL80211
+	bool "wifi is NL80211"
+	default n
+
+config TUYA_WIFI_HAL_DEBUG_LEVEL
+	int " wifi hal debug level"
+	default 5
+endmenu
+

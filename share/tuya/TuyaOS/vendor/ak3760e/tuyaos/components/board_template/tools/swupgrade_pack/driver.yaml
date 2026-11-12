@@ -1,0 +1,3 @@
+drivers:
+  nvram:
+    name: "nvram_kernel_driver.ko"

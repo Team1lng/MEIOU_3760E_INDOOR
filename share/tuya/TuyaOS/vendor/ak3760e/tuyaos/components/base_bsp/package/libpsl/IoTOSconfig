@@ -1,0 +1,16 @@
+menuconfig TUYA_PACKAGE_LIBPSL
+	bool "libpsl"
+	help
+	  A Public Suffix List is a collection of 
+	  Top Level Domains (TLDs) suffixes.
+	  https://github.com/rockdaboot/libpsl
+
+if TUYA_PACKAGE_LIBPSL
+
+config TUYA_PACKAGE_LIBPSL_VERSION
+	string "libpsl version to use?"
+	default "libpsl-0.21.1"
+	help
+	  Select which version to use.
+
+endif

@@ -1,0 +1,13 @@
+diff --git a/Makefile.am b/Makefile.am
+index a16be42..1baeb46 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -142,7 +142,7 @@ install-data-hook:
+ 	    $(DESTDIR)$(lirc_confdir)/lirc_options.conf
+ 	cp -pr $(srcdir)/contrib $(DESTDIR)$(pkgdatadir)
+ 	chmod u+w $(DESTDIR)$(includedir)
+-	cd $(DESTDIR)$(includedir)/lirc; ln -s include/media .
++	cd $(DESTDIR)$(includedir)/lirc; ln -snf include/media .
+ 
+ uninstall-hook:
+ 	-chmod -R u+w $(DESTDIR)/$(pkgdatadir)/contrib

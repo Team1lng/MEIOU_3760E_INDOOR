@@ -1,0 +1,18 @@
+menuconfig TUYA_PACKAGE_LIBTOOL
+	bool "libtool"
+	help
+	  Library that hides the complexity of using shared/static
+	  libraries on different platforms behind a consistent, portable
+	  interface.
+
+	  http://www.gnu.org/software/libtool/
+
+if TUYA_PACKAGE_LIBTOOL
+
+config TUYA_PACKAGE_LIBTOOL_VERSION
+	string "libtool version to use?"
+	default "libtool-2.4.6"
+	help
+	  Select which version to use.
+
+endif

@@ -1,0 +1,97 @@
+timer.lo: timer.c config.h global.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/stdio.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/_ansi.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/newlib.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/_newlib_version.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/config.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/machine/ieeefp.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/features.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/cdefs.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/machine/_default_types.h \
+ /opt/arm-anykav500-eabi/lib/gcc/arm-anykav500-eabi/4.9.4/include/stddef.h \
+ /opt/arm-anykav500-eabi/lib/gcc/arm-anykav500-eabi/4.9.4/include/stdarg.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/reent.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/_ansi.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/_types.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/machine/_types.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/lock.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/types.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/_stdint.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/machine/endian.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/machine/_endian.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/select.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/_sigset.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/_timeval.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/timespec.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/_timespec.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/_pthreadtypes.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/sched.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/machine/types.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/stdio.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/assert.h timer.h
+
+config.h:
+
+global.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/stdio.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/_ansi.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/newlib.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/_newlib_version.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/config.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/machine/ieeefp.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/features.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/cdefs.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/machine/_default_types.h:
+
+/opt/arm-anykav500-eabi/lib/gcc/arm-anykav500-eabi/4.9.4/include/stddef.h:
+
+/opt/arm-anykav500-eabi/lib/gcc/arm-anykav500-eabi/4.9.4/include/stdarg.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/reent.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/_ansi.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/_types.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/machine/_types.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/lock.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/types.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/_stdint.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/machine/endian.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/machine/_endian.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/select.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/_sigset.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/_timeval.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/timespec.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/_timespec.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/_pthreadtypes.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/sched.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/machine/types.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/stdio.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/assert.h:
+
+timer.h:

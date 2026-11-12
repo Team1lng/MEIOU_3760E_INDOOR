@@ -1,0 +1,29 @@
+diff --git a/loginutils/login.c b/loginutils/login.c
+index 4e65b3a..758e68f 100644
+--- a/loginutils/login.c
++++ b/loginutils/login.c
+@@ -64,6 +64,7 @@
+ #include "libbb.h"
+ #include "common_bufsiz.h"
+ #include <syslog.h>
++#include "../init/reboot.h"
+ 
+ #if ENABLE_SELINUX
+ # include <selinux/selinux.h>  /* for is_selinux_enabled()  */
+@@ -504,7 +505,7 @@ int login_main(int argc UNUSED_PARAM, char **argv)
+ #endif /* ENABLE_PAM */
+  auth_failed:
+ 		opt &= ~LOGIN_OPT_f;
+-		bb_do_delay(LOGIN_FAIL_DELAY);
++		//bb_do_delay(LOGIN_FAIL_DELAY);
+ 		/* TODO: doesn't sound like correct English phrase to me */
+ 		puts("Login incorrect");
+ 		if (++count == 3) {
+@@ -514,6 +515,7 @@ int login_main(int argc UNUSED_PARAM, char **argv)
+ 			if (ENABLE_FEATURE_CLEAN_UP)
+ 				free(fromhost);
+ 
++			reboot(RB_AUTOBOOT);
+ 			return EXIT_FAILURE;
+ 		}
+ 		username[0] = '\0';

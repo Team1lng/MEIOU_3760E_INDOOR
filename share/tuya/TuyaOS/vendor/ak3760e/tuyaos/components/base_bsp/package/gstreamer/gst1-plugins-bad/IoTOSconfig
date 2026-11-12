@@ -1,0 +1,382 @@
+menuconfig TUYA_PACKAGE_GST1_PLUGINS_BAD
+	bool "gst1-plugins-bad"
+	select TUYA_PACKAGE_GST1_PLUGINS_BASE
+	help
+	  A set of plug-ins for GStreamer that may be of poor quality
+	  or lacking some features.
+
+	  http://gstreamer.freedesktop.org/
+
+if TUYA_PACKAGE_GST1_PLUGINS_BAD
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_VERSION
+	string "gst-plugins-bad version to use?"
+	default "gst-plugins-bad-1.16.2"
+	help
+	  Select which version to use.
+
+comment "dependency-less plugins"
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_ACCURIP
+	bool "accurip"
+	help
+	  Accurip plugin
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_ADPCMDEC
+	bool "adpcmdec"
+	help
+	  ADPCM decoder
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_ADPCMENC
+	bool "adpcmenc"
+	help
+	  ADPCM encoder
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_AIFF
+	bool "aiff"
+	help
+	  Create and parse Audio interchange File Format (AIFF) files
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_ASFMUX
+	bool "asfmux"
+	help
+	  ASF Muxer Plugin
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_AUDIOBUFFERSPLIT
+	bool "audiobuffersplit"
+	help
+	  Audio buffersplit plugin
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_AUDIOFXBAD
+	bool "audiofxbad"
+	help
+	  Audio filters plugin
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_AUDIOLATENCY
+	bool "audiolatency"
+	help
+	  Audio latency plugin
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_AUDIOMIXMATRIX
+	bool "audiomixmatrix"
+	help
+	  Audio N:M mixer plugin
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_AUDIOVISUALIZERS
+	bool "audiovisualizers"
+	help
+	  Creates video visualizations of audio input
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_AUTOCONVERT
+	bool "autoconvert"
+	help
+	  Selects convertor element based on caps
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_BAYER
+	bool "bayer"
+	help
+	  Elements to convert Bayer images
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_CAMERABIN2
+	bool "camerabin2"
+	help
+	  Take image snapshots and record movies from camera
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_COLOREFFECTS
+	bool "coloreffects"
+	help
+	  Color Look-up Table filters
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_DEBUGUTILS
+	bool "debugutils"
+	help
+	  Collection of elements that may or may not be useful for
+	  debugging
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_FACEOVERLAY
+	bool "faceoverlay"
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_FESTIVAL
+	bool "festival"
+	help
+	  Synthesizes plain text into audio
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_FIELDANALYSIS
+	bool "fieldanalysis"
+	help
+	  Video field analysis
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_FREEVERB
+	bool "freeverb"
+	help
+	  Reverberation/room effect
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_FREI0R
+	bool "frei0r"
+	help
+	  frei0r plugin library
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_GAUDIEFFECTS
+	bool "gaudieffects"
+	help
+	  Gaudi video effects
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_GEOMETRICTRANSFORM
+	bool "geometrictransform"
+	help
+	  Various geometric image transform elements
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_GDP
+	bool "gdp"
+	help
+	  Payload/depayload GDP packets
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_ID3TAG
+	bool "id3tag"
+	help
+	  ID3 v1 and v2 muxing plugin
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_INTER
+	bool "inter"
+	help
+	  plugin for inter-pipeline communication
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_INTERLACE
+	bool "interlace"
+	help
+	  Create an interlaced video stream
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_IVFPARSE
+	bool "ivfparse"
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_IVTC
+	bool "ivtc"
+	help
+	  Inverse Telecine plugin
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_JP2KDECIMATOR
+	bool "jp2kdecimator"
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_JPEGFORMAT
+	bool "jpegformat"
+	help
+	  JPEG interchange format plugin
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_LIBRFB
+	bool "librfb"
+	help
+	  Connects to a VNC server and decodes RFB stream
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_MPEGDEMUX
+	bool "mpegdemux"
+	help
+	  MPEG-PS demuxer
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_MPEGTSDEMUX
+	bool "mpegtsdemux"
+	help
+	  MPEG TS demuxer
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_MPEGTSMUX
+	bool "mpegtsmux"
+	help
+	  MPEG-TS muxer
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_MPEGPSMUX
+	bool "mpegpsmux"
+	help
+	  MPEG-PS muxer
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_MXF
+	bool "mxf"
+	help
+	  MXF plugin library
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_NETSIM
+	bool "netsim"
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_ONVIF
+	bool "onvif"
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_PCAPPARSE
+	bool "pcapparse"
+	help
+	  Element parsing raw pcap streams
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_PNM
+	bool "pnm"
+	help
+	  PNM plugin
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_PROXY
+	bool "proxy"
+	help
+	  Proxy plugin
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_RAWPARSE
+	bool "rawparse"
+	help
+	  Parses byte streams into raw frames
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_REMOVESILENCE
+	bool "removesilence"
+	help
+	  Removes silence from an audio stream
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_SDP
+	bool "sdp"
+	help
+	  configure streaming sessions using SDP
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_SEGMENTCLIP
+	bool "segmentclip"
+	help
+	  Segment clip elements
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_SIREN
+	bool "siren"
+	help
+	  Siren encoder/decoder/payloader/depayloader plugins
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_SMOOTH
+	bool "smooth"
+	help
+	  Apply a smooth filter to an image
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_SPEED
+	bool "speed"
+	help
+	  Set speed/pitch on audio/raw streams (resampler)
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_SUBENC
+	bool "subenc"
+	help
+	  subtitle encoders
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_TIMECODE
+	bool "timecode"
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_VIDEOFILTERS
+	bool "videofilters"
+	help
+	  Video filters in gst-plugins-bad
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_VIDEOFRAME_AUDIOLEVEL
+	bool "videoframe_audiolevel"
+	help
+	  videoframe_audiolevel
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_VIDEOPARSERS
+	bool "videoparsers"
+	help
+	  videoparsers
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_VIDEOSIGNAL
+	bool "videosignal"
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_VMNC
+	bool "vmnc"
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_Y4M
+	bool "y4m"
+	help
+	  Demuxes/decodes YUV4MPEG streams
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_YADIF
+	bool "yadif"
+	help
+	  YADIF deinterlacing filter
+
+comment "plugins with external dependencies"
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_BLUEZ
+	bool "bluez"
+	select TUYA_PACKAGE_BLUEZ5_UTILS
+	help
+	  Bluetooth audio A2DP/AVDTP sink, AVDTP source plugin
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_BZ2
+	bool "bz2"
+	select TUYA_PACKAGE_BZIP2
+	help
+	  Compress or decompress streams
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_CURL
+	bool "curl"
+	select TUYA_PACKAGE_LIBCURL
+	help
+	  libcurl-based elements
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_DASH
+	bool "dash"
+	select TUYA_PACKAGE_LIBXML2
+	help
+	  DASH demuxer plugin
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_DECKLINK
+	bool "decklink"
+	help
+	  Blackmagic Decklink plugin
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_FAAD
+	bool "faad"
+	select TUYA_PACKAGE_FAAD2
+	help
+	  Free AAC Decoder (FAAD)
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_HLS
+	bool "hls"
+	select TUYA_PACKAGE_OPENSSL
+	help
+	  Fragmented streaming plugins
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_KMS
+	bool "kmssink"
+	select TUYA_PACKAGE_LIBDRM
+	help
+	  KMS video sink
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_DTLS
+	bool "dtls"
+	select TUYA_PACKAGE_OPENSSL
+	help
+	  DTLS plugin
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_OPENH264
+	bool "openh264"
+	select TUYA_PACKAGE_LIBOPENH264
+	help
+	  OpenH264 based encoding/decoding plugin
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_OPENJPEG
+	bool "openjpeg"
+	select TUYA_PACKAGE_OPENJPEG
+	help
+	  GStreamer OpenJPEG plugin
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_OPUS
+	bool "opus"
+	select TUYA_PACKAGE_OPUS
+	help
+	  OPUS plugin library
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_SBC
+	bool "sbc"
+	select TUYA_PACKAGE_SBC
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_SHM
+	bool "shm"
+	help
+	  shared memory sink source
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_SNDFILE
+	bool "sndfile"
+	select TUYA_PACKAGE_LIBSNDFILE
+
+config TUYA_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_WEBP
+	bool "webp"
+	select TUYA_PACKAGE_WEBP
+	help
+	  Webp image format plugin
+
+endif

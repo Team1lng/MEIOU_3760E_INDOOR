@@ -1,0 +1,24 @@
+menu "swupgrade_unpack option config"
+
+config ENABLE_URL_INSTALL
+	bool "enable url install"
+	default n
+
+config ENABLE_FLASH_ERASE_WRITE_SLEEP
+	bool "sleep a while between sectors when doing erase/write"
+	default n
+	help
+	  for nor flash only now.
+
+config ENABLE_WRITE_AHEAD
+	bool "enable write flash before check. for double copy only now."
+	default n
+
+config ENABLE_FLASH_ERASE_128KB_BLOCK
+	bool "ir handler use 128kb block flash"
+	default n
+
+config TUYA_BSP_SIGN_COULD
+	bool "tuya could sign and local verify"
+	default n
+endmenu

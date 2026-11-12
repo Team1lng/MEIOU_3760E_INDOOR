@@ -1,0 +1,3 @@
+config TUYA_BSP_VERIFY_ONBOARD_NVRAM
+        bool "tuya verify data key from nvram"
+        default y

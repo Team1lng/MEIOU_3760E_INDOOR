@@ -1,0 +1,20 @@
+menuconfig TUYA_TKL_DISPLAY
+	bool "tkl_display"
+	help
+	  TuyaOS kernel layer for display device
+
+if TUYA_TKL_DISPLAY
+
+choice
+	prompt "Display backend to use"
+
+config TUYA_TKL_DISPLAY_DRM
+	bool "DRM"
+	select TUYA_PACKAGE_LIBDRM
+
+config TUYA_TKL_DISPLAY_FBDEV
+	bool "Framebuffer"
+
+endchoice
+
+endif

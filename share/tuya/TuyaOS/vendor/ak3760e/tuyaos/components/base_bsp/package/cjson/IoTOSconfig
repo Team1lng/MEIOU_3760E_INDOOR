@@ -1,0 +1,17 @@
+menuconfig TUYA_PACKAGE_CJSON
+	bool "cJSON"
+	help
+	  An ultra-lightweight, portable, single-file, simple-as-can-be
+	  ANSI-C compliant JSON parser, under MIT license.
+
+	  https://github.com/DaveGamble/cJSON
+
+if TUYA_PACKAGE_CJSON
+
+config TUYA_PACKAGE_CJSON_VERSION
+	string "cJSON version to use?"
+	default "cJSON-1.7.13"
+	help
+	  Select which version to use.
+
+endif

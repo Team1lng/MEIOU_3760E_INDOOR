@@ -1,0 +1,16 @@
+menuconfig TUYA_PACKAGE_L2TPD
+	bool "l2tpd"
+	help
+	  Layer 2 Tunnelling Protocol (RFC2661).
+
+	  http://sourceforge.net/projects/l2tpd/
+
+if TUYA_PACKAGE_L2TPD
+
+config TUYA_PACKAGE_L2TPD_VERSION
+	string "L2TPD version to use?"
+	default "l2tpd-0.69"
+	help
+	  Select which version to use.
+
+endif

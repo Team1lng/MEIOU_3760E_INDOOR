@@ -1,0 +1,16 @@
+menuconfig TUYA_PACKAGE_FREETYPE
+	bool "freetype"
+	help
+	  a free, high-quality and portable font engine.
+
+	  https://www.freetype.org/
+
+if TUYA_PACKAGE_FREETYPE
+
+config TUYA_PACKAGE_FREETYPE_VERSION
+	string "freetype version to use?"
+	default "freetype-2.10.2"
+	help
+	  Select which version to use.
+
+endif

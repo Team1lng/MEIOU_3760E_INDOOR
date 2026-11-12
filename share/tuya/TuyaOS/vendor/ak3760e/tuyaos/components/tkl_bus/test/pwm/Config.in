@@ -1,0 +1,4 @@
+
+config TY_TKL_BUS_TEST_PWM
+	bool "TKL - pwm test"
+	default n

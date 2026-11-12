@@ -1,0 +1,57 @@
+
+menu "TY TKL BUS"
+
+config TY_TKL_BUS
+    bool "TKL BUS Module"
+    default y
+
+config TY_TKL_UART
+    bool "TKL UART Module"
+    depends on TY_TKL_BUS
+    default y
+
+config TY_TKL_SYS_UART_PATTERN_SET
+        bool "ty tkl sys uart pattern set"
+        depends on TY_TKL_UART
+	default n
+
+if TY_TKL_SYS_UART_PATTERN_SET
+
+config TY_TKL_SYS_UART_PATTERN
+        string "ty tkl sys uart pattern"
+        default "/dev/ttyS%d"
+
+endif
+
+config TY_TKL_PWM
+    bool "TKL PWM Module"
+    depends on TY_TKL_BUS
+    default n
+
+config TY_TKL_SPI
+    bool "TKL SPI Module"
+    depends on TY_TKL_BUS
+    default n
+
+config TY_TKL_I2C
+    bool "TKL I2C Module"
+    depends on TY_TKL_BUS
+    default n
+
+if TY_TKL_UART
+rsource "test/uart/Config.in"
+endif
+
+if TY_TKL_PWM
+rsource "test/pwm/Config.in"
+endif
+
+if TY_TKL_SPI
+rsource "test/spi/Config.in"
+endif
+
+if TY_TKL_I2C
+rsource "test/i2c/Config.in"
+endif
+
+endmenu

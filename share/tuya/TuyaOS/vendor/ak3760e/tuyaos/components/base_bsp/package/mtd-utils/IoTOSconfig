@@ -1,0 +1,178 @@
+menuconfig TUYA_PACKAGE_MTD
+	bool "mtd, jffs2 and ubi/ubifs tools"
+	help
+	  Build mtd, jffs2 and ubi/ubifs tools
+
+	  http://www.linux-mtd.infradead.org/
+
+if TUYA_PACKAGE_MTD
+
+config TUYA_PACKAGE_MTD_VERSION
+	string "mtd-utils version to use?"
+	default "mtd-utils-2.1.1"
+	help
+	  Select which version to use.
+
+# The two hidden options below match mtd configure script options
+# --enable-jffs and --enable-ubifs
+
+config TUYA_PACKAGE_MTD_JFFS_UTILS
+	bool
+	select TUYA_PACKAGE_LZO
+	select TUYA_PACKAGE_ZLIB
+
+config TUYA_PACKAGE_MTD_UBIFS_UTILS
+	bool
+	select TUYA_PACKAGE_LZO
+	select TUYA_PACKAGE_UTIL_LINUX
+	select TUYA_PACKAGE_UTIL_LINUX_LIBUUID
+	select TUYA_PACKAGE_ZLIB
+
+comment "MTD tools selection"
+
+config TUYA_PACKAGE_MTD_DOCFDISK
+	bool "docfdisk"
+
+config TUYA_PACKAGE_MTD_DOC_LOADBIOS
+	bool "doc_loadbios"
+
+config TUYA_PACKAGE_MTD_FLASHCP
+	bool "flashcp"
+	default y
+
+config TUYA_PACKAGE_MTD_FLASH_ERASE
+	bool "flash_erase"
+	default y
+
+config TUYA_PACKAGE_MTD_FLASH_LOCK
+	bool "flash_lock"
+	default y
+
+config TUYA_PACKAGE_MTD_FLASH_OTP_DUMP
+	bool "flash_otp_dump"
+
+config TUYA_PACKAGE_MTD_FLASH_OTP_INFO
+	bool "flash_otp_info"
+
+config TUYA_PACKAGE_MTD_FLASH_OTP_LOCK
+	bool "flash_otp_lock"
+
+config TUYA_PACKAGE_MTD_FLASH_OTP_WRITE
+	bool "flash_otp_write"
+
+config TUYA_PACKAGE_MTD_FLASH_UNLOCK
+	bool "flash_unlock"
+	default y
+
+config TUYA_PACKAGE_MTD_FTL_CHECK
+	bool "ftl_check"
+
+config TUYA_PACKAGE_MTD_FTL_FORMAT
+	bool "ftl_format"
+
+config TUYA_PACKAGE_MTD_JFFS2DUMP
+	bool "jffs2dump"
+	select TUYA_PACKAGE_MTD_JFFS_UTILS
+
+config TUYA_PACKAGE_MTD_MKFSJFFS2
+	bool "mkfs.jffs2"
+	select TUYA_PACKAGE_MTD_JFFS_UTILS
+
+config TUYA_PACKAGE_MTD_MKFSUBIFS
+	bool "mkfs.ubifs"
+	select TUYA_PACKAGE_MTD_UBIFS_UTILS
+
+config TUYA_PACKAGE_MTD_MTD_DEBUG
+	bool "mtd_debug"
+	default y
+
+config TUYA_PACKAGE_MTD_MTDPART
+	bool "mtdpart"
+
+config TUYA_PACKAGE_MTD_NANDDUMP
+	bool "nanddump"
+	default y
+
+config TUYA_PACKAGE_MTD_NANDTEST
+	bool "nandtest"
+	default y
+
+config TUYA_PACKAGE_MTD_NANDWRITE
+	bool "nandwrite"
+	default y
+
+config TUYA_PACKAGE_MTD_NFTLDUMP
+	bool "nftldump"
+
+config TUYA_PACKAGE_MTD_NFTL_FORMAT
+	bool "nftl_format"
+
+config TUYA_PACKAGE_MTD_RECV_IMAGE
+	bool "recv_image"
+
+config TUYA_PACKAGE_MTD_RFDDUMP
+	bool "rfddump"
+
+config TUYA_PACKAGE_MTD_RFDFORMAT
+	bool "rfdformat"
+
+config TUYA_PACKAGE_MTD_SERVE_IMAGE
+	bool "serve_image"
+
+config TUYA_PACKAGE_MTD_SUMTOOL
+	bool "sumtool"
+	select TUYA_PACKAGE_MTD_JFFS_UTILS
+
+config TUYA_PACKAGE_MTD_MTDINFO
+	bool "mtdinfo"
+	default y
+
+config TUYA_PACKAGE_MTD_UBIATTACH
+	bool "ubiattach"
+	default y
+
+config TUYA_PACKAGE_MTD_UBICRC32
+	bool "ubicrc32"
+	default y
+
+config TUYA_PACKAGE_MTD_UBIDETACH
+	bool "ubidetach"
+	default y
+
+config TUYA_PACKAGE_MTD_UBIFORMAT
+	bool "ubiformat"
+	default y
+
+config TUYA_PACKAGE_MTD_UBIMKVOL
+	bool "ubimkvol"
+	default y
+
+config TUYA_PACKAGE_MTD_UBINFO
+	bool "ubinfo"
+	default y
+
+config TUYA_PACKAGE_MTD_UBINIZE
+	bool "ubinize"
+	default y
+
+config TUYA_PACKAGE_MTD_UBIRENAME
+	bool "ubirename"
+	default y
+
+config TUYA_PACKAGE_MTD_UBIRMVOL
+	bool "ubirmvol"
+	default y
+
+config TUYA_PACKAGE_MTD_UBIRSVOL
+	bool "ubirsvol"
+	default y
+
+config TUYA_PACKAGE_MTD_UBIUPDATEVOL
+	bool "ubiupdatevol"
+	default y
+
+config TUYA_PACKAGE_MTD_UBIBLOCK
+	bool "ubiblock"
+	default y
+
+endif

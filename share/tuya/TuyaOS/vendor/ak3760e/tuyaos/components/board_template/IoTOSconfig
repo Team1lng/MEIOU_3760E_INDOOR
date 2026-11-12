@@ -1,0 +1,50 @@
+menu "Tuya Board Configuration"
+
+config TUYA_TARGET_BOARD
+        string "target board"
+	default "board_template"
+	
+config TUYA_KERNEL_LOADADDR
+        string
+        default "0xXXXXXXXX"
+
+config TUYA_TARGET_BOARD_MODEL
+        string "product name"
+        default "rts3917"
+	
+config TUYA_KERNEL_CONFIG
+        string "kernel config file"
+        default "linux_common_kernel/config/config.linux.rts3917n_nor"
+
+config TUYA_BOOTLOADER_CONFIG
+	string "bootloader config file"
+	default "uboot_rts3917/config/config.uboot.rts3917n_nor"
+
+config TUYA_TARGET_FLASH_SIZE
+        string "flash default size"
+	default "0x1000000"
+	
+config TUYA_FLASH_PARTITION_ENV
+        string "flash packet default partition"
+        default "board_template/partition.json"
+
+config TUYA_UNSIGN_PACK
+	bool "unsign pack"
+	default y
+
+config TUYA_TARGET_TY_UIMAGE
+        bool "support sd boot kernel image"
+        default n
+
+config TUYA_TARGET_PRODUCT_PACK_SUPPORT
+        bool "product test libary pack support"
+	default n
+
+config  PRODUCT_SIGN
+        bool "tuyaos product sign"
+	depends on TUYA_TARGET_PRODUCT_PACK_SUPPORT
+        default n
+
+endmenu
+
+rsource  "config/hwConfig"

@@ -1,0 +1,49 @@
+
+menu "TY TKL Utils"
+
+config TY_TKL_UTILS
+    bool "TKL Utils Module"
+    default y
+
+config TY_TKL_FILE
+    bool "TKL FILES Module"
+    depends on TY_TKL_UTILS
+    default y
+
+config TY_TKL_CMD
+    bool "TKL CMD Module"
+    depends on TY_TKL_UTILS
+    default y
+
+config TY_TKL_PASSWD
+    bool "TKL PASSWD Module"
+    depends on TY_TKL_UTILS
+    default n
+
+config TY_TKL_TAR
+    bool "TKL TAR Module"
+    depends on TY_TKL_CMD
+    default y
+
+config TY_TKL_REBOOT
+    bool "TKL REBOOT Module"
+    depends on TY_TKL_UTILS
+    default n
+
+if TY_TKL_PASSWD
+rsource "test/passwd/Config.in"
+endif
+
+if TY_TKL_CMD
+rsource "test/cmd/Config.in"
+endif
+
+if TY_TKL_TAR
+rsource "test/tar/Config.in"
+endif
+
+if TY_TKL_REBOOT
+rsource "test/reboot/Config.in"
+endif
+
+endmenu

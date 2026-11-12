@@ -1,0 +1,23 @@
+menuconfig TUYA_PACKAGE_SHAIRPORT_SYNC
+    bool "shairport-sync"
+    help
+      Shairport Sync emulates an AirPort Express for the purpose
+      of streaming audio from iTunes, iPods, iPhones, iPads and
+      AppleTVs.  Audio played by a Shairport Sync-powered device
+      stays in synchrony with the source and thus with other
+      devices that are playing the same source
+      synchronously. Thus, for example, synchronised multi-room
+      audio is possible without difficulty.
+
+      https://github.com/mikebrady/shairport-sync
+
+
+if TUYA_PACKAGE_SHAIRPORT_SYNC
+
+config TUYA_PACKAGE_SHAIRPORT_SYNC_VERSION
+    string "shairpirt-sync version to use?"
+    default "shairport-sync-3.1.6"
+    help
+       Select which version to ues.
+
+endif

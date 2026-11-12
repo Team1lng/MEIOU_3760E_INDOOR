@@ -1,0 +1,21 @@
+menuconfig TUYA_PACKAGE_FONTCONFIG
+	bool "fontconfig"
+	select TUYA_PACKAGE_FREETYPE
+	select TUYA_PACKAGE_EXPAT
+	select TUYA_PACKAGE_UTIL_LINUX
+	select TUYA_PACKAGE_UTIL_LINUX_LIBUUID
+	help
+	  Fontconfig is a library for configuring and customizing font
+	  access.
+
+	  http://www.fontconfig.org/
+
+if TUYA_PACKAGE_FONTCONFIG
+
+config TUYA_PACKAGE_FONTCONFIG_VERSION
+	string "fontconfig version to use?"
+	default "fontconfig-2.13.92"
+	help
+	  Select which version to use.
+
+endif

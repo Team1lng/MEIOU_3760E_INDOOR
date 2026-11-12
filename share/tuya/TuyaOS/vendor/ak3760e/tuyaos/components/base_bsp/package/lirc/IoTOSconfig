@@ -1,0 +1,24 @@
+menuconfig TUYA_PACKAGE_LIRC
+	bool "lirc-tools"
+	help
+	  LIRC is a package that supports receiving and sending IR
+	  signals of the most common IR remote controls. It contains a
+	  daemon that decodes and sends IR signals, a mouse daemon
+	  that translates IR signals to mouse movements and a couple
+	  of user programs that allow to control your computer with a
+	  remote control.
+
+	  It requires the kernel LIRC interface driver, make sure to
+	  enable the kernel drivers to support your hardware.
+
+	  http://www.lirc.org/
+
+if TUYA_PACKAGE_LIRC
+
+config TUYA_PACKAGE_LIRC_VERSION
+	string "lirc version to use?"
+	default "lirc-0.10.1"
+	help
+	  Select which version to use.
+
+endif

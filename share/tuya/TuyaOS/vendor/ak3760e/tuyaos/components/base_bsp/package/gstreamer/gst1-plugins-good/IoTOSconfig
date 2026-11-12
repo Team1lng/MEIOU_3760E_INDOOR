@@ -1,0 +1,308 @@
+menuconfig TUYA_PACKAGE_GST1_PLUGINS_GOOD
+	bool "gst1-plugins-good"
+	select TUYA_PACKAGE_GST1_PLUGINS_BASE
+	help
+	  A set of well-supported plug-ins for GStreamer under the preferred
+	  license.
+
+	  http://gstreamer.freedesktop.org/
+
+if TUYA_PACKAGE_GST1_PLUGINS_GOOD
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_VERSION
+	string "gst-plugins-good version to use?"
+	default "gst-plugins-good-1.16.2"
+	help
+	  Select which version to use.
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_JPEG
+	bool "jpeg (JPEG support)"
+	select TUYA_PACKAGE_LIBJPEG
+	help
+	  JPeg plugin library
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PNG
+	bool "png (PNG support)"
+	select TUYA_PACKAGE_LIBPNG
+	help
+	  PNG plugin library
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_BZ2
+	bool "bz2 support"
+	depends on TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_MATROSKA
+	select TUYA_PACKAGE_BZIP2
+	help
+	  Enable bz2 support for the following plugins:
+	  matroska
+
+comment "dependency-less plugins"
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_ALPHA
+	bool "alpha"
+	help
+	  adds an alpha channel to video - constant or via chroma-keying
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_APETAG
+	bool "apetag"
+	help
+	  APEv1/2 tag reader
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_AUDIOFX
+	bool "audiofx"
+	help
+	  Audio effects plugin
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_AUDIOPARSERS
+	bool "audioparsers"
+	help
+	  Parsers for various audio formats
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_AUPARSE
+	bool "auparse"
+	help
+	  parses au streams
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_AUTODETECT
+	bool "autodetect"
+	help
+	  Plugin contains auto-detection plugins for video/audio in- and outputs
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_AVI
+	bool "avi (*.avi video)"
+	default y
+	help
+	  AVI stream handling
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_CUTTER
+	bool "cutter"
+	help
+	  Audio Cutter to split audio into non-silent bits
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_DEBUGUTILS
+	bool "debugutils"
+	help
+	  elements for testing and debugging
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_DEINTERLACE
+	bool "deinterlace"
+	help
+	  Deinterlacer
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_DTMF
+	bool "dtmf"
+	help
+	  DTMF plugin
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_EFFECTV
+	bool "effectv"
+	help
+	  effect plugins from the effectv project
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_EQUALIZER
+	bool "equalizer"
+	help
+	  GStreamer audio equalizers
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_FLV
+	bool "flv"
+	help
+	  FLV muxing and demuxing plugin
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_FLX
+	bool "flx"
+	help
+	  FLC/FLI/FLX video decoder
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_GOOM
+	bool "goom"
+	help
+	  GOOM visualization filter
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_GOOM2K1
+	bool "goom2k1"
+	help
+	  GOOM 2k1 visualization filter
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_ICYDEMUX
+	bool "icydemux"
+	help
+	  Demux ICY tags from a stream
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_ID3DEMUX
+	bool "id3demux (*.mp3 audio)"
+	help
+	  Demux ID3v1 and ID3v2 tags from a file
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_IMAGEFREEZE
+	bool "imagefreeze"
+	help
+	  Still frame stream generator
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_INTERLEAVE
+	bool "interleave"
+	help
+	  Audio interleaver/deinterleaver
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_ISOMP4
+	bool "isomp4"
+	default y
+	help
+	  ISO base media file format support (mp4, 3gpp, qt, mj2)
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_LAW
+	bool "law"
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_LEVEL
+	bool "level"
+	help
+	  Audio level plugin
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_MATROSKA
+	bool "matroska"
+	help
+	  Matroska and WebM stream handling
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_MONOSCOPE
+	bool "monoscope"
+	help
+	  Monoscope visualization
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_MULTIFILE
+	bool "multifile"
+	help
+	  Reads/Writes buffers from/to sequentially named files
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_MULTIPART
+	bool "multipart"
+	help
+	  multipart stream manipulation
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_REPLAYGAIN
+	bool "replaygain"
+	help
+	  ReplayGain volume normalization
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_RTP
+	bool "rtp"
+	help
+	  Real-time protocol plugins
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_RTPMANAGER
+	bool "rtpmanager"
+	help
+	  RTP session management plugin library
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_RTSP
+	bool "rtsp"
+	help
+	  transfer data via RTSP
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_SHAPEWIPE
+	bool "shapewipe"
+	help
+	  Shape Wipe transition filter
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_SMPTE
+	bool "smpte"
+	help
+	  Apply the standard SMPTE transitions on video images
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_SPECTRUM
+	bool "spectrum"
+	help
+	  Run an FFT on the audio signal, output spectrum data
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_UDP
+	bool "udp"
+	help
+	  transfer data via UDP
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_VIDEOBOX
+	bool "videobox"
+	help
+	  resizes a video by adding borders or cropping
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_VIDEOCROP
+	bool "videocrop"
+	help
+	  Crops video into a user-defined region
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_VIDEOFILTER
+	bool "videofilter"
+	help
+	  Video filters plugin
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_VIDEOMIXER
+	bool "videomixer"
+	help
+	  Video mixer
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_WAVENC
+	bool "wavenc"
+	help
+	  Encode raw audio into WAV
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_WAVPARSE
+	bool "wavparse (*.wav audio)"
+	default y
+	help
+	  Parse a .wav file into raw audio
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_Y4M
+	bool "y4m"
+	help
+	  Encodes a YUV frame into the yuv4mpeg format (mjpegtools)
+
+comment "plugins with external dependencies"
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_V4L2
+	bool "v4l2"
+	help
+	  elements for Video 4 Linux
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_V4L2_PROBE
+	bool "v4l2-probe (m2m)"
+	depends on TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_V4L2
+	help
+	  Enables the V4L2 probe at plugin load time. This enables
+	  support for v4l2 transform devices, such as m2m
+	  devices. These plugins are registered as v4l2videoNconvert
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_CAIRO
+	bool "cairo"
+	select TUYA_PACKAGE_CAIRO
+	select TUYA_PACKAGE_CAIRO_PNG
+	help
+	  Cairo-based elements
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_FLAC
+	bool "flac (libFLAC)"
+	select TUYA_PACKAGE_FLAC
+	help
+	  The FLAC Lossless compressor Codec
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_PULSE
+	select TUYA_PACKAGE_PULSEAUDIO
+	bool "pulseaudio"
+	help
+	  PulseAudio plugin library
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_SOUPHTTPSRC
+	bool "souphttpsrc (http client)"
+	select TUYA_PACKAGE_LIBSOUP
+	help
+	  libsoup HTTP client src/sink
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_SPEEX
+	bool "speex"
+	select TUYA_PACKAGE_SPEEX
+	help
+	  Speex plugin library
+
+config TUYA_PACKAGE_GST1_PLUGINS_GOOD_PLUGIN_TAGLIB
+	bool "taglib"
+	select TUYA_PACKAGE_TAGLIB
+	help
+	  Taglib tagging plugin library
+
+endif

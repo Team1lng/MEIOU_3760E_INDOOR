@@ -1,0 +1,51 @@
+menuconfig TUYA_PACKAGE_E2FSPROGS
+	bool "e2fsprogs"
+	help
+	  The EXT2 file system utilities.
+
+	  The following programs are always built and installed:
+	  badblocks chattr debugfs dumpe2fs e2freefrag e2fsck e2image
+	  e2undo e4crypt e4defrag filefrag fsck fuse2fs logsave lsattr
+	  mke2fs mklost+found resize2fs tune2fs
+
+	  Other programs can be selected individually.
+
+	  http://e2fsprogs.sourceforge.net
+
+if TUYA_PACKAGE_E2FSPROGS
+
+config TUYA_PACKAGE_E2FSPROGS_VERSION
+	string "e2fsprogs version to use?"
+	default "e2fsprogs-1.45.6"
+	help
+	  Select which version to use.
+
+config TUYA_PACKAGE_E2FSPROGS_DEBUGFS
+	bool "debugfs"
+	help
+	  ext2/ext3/ext4 file system debugger
+
+config TUYA_PACKAGE_E2FSPROGS_E2IMAGE
+	bool "e2image"
+	help
+	  Save critical ext2/ext3/ext4 filesystem metadata to a file
+
+config TUYA_PACKAGE_E2FSPROGS_E4DEFRAG
+	bool "e4defrag"
+	help
+	  Online defragmenter for ext4 filesystem
+
+config TUYA_PACKAGE_E2FSPROGS_FSCK
+	bool "fsck"
+	default y
+	depends on !TUYA_PACKAGE_UTIL_LINUX_FSCK
+	help
+	  Check and repair a Linux file system. This is a wrapper around
+	  the filesystem-specific fsck tools.
+
+config TUYA_PACKAGE_E2FSPROGS_RESIZE2FS
+	bool "resize2fs"
+	help
+	  ext2/ext3/ext4 file system resizer
+
+endif

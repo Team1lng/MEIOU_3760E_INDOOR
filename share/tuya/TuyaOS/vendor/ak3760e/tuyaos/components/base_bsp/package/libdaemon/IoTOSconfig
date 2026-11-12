@@ -1,0 +1,19 @@
+menuconfig TUYA_PACKAGE_LIBDAEMON
+    bool "libdaemon"
+    # needs fork()
+    help
+      libdaemon is a lightweight C library that eases the
+      writing of UNIX daemons.
+
+      http://0pointer.de/lennart/projects/libdaemon/
+
+
+if TUYA_PACKAGE_LIBDAEMON
+
+config TUYA_PACKAGE_LIBDAEMON_VERSION
+    string "libdaemon version to use?"
+    default "libdaemon-0.14"
+    help
+       Select which version to use.
+
+endif

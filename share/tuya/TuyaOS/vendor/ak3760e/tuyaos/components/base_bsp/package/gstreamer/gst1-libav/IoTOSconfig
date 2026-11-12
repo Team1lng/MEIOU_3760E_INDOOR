@@ -1,0 +1,25 @@
+menuconfig TUYA_PACKAGE_GST1_LIBAV
+	bool "gst1-libav"
+	select TUYA_PACKAGE_FFMPEG
+	select TUYA_PACKAGE_FFMPEG_SWSCALE
+	select TUYA_PACKAGE_GST1_PLUGINS_BASE
+	help
+	  GStreamer plugin (formerly gst-ffmpeg).
+
+	  This package contains GStreamer plugins based on
+	  the libav project.
+
+	  The codecs, muxers, bitstreams and filters to build can be
+	  selected in the ffmpeg package.
+
+	  http://gstreamer.freedesktop.org/
+
+if TUYA_PACKAGE_GST1_LIBAV
+
+config TUYA_PACKAGE_GST1_LIBAV_VERSION
+	string "GST1_LIBAV version to use?"
+	default "gst-libav-1.16.2"
+	help
+	  Select which version to use.
+
+endif

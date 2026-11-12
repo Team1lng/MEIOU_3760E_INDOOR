@@ -1,0 +1,3 @@
+aes.c:461:12:aes_setkey_enc.constprop	16	static
+aes.c:604:5:aes128_data_encode	328	static
+aes.c:641:5:aes128_data_decode	616	static

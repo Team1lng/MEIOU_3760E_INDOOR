@@ -1,0 +1,916 @@
+menuconfig TUYA_TARGET_BOOT_PARAMS
+	bool "Tuya Boot Configure"
+	default n
+        help
+            Tuya target dynamic configure boot parameters
+
+if TUYA_TARGET_BOOT_PARAMS
+
+menu "Partition Information Configure"
+
+config TUYA_TARGET_PRODUCT_NAME
+        string "product name"
+        default "fh8652_16m"
+
+config TUYA_TARGET_FLASH_TYPE
+	string "flash type"
+	default "nor"
+
+config TUYA_TARGET_FLASH_TOTAL_SIZE
+	hex "flash size"
+	default 0x1000000
+
+config TUYA_TARGET_PACK_OTA_ONLY
+        int  "pack only create ota firmware"
+	default 0
+
+config  TUYA_TARGET_OTA_MODE
+	string "ota upgrade mode(single-copy,double-copy,recovery),"
+	default "single-copy"
+
+
+menuconfig TUYA_PARTITION_0
+        bool "support partitions 0"
+        default y
+
+if TUYA_PARTITION_0
+
+config TUYA_PARTITION_0_NAME
+        string "partition name"
+        default "boot"
+
+config TUYA_PARTITION_0_VERSION
+        string "partition version"
+        default "1.0.0-beta1"
+
+config  TUYA_PARTITION_0_OFFSET
+        hex "partition offset"
+        default 0x0
+  
+config  TUYA_PARTITION_0_SIZE
+        hex "partition size"
+        default 0xb0000
+
+config  TUYA_PARTITION_0_DEVICE_0
+        string "partition device 0 name"
+        default "/dev/mtd0"
+
+config  TUYA_PARTITION_0_DEVICE_1
+        string "partition device 1 name"
+        default ""
+
+config TUYA_PARTITION_0_DEVICE_OFFSET
+	hex "partition offset in partition"
+	default 0x0
+
+config  TUYA_PARTITION_0_FILE_NAME
+        string "partition file name"
+        default "boot.bin"
+	
+config  TUYA_PARTITION_0_NEED_OTA
+        int "partition need ota flag"
+	default 0
+
+config  TUYA_PARTITION_0_FIELSYSTEM_TYPE
+        string "partition filesystem type"
+	default "raw"
+
+config TUYA_PARTITION_0_COPY_IN_BOOT
+	int "copy in boot flag"
+	default 0
+
+endif
+
+menuconfig TUYA_PARTITION_1
+        bool "support partitions 1"
+        default y
+
+if TUYA_PARTITION_1
+
+config TUYA_PARTITION_1_NAME
+        string "partition name"
+        default "kernel"
+
+config TUYA_PARTITION_1_VERSION
+        string "partition version"
+        default "1.0.0-beta1"
+
+config  TUYA_PARTITION_1_OFFSET
+        hex "partition offset"
+        default 0xb0000
+  
+config  TUYA_PARTITION_1_SIZE
+        hex "partition size"
+        default 0x200000
+
+config  TUYA_PARTITION_1_DEVICE_0
+        string "partition device 0 name"
+        default "/dev/mtd1"
+
+config  TUYA_PARTITION_1_DEVICE_1
+        string "partition device 1 name"
+        default ""
+
+config TUYA_PARTITION_1_DEVICE_OFFSET
+	hex "partition offset in partition"
+	default 0x0
+
+config  TUYA_PARTITION_1_FILE_NAME
+        string "partition file name"
+        default "kernel.bin"
+	
+config  TUYA_PARTITION_1_NEED_OTA
+        int "partition need ota flag"
+	default 1
+
+config  TUYA_PARTITION_1_FIELSYSTEM_TYPE
+        string "partition  filesystem type"
+	default "raw"
+
+config TUYA_PARTITION_1_COPY_IN_BOOT
+	int "copy in boot flag"
+	default 0
+
+endif
+
+menuconfig TUYA_PARTITION_2
+        bool "support partitions 2"
+        default y
+
+if TUYA_PARTITION_2
+
+config TUYA_PARTITION_2_NAME
+        string "partition name"
+        default "rootfs"
+
+config TUYA_PARTITION_2_VERSION
+        string "partition version"
+        default "1.0.0-beta1"
+
+config  TUYA_PARTITION_2_OFFSET
+        hex "partition offset"
+        default 0x2b0000
+  
+config  TUYA_PARTITION_2_SIZE
+        hex "partition size"
+        default 0x260000
+
+config  TUYA_PARTITION_2_DEVICE_0
+        string "partition device 0 name"
+        default "/dev/mtd2"
+
+config  TUYA_PARTITION_2_DEVICE_1
+        string "partition device 1 name"
+        default ""
+
+config TUYA_PARTITION_2_DEVICE_OFFSET
+	hex "partition offset in partition"
+	default 0x0
+
+config  TUYA_PARTITION_2_FILE_NAME
+        string "partition file name"
+        default "images/rootfs.squashfs.bin"
+	
+config  TUYA_PARTITION_2_NEED_OTA
+        int "partition need ota flag"
+	default 1
+
+config  TUYA_PARTITION_2_FIELSYSTEM_TYPE
+        string "partition filesystem type"
+	default "squashfs"
+
+config TUYA_PARTITION_2_COPY_IN_BOOT
+	int "copy in boot flag"
+	default 0
+
+endif
+
+menuconfig TUYA_PARTITION_3
+        bool "support partitions 3"
+        default y
+
+if TUYA_PARTITION_3
+
+config TUYA_PARTITION_3_NAME
+        string "partition name"
+        default "drv"
+
+config TUYA_PARTITION_3_VERSION
+        string "partition version"
+        default "1.0.0-beta1"
+
+config  TUYA_PARTITION_3_OFFSET
+        hex "partition offset"
+        default 0x510000
+  
+config  TUYA_PARTITION_3_SIZE
+        hex "partition size"
+        default 0x1a0000
+
+config  TUYA_PARTITION_3_DEVICE_0
+        string "partition device 0 name"
+        default "/dev/mtd3"
+
+config  TUYA_PARTITION_3_DEVICE_1
+        string "partition device 1 name"
+        default ""
+
+config TUYA_PARTITION_3_DEVICE_OFFSET
+	hex "partition offset in partition"
+	default 0x0
+
+config  TUYA_PARTITION_3_FILE_NAME
+        string "partition file name"
+        default "images/drv.squashfs.bin"
+	
+config  TUYA_PARTITION_3_NEED_OTA
+        int "partition need ota flag"
+	default 1
+
+config  TUYA_PARTITION_3_FIELSYSTEM_TYPE
+        string "partition filesystem type"
+	default "squashfs"
+
+config TUYA_PARTITION_3_COPY_IN_BOOT
+	int "copy in boot flag"
+	default 0
+endif
+
+menuconfig TUYA_PARTITION_4
+        bool "support partitions 4"
+        default y
+
+if TUYA_PARTITION_4
+
+config TUYA_PARTITION_4_NAME
+        string "partition name"
+        default "user"
+
+config TUYA_PARTITION_4_VERSION
+        string "partition version"
+        default "1.0.0-beta1"
+
+config  TUYA_PARTITION_4_OFFSET
+        hex "partition offset"
+        default 0x6b0000
+  
+config  TUYA_PARTITION_4_SIZE
+        hex "partition size"
+        default 0x460000
+
+config  TUYA_PARTITION_4_DEVICE_0
+        string "partition device 0 name"
+        default "/dev/mtd4"
+
+config  TUYA_PARTITION_4_DEVICE_1
+        string "partition device 1 name"
+        default ""
+
+config TUYA_PARTITION_4_DEVICE_OFFSET
+	hex "partition offset in partition"
+	default 0x0
+
+config  TUYA_PARTITION_4_FILE_NAME
+        string "partition file name"
+        default "user.bin"
+	
+config  TUYA_PARTITION_4_NEED_OTA
+        int "partition need ota flag"
+	default 1
+
+config  TUYA_PARTITION_4_FIELSYSTEM_TYPE
+        string "partition filesystem type"
+	default "squashfs"
+
+config TUYA_PARTITION_4_COPY_IN_BOOT
+	int "copy in boot flag"
+	default 1
+
+endif
+
+menuconfig TUYA_PARTITION_5
+        bool "support partitions 5"
+        default y
+
+if TUYA_PARTITION_5
+
+config TUYA_PARTITION_5_NAME
+        string "partition name"
+        default "backup"
+
+config TUYA_PARTITION_5_VERSION
+        string "partition version"
+        default "1.0.0-beta1"
+
+config  TUYA_PARTITION_5_OFFSET
+        hex "partition offset"
+        default 0xb10000
+  
+config  TUYA_PARTITION_5_SIZE
+        hex "partition size"
+        default 0x470000
+
+config  TUYA_PARTITION_5_DEVICE_0
+        string "partition device 0 name"
+        default "/dev/mtd5"
+
+config  TUYA_PARTITION_5_DEVICE_1
+        string "partition device 1 name"
+        default ""
+
+config TUYA_PARTITION_5_DEVICE_OFFSET
+	hex "partition offset in partition"
+	default 0x0
+
+config  TUYA_PARTITION_5_FILE_NAME
+        string "partition file name"
+        default ""
+	
+config  TUYA_PARTITION_5_NEED_OTA
+        int "partition need ota flag"
+	default 1
+
+config  TUYA_PARTITION_5_FIELSYSTEM_TYPE
+        string "partition filesystem type"
+	default "raw"
+
+config TUYA_PARTITION_5_COPY_IN_BOOT
+	int "copy in boot flag"
+	default 0
+endif
+
+menuconfig TUYA_PARTITION_6
+        bool "support partitions 6"
+        default y
+
+if TUYA_PARTITION_6
+
+config TUYA_PARTITION_6_NAME
+        string "partition name"
+        default "data"
+
+config TUYA_PARTITION_6_VERSION
+        string "partition version"
+        default "1.0.0-beta1"
+
+config  TUYA_PARTITION_6_OFFSET
+        hex "partition offset"
+        default 0xf80000
+  
+config  TUYA_PARTITION_6_SIZE
+        hex "partition size"
+        default 0x50000
+
+config  TUYA_PARTITION_6_DEVICE_0
+        string "partition device 0 name"
+        default "/dev/mtd6"
+
+config  TUYA_PARTITION_6_DEVICE_1
+        string "partition device 1 name"
+        default ""
+
+config TUYA_PARTITION_6_DEVICE_OFFSET
+	hex "partition offset in partition"
+	default 0x0
+
+config  TUYA_PARTITION_6_FILE_NAME
+        string "partition file name"
+        default "mtd.bin"
+	
+config  TUYA_PARTITION_6_NEED_OTA
+        int "partition need ota flag"
+	default 1
+
+config  TUYA_PARTITION_6_FIELSYSTEM_TYPE
+        string "partition filesystem type"
+	default "jffs2"
+
+config TUYA_PARTITION_6_COPY_IN_BOOT
+	int "copy in boot flag"
+	default 0
+endif
+
+menuconfig TUYA_PARTITION_7
+        bool "support partitions 7"
+        default y
+
+if TUYA_PARTITION_7
+
+config TUYA_PARTITION_7_NAME
+        string "partition name"
+        default "factory"
+
+config TUYA_PARTITION_7_VERSION
+        string "partition version"
+        default "1.0.0-beta1"
+
+config  TUYA_PARTITION_7_OFFSET
+        hex "partition offset"
+        default 0xfd0000
+  
+config  TUYA_PARTITION_7_SIZE
+        hex "partition size"
+        default 0x20000
+
+config  TUYA_PARTITION_7_DEVICE_0
+        string "partition device 0 name"
+        default "/dev/mtd7"
+
+config  TUYA_PARTITION_7_DEVICE_1
+        string "partition device 1 name"
+        default ""
+
+config TUYA_PARTITION_7_DEVICE_OFFSET
+	hex "partition offset in partition"
+	default 0x0
+
+config  TUYA_PARTITION_7_FILE_NAME
+        string "partition file name"
+        default "cfg.bin"
+	
+config  TUYA_PARTITION_7_NEED_OTA
+        int "partition need ota flag"
+	default 1
+
+config  TUYA_PARTITION_7_FIELSYSTEM_TYPE
+        string "partition filesystem type"
+	default "raw"
+
+config TUYA_PARTITION_7_COPY_IN_BOOT
+	int "copy in boot flag"
+	default 0
+endif
+
+menuconfig TUYA_PARTITION_8
+        bool "support partitions 8"
+        default y
+
+if TUYA_PARTITION_8
+
+config TUYA_PARTITION_8_NAME
+        string "partition name"
+        default "prttn_info"
+
+config TUYA_PARTITION_8_VERSION
+        string "partition version"
+        default "0.0.1"
+
+config  TUYA_PARTITION_8_OFFSET
+        hex "partition offset"
+        default 0xff0000
+  
+config  TUYA_PARTITION_8_SIZE
+        hex "partition size"
+        default 0x10000
+
+config  TUYA_PARTITION_8_DEVICE_0
+        string "partition device 0 name"
+        default "/dev/mtd7"
+
+config  TUYA_PARTITION_8_DEVICE_1
+        string "partition device 1 name"
+        default ""
+
+config TUYA_PARTITION_8_DEVICE_OFFSET
+	hex "partition offset in partition"
+	default 0x20000
+
+config  TUYA_PARTITION_8_FILE_NAME
+        string "partition file name"
+        default "prttn_info.bin"
+	
+config  TUYA_PARTITION_8_NEED_OTA
+        int "partition need ota flag"
+	default 1
+
+config  TUYA_PARTITION_8_FIELSYSTEM_TYPE
+        string "partition filesystem type"
+	default "raw"
+
+config TUYA_PARTITION_8_COPY_IN_BOOT
+	int "copy in boot flag"
+	default 0
+endif
+
+
+menuconfig TUYA_PARTITION_9
+        bool "support partitions 9"
+        default n
+
+if TUYA_PARTITION_9
+
+config TUYA_PARTITION_9_NAME
+        string "partition name"
+        default "part 9"
+
+config TUYA_PARTITION_9_VERSION
+        string "partition version"
+        default ""
+
+config  TUYA_PARTITION_9_OFFSET
+        hex "partition offset"
+        default 0x0
+  
+config  TUYA_PARTITION_9_SIZE
+        hex "partition size"
+        default 0x0
+
+config  TUYA_PARTITION_9_DEVICE_0
+        string "partition device 0 name"
+        default "/dev/mtd9"
+
+config  TUYA_PARTITION_9_DEVICE_1
+        string "partition device 1 name"
+        default ""
+
+config TUYA_PARTITION_9_DEVICE_OFFSET
+	hex "partition offset in partition"
+	default 0x0
+
+config  TUYA_PARTITION_9_FILE_NAME
+        string "partition file name"
+        default ""
+	
+config  TUYA_PARTITION_9_NEED_OTA
+        int "partition need ota flag"
+	default 1
+
+config  TUYA_PARTITION_9_FIELSYSTEM_TYPE
+        string "partition filesystem type"
+	default "raw"
+
+config TUYA_PARTITION_9_COPY_IN_BOOT
+	int "copy in boot flag"
+	default 0 
+endif
+
+menuconfig TUYA_PARTITION_10
+        bool "support partitions 10"
+        default n
+
+if TUYA_PARTITION_10
+
+config TUYA_PARTITION_10_NAME
+        string "partition name"
+        default "part 10"
+
+config TUYA_PARTITION_10_VERSION
+        string "partition version"
+        default ""
+
+config  TUYA_PARTITION_10_OFFSET
+        hex "partition offset"
+        default 0x0
+  
+config  TUYA_PARTITION_10_SIZE
+        hex "partition size"
+        default 0x0
+
+config  TUYA_PARTITION_10_DEVICE_0
+        string "partition device 0 name"
+        default "/dev/mtd10"
+
+config  TUYA_PARTITION_10_DEVICE_1
+        string "partition device 1 name"
+        default ""
+
+config TUYA_PARTITION_10_DEVICE_OFFSET
+	hex "partition offset in partition"
+	default 0x0
+
+config  TUYA_PARTITION_10_FILE_NAME
+        string "partition file name"
+        default ""
+	
+config  TUYA_PARTITION_10_NEED_OTA
+        int "partition need ota flag"
+	default 1
+
+config  TUYA_PARTITION_10_FIELSYSTEM_TYPE
+        string "partition filesystem type"
+	default "raw"
+
+config TUYA_PARTITION_10_COPY_IN_BOOT
+	int "copy in boot flag"
+	default 0
+endif
+
+menuconfig TUYA_PARTITION_11
+        bool "support partitions 11"
+        default n
+
+if TUYA_PARTITION_11
+
+config TUYA_PARTITION_11_NAME
+        string "partition name"
+        default "part 11"
+
+config TUYA_PARTITION_11_VERSION
+        string "partition version"
+        default ""
+
+config  TUYA_PARTITION_11_OFFSET
+        hex "partition offset"
+        default 0x0
+  
+config  TUYA_PARTITION_11_SIZE
+        hex "partition size"
+        default 0x0
+
+config  TUYA_PARTITION_11_DEVICE_0
+        string "partition device 0 name"
+        default "/dev/mtd11"
+
+config  TUYA_PARTITION_11_DEVICE_1
+        string "partition device 1 name"
+        default ""
+
+config TUYA_PARTITION_11_DEVICE_OFFSET
+	hex "partition offset in partition"
+	default 0x0
+
+config  TUYA_PARTITION_11_FILE_NAME
+        string "partition file name"
+        default ""
+	
+config  TUYA_PARTITION_11_NEED_OTA
+        int "partition need ota flag"
+	default 1
+
+config  TUYA_PARTITION_11_FIELSYSTEM_TYPE
+        string "partition filesystem type"
+	default "raw"
+
+config TUYA_PARTITION_11_COPY_IN_BOOT
+	int "copy in boot flag"
+	default 0
+endif
+
+menuconfig TUYA_PARTITION_12
+        bool "support partitions 12"
+        default n
+
+if TUYA_PARTITION_12
+
+config TUYA_PARTITION_12_NAME
+        string "partition name"
+        default "part 12"
+
+config TUYA_PARTITION_12_VERSION
+        string "partition version"
+        default ""
+
+config  TUYA_PARTITION_12_OFFSET
+        hex "partition offset"
+        default 0x0
+  
+config  TUYA_PARTITION_12_SIZE
+        hex "partition size"
+        default 0x0
+
+config  TUYA_PARTITION_12_DEVICE_0
+        string "partition device 0 name"
+        default "/dev/mtd12"
+
+config  TUYA_PARTITION_12_DEVICE_1
+        string "partition device 1 name"
+        default ""
+
+config TUYA_PARTITION_12_DEVICE_OFFSET
+	hex "partition offset in partition"
+	default 0x0
+
+config  TUYA_PARTITION_12_FILE_NAME
+        string "partition file name"
+        default ""
+	
+config  TUYA_PARTITION_12_NEED_OTA
+        int "partition need ota flag"
+	default 1
+
+config  TUYA_PARTITION_12_FIELSYSTEM_TYPE
+        string "partition filesystem type"
+	default "raw"
+
+config TUYA_PARTITION_12_COPY_IN_BOOT
+	int "copy in boot flag"
+	default 0
+endif
+
+menuconfig TUYA_PARTITION_13
+        bool "support partitions 13"
+        default n
+
+if TUYA_PARTITION_13
+
+config TUYA_PARTITION_13_NAME
+        string "partition name"
+        default "part 13"
+
+config TUYA_PARTITION_13_VERSION
+        string "partition version"
+        default ""
+
+config  TUYA_PARTITION_13_OFFSET
+        hex "partition offset"
+        default 0x0
+  
+config  TUYA_PARTITION_13_SIZE
+        hex "partition size"
+        default 0x0
+
+config  TUYA_PARTITION_13_DEVICE_0
+        string "partition device 0 name"
+        default "/dev/mtd13"
+
+config  TUYA_PARTITION_13_DEVICE_1
+        string "partition device 1 name"
+        default ""
+
+config TUYA_PARTITION_13_DEVICE_OFFSET
+	hex "partition offset in partition"
+	default 0x0
+
+config  TUYA_PARTITION_13_FILE_NAME
+        string "partition file name"
+        default ""
+	
+config  TUYA_PARTITION_13_NEED_OTA
+        int "partition need ota flag"
+	default 1
+
+config  TUYA_PARTITION_13_FIELSYSTEM_TYPE
+        string "partition filesystem type"
+	default "raw"
+
+config TUYA_PARTITION_13_COPY_IN_BOOT
+	int "copy in boot flag"
+	default 0
+endif
+
+menuconfig TUYA_PARTITION_14
+        bool "support partitions 14"
+        default n
+
+if TUYA_PARTITION_14
+
+config TUYA_PARTITION_14_NAME
+        string "partition name"
+        default "part 14"
+
+config TUYA_PARTITION_14_VERSION
+        string "partition version"
+        default ""
+
+config  TUYA_PARTITION_14_OFFSET
+        hex "partition offset"
+        default 0x0
+  
+config  TUYA_PARTITION_14_SIZE
+        hex "partition size"
+        default 0x0
+
+config  TUYA_PARTITION_14_DEVICE_0
+        string "partition device 0 name"
+        default "/dev/mtd14"
+
+config  TUYA_PARTITION_14_DEVICE_1
+        string "partition device 1 name"
+        default ""
+
+config TUYA_PARTITION_14_DEVICE_OFFSET
+	hex "partition offset in partition"
+	default 0x0
+
+config  TUYA_PARTITION_14_FILE_NAME
+        string "partition file name"
+        default ""
+	
+config  TUYA_PARTITION_14_NEED_OTA
+        int "partition need ota flag"
+	default 1
+
+config  TUYA_PARTITION_14_FIELSYSTEM_TYPE
+        string "partition filesystem type"
+	default "raw"
+
+config TUYA_PARTITION_14_COPY_IN_BOOT
+	int "copy in boot flag"
+	default 0
+endif
+
+menuconfig TUYA_PARTITION_15
+        bool "support partitions 15"
+        default n
+
+if TUYA_PARTITION_15
+
+config TUYA_PARTITION_15_NAME
+        string "partition name"
+        default "part 15"
+
+config TUYA_PARTITION_15_VERSION
+        string "partition version"
+        default ""
+
+config  TUYA_PARTITION_15_OFFSET
+        hex "partition offset"
+        default 0x0
+
+config  TUYA_PARTITION_15_SIZE
+        hex  "partition size"
+        default 0x0
+
+config  TUYA_PARTITION_15_DEVICE_0
+        string "partition device 0 name"
+        default "/dev/mtd14"
+
+config  TUYA_PARTITION_15_DEVICE_1
+        string "partition device 1 name"
+        default ""
+
+config TUYA_PARTITION_15_DEVICE_OFFSET
+	string "partition offset in partition"
+	default "0x0"
+
+config  TUYA_PARTITION_15_FILE_NAME
+        string "partition file name"
+        default ""
+	
+config  TUYA_PARTITION_15_NEED_OTA
+        int "partition need ota flag"
+	default 1
+
+config  TUYA_PARTITION_15_FIELSYSTEM_TYPE
+        string "partition filesystem type"
+	default "raw"
+
+config TUYA_PARTITION_15_COPY_IN_BOOT
+	int "copy in boot flag"
+	default 0 
+endif
+
+endmenu
+
+menu "Boot Parameter Configure"
+
+config TUYA_BOOT_PARAM_PARTITION_INDEX
+	int "boot param partition index"
+	default 8
+
+menuconfig TUYA_TARGET_BOOT_COMMAND_ENABLE
+	bool "boot comand enable"
+	default y
+
+if TUYA_TARGET_BOOT_COMMAND_ENABLE
+
+config  TUYA_TARGET_BOOT_COMMAND
+        string "boot commands"
+        default "sf probe 0; sf read 0xA1000000 0xb0000 0x200000; bootm 0xa1000000"
+        help
+           Tuya target boot command,boot the linux system support
+endif
+
+menuconfig TUYA_TARGET_MTDPARTS_ENABLE
+	bool "mtd parts enable"
+        default y 
+
+if TUYA_TARGET_MTDPARTS_ENABLE
+
+config  TUYA_TARGET_MTDPARTS_HEAD
+        string "linux flash partition head"
+        default "mtdparts=spi0.0:"
+        help 
+           Tuya target partition head info 
+endif
+
+menuconfig TUYA_TARGET_BOOTARGS_ENABLE
+	bool "bootargs enable"
+	default y
+
+if TUYA_TARGET_BOOTARGS_ENABLE
+
+config  TUYA_TARGET_BOOTARGS
+        string "boot args"
+        depends on TUYA_TARGET_BOOTARGS_ENABLE
+        default "console=ttyS0,115200 rootfstype=squashfs ro init=/linuxrc dm-mod.create=\"dm-crypt,,0,rw,0 4864 crypt aes-cbc-essiv:sha256 dcc734ac6ed58f7bbdc8c9253922defc17aaeffb1ff39d7685d3debe166151d6 0 /dev/mtdblock2 0\" root=/dev/dm-0 mem=38M"
+        help 
+           Tuya target boot args,not include partition information 
+endif
+
+
+menuconfig TUYA_BOOT_PARAMS_CRYPT_ENABLE
+	bool  "boot params cryptfs enable"
+	default y		
+
+if TUYA_BOOT_PARAMS_CRYPT_ENABLE
+
+config TUYA_BOOT_PARAMS_CRYPT_KEY
+	string "crypt key(16-bytes ASCII string)"
+	default "aa11pH9bj8GiexUI"
+
+endif 
+
+
+endmenu
+endif

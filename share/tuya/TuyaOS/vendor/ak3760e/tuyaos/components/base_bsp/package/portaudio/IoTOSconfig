@@ -1,0 +1,17 @@
+menuconfig TUYA_PACKAGE_PORTAUDIO
+	bool "portaudio"
+	help
+	  PortAudio is a free, cross-platform, open-source,
+	  audio I/O library.
+
+	  http://www.portaudio.com/
+
+if TUYA_PACKAGE_PORTAUDIO
+
+config TUYA_PACKAGE_PORTAUDIO_VERSION
+	string "PORTAUDIO version to use?"
+	default "pa_stable_v190600_20161030"
+	help
+	  Select which version to use.
+
+endif

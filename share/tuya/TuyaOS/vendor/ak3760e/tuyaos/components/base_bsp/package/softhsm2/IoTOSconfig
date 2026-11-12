@@ -1,0 +1,19 @@
+menuconfig TUYA_PACKAGE_SOFTHSM2
+    bool "softhsm2"
+    help
+      SoftHSM is an implementation of a cryptographic store
+      accessible through a PKCS#11 interface. You can use it
+      to explore PKCS#11 without having a Hardware Security
+      Module.
+
+      https://www.opendnssec.org/softhsm
+
+if TUYA_PACKAGE_SOFTHSM2
+
+config TUYA_PACKAGE_SOFTHSM2_VERSION
+    string "softhsm2 version to use?"
+    default "softhsm-2.5.0"
+    help
+      Select which version to use.
+
+endif

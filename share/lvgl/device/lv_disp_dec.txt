@@ -1,0 +1,788 @@
+#include "lv_disp_dev.h"
+#include "src/hal/lv_hal_disp.h"
+#include <stdbool.h>
+#include <linux/fb.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <stddef.h>
+#include <stdio.h>
+#include <fcntl.h>
+#include <sys/mman.h>
+#include <sys/ioctl.h>
+#include <time.h>
+#include <sys/time.h>
+#include "unistd.h"
+#include <pthread.h>
+
+#include "Amy_log.h"
+#include "ak_mem.h"
+#include "ak_common_graphics.h"
+#include "ak_tde.h"
+#include "Amy_sdk.h"
+#include "mempool/mempool.h"
+
+typedef struct _refresh_list
+{
+    unsigned long long reftime;
+    lv_area_t area;
+    unsigned char *addres;
+    struct _refresh_list *next;
+} refresh_list;
+
+typedef struct _video_mode_refresh_list
+{
+    struct _video_mode_refresh_list *next;
+    video_mode_attr_func func;
+    void *user_data;
+} video_mode_refresh_list;
+
+typedef struct
+{
+    int fb;
+    struct fb_var_screeninfo var_info;
+    struct fb_fix_screeninfo fix_info;
+    video_mode_refresh_list *video_refresh_list;
+
+    // 线程相关
+    pthread_t video_thread;
+    pthread_mutex_t mutex; // 主互斥锁，保护核心数据结构
+    pthread_cond_t cond;   // 刷新条件变量
+    bool thread_running;   // 线程运行标志
+    bool need_refresh;     // 刷新触发标志
+
+    mp_pool *pool;
+    refresh_list *refreshlist;
+    unsigned long refreshlist_count;
+    refresh_list *arealist;
+    unsigned long arealist_count;
+    unsigned long long frame_start_timestamp;
+    unsigned long long frame_end_timestamp;
+} fb_param_info;
+
+static fb_param_info fb_info;
+
+static void (*lv_disp_flush_handler)(lv_disp_drv_t *disp_drv, const lv_area_t *area, lv_color_t *color_p);
+
+static int is_area_same(const lv_area_t *s, const lv_area_t *d)
+{
+    return ((s->x1 == d->x1) && (s->y1 == d->y1) && (s->x2 == d->x2) && (s->y2 == d->y2));
+}
+
+static int is_area_inside(const lv_area_t *s, const lv_area_t *d)
+{
+    return ((s->x1 >= d->x1) && (s->y1 >= d->y1) && (s->x2 <= d->x2) && (s->y2 <= d->y2));
+}
+static int is_overlap(const lv_area_t *s, const lv_area_t *d)
+{
+    if ((s->x2 <= d->x1) || (d->x2 <= s->x1))
+    {
+        return 0;
+    }
+    if ((s->y2) <= d->y1 || (d->y2 <= s->y1))
+    {
+        return 0;
+    }
+    return 1;
+}
+static int get_overlap_rect(const lv_area_t *r1, const lv_area_t *r2, lv_area_t *overlap)
+{
+    if (!is_overlap(r1, r2))
+    {
+        return 0;
+    }
+
+    lv_area_t area;
+    area.x1 = LV_MAX(r1->x1, r2->x1);
+    area.y1 = LV_MAX(r1->y1, r2->y1);
+    area.x2 = LV_MIN(r1->x2, r2->x2);
+    area.y2 = LV_MIN(r1->y2, r2->y2);
+    if ((area.x1 < area.x2) && (area.y1 < area.y2))
+    {
+        *overlap = area;
+        return 1;
+    }
+    return 0;
+}
+
+static void lv_disp_flush(lv_disp_drv_t *disp_drv, const lv_area_t *area, lv_color_t *color_p)
+{
+    if (lv_disp_flush_handler)
+    {
+        lv_disp_flush_handler(disp_drv, area, color_p);
+    }
+}
+
+static unsigned long fb_next_addres(void)
+{
+    unsigned long offset = 0;
+    if (fb_info.var_info.reserved[0] == 0)
+    {
+        offset = 1024 * 600 * 3;
+    }
+    return (fb_info.fix_info.smem_start + offset);
+}
+
+static refresh_list *new_refresh_mask(const lv_area_t *area, unsigned char *addres)
+{
+    refresh_list *n = (refresh_list *)Amy_mempool_alloc(fb_info.pool, sizeof(refresh_list));
+    if (!n)
+    {
+        AMY_LOG_ERROR("memory failed\n");
+        return NULL;
+    }
+    memset(n, 0, sizeof(refresh_list));
+    n->area = *area;
+    n->addres = addres;
+    n->next = NULL;
+    return n;
+}
+
+static void delete_refresh_mask(refresh_list *m)
+{
+    if (m->addres)
+    {
+        ak_mem_dma_free(m->addres);
+    }
+    Amy_mempool_free(fb_info.pool, m);
+}
+
+static refresh_list *new_area_mask(const lv_area_t *area)
+{
+    refresh_list *n = (refresh_list *)Amy_mempool_alloc(fb_info.pool, sizeof(refresh_list));
+    if (!n)
+    {
+        AMY_LOG_ERROR("memory failed\n");
+        return NULL;
+    }
+    memset(n, 0, sizeof(refresh_list));
+    n->area = *area;
+    n->addres = NULL;
+    n->next = NULL;
+    printf("area %lu:add:%d %d %d %d\n", fb_info.arealist_count++, area->x1, area->y1, area->x2, area->y2);
+    return n;
+}
+static void delete_area_mask(refresh_list *m)
+{
+    if (m->addres)
+    {
+        AMY_LOG_ERROR("error ,arealist addre need null\n");
+        ak_mem_dma_free(m->addres);
+    }
+    Amy_mempool_free(fb_info.pool, m);
+}
+
+static video_mode_refresh_list *new_video_mode_refresh_list(void)
+{
+    // 这里不需要加锁，因为只会在单线程中被调用
+    if (fb_info.video_refresh_list == NULL)
+    {
+        fb_info.video_refresh_list = (video_mode_refresh_list *)Amy_mempool_alloc(fb_info.pool, sizeof(video_mode_refresh_list));
+        memset(fb_info.video_refresh_list, 0, sizeof(video_mode_refresh_list));
+        return fb_info.video_refresh_list;
+    }
+    video_mode_refresh_list *cur = fb_info.video_refresh_list;
+    video_mode_refresh_list *tail = cur;
+    while (tail)
+    {
+        cur = tail;
+        tail = tail->next;
+    }
+    video_mode_refresh_list *n = (video_mode_refresh_list *)Amy_mempool_alloc(fb_info.pool, sizeof(video_mode_refresh_list));
+    memset(n, 0, sizeof(video_mode_refresh_list));
+    cur->next = n;
+    n->next = NULL;
+    return n;
+}
+
+static refresh_list *new_refresh_insert(const lv_area_t *area, unsigned char *addres)
+{
+    if (fb_info.refreshlist == NULL)
+    {
+        fb_info.refreshlist = new_refresh_mask(area, addres);
+        return fb_info.refreshlist;
+    }
+    refresh_list *cur = fb_info.refreshlist;
+    refresh_list *tail = cur;
+    while (tail)
+    {
+        cur = tail;
+        tail = tail->next;
+    }
+    cur->next = new_refresh_mask(area, addres);
+    return cur->next;
+}
+
+static int new_area_insert(const lv_area_t *area)
+{
+    if (fb_info.arealist == NULL)
+    {
+        fb_info.arealist = new_area_mask(area);
+    }
+    else
+    {
+        refresh_list *cur = fb_info.arealist;
+        refresh_list *tail = cur;
+        while (tail)
+        {
+            if (is_area_same(area, &tail->area))
+            {
+                AMY_LOG_WARNING("area insert awalaysed\n");
+                return 0;
+            }
+            cur = tail;
+            tail = tail->next;
+        }
+        cur->next = new_area_mask(area);
+    }
+    return 0;
+}
+
+static void release_video_mode_refresh_list(void)
+{
+    video_mode_refresh_list *n = fb_info.video_refresh_list;
+    video_mode_refresh_list *temp = NULL;
+    while (n)
+    {
+        temp = n;
+        n = n->next;
+        Amy_mempool_free(fb_info.pool, temp);
+    }
+    fb_info.video_refresh_list = NULL;
+}
+
+static void release_refresh_list(void)
+{
+    refresh_list *n = fb_info.refreshlist;
+    refresh_list *temp = NULL;
+    while (n)
+    {
+        temp = n;
+        n = n->next;
+        delete_refresh_mask(temp);
+    }
+    fb_info.refreshlist = NULL;
+    fb_info.refreshlist_count = 0;
+}
+
+static void release_area_list(void)
+{
+    refresh_list *n = fb_info.arealist;
+    refresh_list *temp = NULL;
+    while (n)
+    {
+        temp = n;
+        n = n->next;
+        delete_area_mask(temp);
+    }
+    fb_info.arealist = NULL;
+    fb_info.arealist_count = 0;
+}
+
+static int double_fb_sync(void)
+{
+    char *src_data, *dst_data;
+    if (fb_info.var_info.reserved[0])
+    {
+        dst_data = (char *)fb_info.fix_info.smem_start;
+        src_data = dst_data + 1024 * 600 * 3;
+    }
+    else
+    {
+        src_data = (char *)fb_info.fix_info.smem_start;
+        dst_data = src_data + 1024 * 600 * 3;
+    }
+    struct ak_tde_layer src, dst;
+    src.phyaddr = (unsigned long)src_data;
+    dst.phyaddr = (unsigned long)dst_data;
+
+    // 处理刷新列表时需要加锁
+    pthread_mutex_lock(&fb_info.mutex);
+
+    refresh_list *temp = NULL;
+    refresh_list *n = fb_info.refreshlist;
+    while (n)
+    {
+        int width = lv_area_get_width(&n->area);
+        int height = lv_area_get_height(&n->area);
+        tde_layer_init(src, 1024, 600, n->area.x1, n->area.y1, width, height, GP_FORMAT_BGR888, 0);
+        tde_layer_init(dst, 1024, 600, n->area.x1, n->area.y1, width, height, GP_FORMAT_BGR888, 0);
+        ak_tde_opt_blit(&src, &dst);
+
+        temp = n;
+        n = n->next;
+        delete_refresh_mask(temp);
+    }
+    fb_info.refreshlist = NULL;
+    fb_info.refreshlist_count = 0;
+
+    pthread_mutex_unlock(&fb_info.mutex);
+    return 0;
+}
+
+static void fb_ioctcl_display(void)
+{
+    // fb操作需要保护，因为会被多个线程调用
+    pthread_mutex_lock(&fb_info.mutex);
+
+    fb_info.var_info.reserved[0] = fb_info.var_info.reserved[0] ? 0 : 1;
+    ioctl(fb_info.fb, FBIOPUT_VSCREENINFO, &fb_info.var_info);
+
+    if (fb_info.var_info.reserved[0] == 0)
+    {
+        Amy_timestamp(fb_info.frame_start_timestamp);
+    }
+    else
+    {
+        Amy_timestamp(fb_info.frame_end_timestamp);
+    }
+
+    pthread_mutex_unlock(&fb_info.mutex);
+}
+
+static int fb_init(void)
+{
+    ak_tde_open();
+    fb_info.fb = open("/dev/fb0", O_RDWR);
+    if (fb_info.fb < 0)
+    {
+        AMY_LOG_ERROR("open /dev/fb0 failed\n");
+        return -1;
+    }
+    ioctl(fb_info.fb, FBIOGET_VSCREENINFO, &fb_info.var_info);
+    fb_info.var_info.activate |= FB_ACTIVATE_FORCE;
+    fb_info.var_info.activate |= FB_ACTIVATE_NOW;
+    fb_info.var_info.xres = fb_info.var_info.xres_virtual;
+    fb_info.var_info.yres = fb_info.var_info.yres_virtual;
+    fb_info.var_info.bits_per_pixel = 24;
+    fb_info.var_info.red.offset = 16;
+    fb_info.var_info.red.length = 8;
+    fb_info.var_info.green.offset = 8;
+    fb_info.var_info.green.length = 8;
+    fb_info.var_info.blue.offset = 0;
+    fb_info.var_info.blue.length = 8;
+    ioctl(fb_info.fb, FBIOPUT_VSCREENINFO, &fb_info.var_info);
+
+    ioctl(fb_info.fb, FBIOGET_FSCREENINFO, &fb_info.fix_info);
+    struct ak_tde_layer layer;
+    tde_layer_init(layer, fb_info.var_info.xres, fb_info.var_info.yres, 0, 0, fb_info.var_info.xres, fb_info.var_info.yres, GP_FORMAT_RGB888, 0);
+    layer.phyaddr = fb_info.fix_info.smem_start;
+
+    ak_tde_opt_fillrect(&layer, 0x00);
+    layer.phyaddr += 1024 * 600 * 3;
+    ak_tde_opt_fillrect(&layer, 0x00);
+
+    // 初始化互斥锁和条件变量
+    pthread_mutex_init(&fb_info.mutex, NULL);
+    pthread_cond_init(&fb_info.cond, NULL);
+    fb_info.thread_running = false;
+    fb_info.need_refresh = false;
+
+    fb_info.video_refresh_list = NULL;
+    fb_info.refreshlist = NULL;
+    fb_info.refreshlist_count = 0;
+    fb_info.arealist = NULL;
+    fb_info.arealist_count = 0;
+    fb_info.pool = Amy_mempool_init(1024 * sizeof(refresh_list), 128 * sizeof(refresh_list));
+
+    return 0;
+}
+
+// 独立视频刷新线程函数（替代原lv_timer回调）
+static void *video_refresh_thread(void *arg)
+{
+    struct timespec ts;
+
+    // 设置线程为分离状态，避免资源泄漏
+    pthread_detach(pthread_self());
+
+    // 等待所有要渲染区域入队，否则进入视频模式的时候UI会闪烁直到所有要渲染区域入队为止
+    usleep(300 * 1000);
+
+    bool is_first_frame = true;
+    while (1)
+    {
+        pthread_mutex_lock(&fb_info.mutex);
+
+        if (!fb_info.thread_running)
+        {
+            pthread_mutex_unlock(&fb_info.mutex);
+            break;
+        }
+
+        // 设置超时时间
+        clock_gettime(CLOCK_REALTIME, &ts);
+        ts.tv_nsec += 20 * 1000 * 1000; // 30ms
+        if (ts.tv_nsec >= 1000000000)
+        {
+            ts.tv_sec += 1;
+            ts.tv_nsec -= 1000000000;
+        }
+
+        // 等待条件变量或超时
+        while (!fb_info.need_refresh && fb_info.thread_running)
+        {
+            if (pthread_cond_timedwait(&fb_info.cond, &fb_info.mutex, &ts) == ETIMEDOUT)
+            {
+                // 超时，检查是否有视频需要刷新
+                if (fb_info.video_refresh_list != NULL)
+                {
+                    fb_info.need_refresh = true;
+                }
+                break;
+            }
+        }
+
+        if (!fb_info.thread_running)
+        {
+            pthread_mutex_unlock(&fb_info.mutex);
+            break;
+        }
+
+        // 获取需要访问的共享数据
+        video_mode_refresh_list *v_refresh_list = fb_info.video_refresh_list;
+        bool has_video_refresh = (v_refresh_list != NULL);
+
+        refresh_list *current_refreshlist = fb_info.refreshlist;
+
+        fb_info.need_refresh = false;
+
+        pthread_mutex_unlock(&fb_info.mutex);
+
+        // 如果没有视频刷新设备，则跳过
+        if (!has_video_refresh)
+        {
+            usleep(10000);
+            continue;
+        }
+
+        if (is_first_frame == false)
+            ;
+
+        video_mode_attr attr;
+        int is_refresh_gui = 1;
+
+        while (v_refresh_list && 1)
+        {
+            if (v_refresh_list->func)
+            {
+                if (v_refresh_list->func(&attr, v_refresh_list->user_data) == 0)
+                {
+                    struct ak_tde_layer src, dst;
+                    tde_layer_init(src, attr.sw, attr.sh, attr.spx, attr.spy, attr.spw, attr.sph, attr.sfmt, 0);
+                    src.phyaddr = attr.sphy;
+                    tde_layer_init(dst, 1024, 600, attr.dpx, attr.dpy, attr.dpw, attr.dph, GP_FORMAT_BGR888, 0);
+                    dst.phyaddr = (unsigned long)fb_next_addres();
+
+                    if (src.phyaddr)
+                    {
+                        if ((attr.spw != attr.dpw) || (attr.sph != attr.dph))
+                        {
+                            ak_tde_opt_scale(&src, &dst);
+                        }
+                        else
+                        {
+                            ak_tde_opt_format(&src, &dst);
+                        }
+                    }
+                    else
+                    {
+                        ak_tde_opt_fillrect(&dst, 0xFF000000);
+                    }
+                    is_refresh_gui = 1;
+                }
+            }
+            v_refresh_list = v_refresh_list->next;
+        }
+
+        if (!is_refresh_gui)
+        {
+            continue;
+        }
+        is_first_frame = false;
+
+        pthread_mutex_lock(&fb_info.mutex);
+        // 处理GUI刷新列表
+        refresh_list *n = current_refreshlist;
+        while (n)
+        {
+            if (n->addres)
+            {
+                //  printf("refresh area %lu:add:%d %d %d %d\n", fb_info.refreshlist_count++, n->area.x1, n->area.y1, n->area.x2, n->area.y2);
+                struct ak_tde_layer src, dst;
+                int width = lv_area_get_width(&n->area);
+                int height = lv_area_get_height(&n->area);
+                tde_layer_init(src, width, height, 0, 0, width, height, GP_FORMAT_ARGB8888, n->addres);
+                tde_layer_init(dst, 1024, 600, n->area.x1, n->area.y1, width, height, GP_FORMAT_BGR888, 0);
+                dst.phyaddr = (unsigned long)fb_next_addres();
+                ak_tde_opt_format(&src, &dst);
+            }
+            n = n->next;
+        }
+        pthread_mutex_unlock(&fb_info.mutex);
+        fb_ioctcl_display();
+        usleep(15 * 1000); // （由于平台原因。tde处理视频和ui混合，必须进行简短睡眠，才不会闪烁）
+    }
+
+    AMY_LOG_INFO("Video refresh thread exited\n");
+    pthread_exit(NULL);
+    return NULL;
+}
+
+void lv_disp_device_init(int w, int h, void (*callback)(lv_disp_drv_t *disp_drv, const lv_area_t *area, lv_color_t *color_p), void *user_data)
+{
+    static lv_disp_draw_buf_t draw_buf;
+    memset(&draw_buf, 0, sizeof(lv_disp_draw_buf_t));
+
+    fb_init();
+
+    int buf_size = w * h * 4 / 10;
+    char *buffer = (char *)ak_mem_dma_alloc(MODULE_ID_VDEC, buf_size);
+    if (!buffer)
+    {
+        AMY_LOG_ERROR("lv disp buffer malloc failed\n");
+        return;
+    }
+    memset(buffer, 0, buf_size);
+    lv_disp_draw_buf_init(&draw_buf, buffer, NULL, buf_size / 4);
+
+    static lv_disp_drv_t disp_drv;
+    lv_disp_drv_init(&disp_drv);
+    disp_drv.hor_res = w;
+    disp_drv.ver_res = h;
+    disp_drv.flush_cb = lv_disp_flush;
+    disp_drv.draw_buf = &draw_buf;
+    disp_drv.screen_transp = 0;
+    lv_disp_drv_register(&disp_drv);
+
+    disp_drv.user_data = user_data;
+    lv_disp_flush_handler = callback;
+}
+
+void lv_video_mode_enable(char enable)
+{
+    lv_disp_t *disp = lv_disp_get_default();
+    lv_disp_drv_t *drv = disp->driver;
+
+    lv_disp_set_bg_opa(disp, enable ? LV_OPA_TRANSP : LV_OPA_COVER);
+    lv_obj_set_style_bg_opa(lv_scr_act(), enable ? LV_OPA_TRANSP : LV_OPA_COVER, LV_PART_MAIN);
+    drv->screen_transp = enable;
+
+    if (enable)
+    {
+        pthread_mutex_lock(&fb_info.mutex);
+
+        if (!fb_info.thread_running)
+        {
+            fb_info.thread_running = true;
+            fb_info.need_refresh = true;
+
+            // 创建独立视频刷新线程
+            if (pthread_create(&fb_info.video_thread, NULL, video_refresh_thread, NULL) != 0)
+            {
+                AMY_LOG_ERROR("create video refresh thread failed\n");
+                fb_info.thread_running = false;
+            }
+        }
+
+        // 唤醒线程执行刷新
+        pthread_cond_signal(&fb_info.cond);
+        pthread_mutex_unlock(&fb_info.mutex);
+    }
+    else
+    {
+        pthread_mutex_lock(&fb_info.mutex);
+
+        if (fb_info.thread_running)
+        {
+            // 停止线程
+            fb_info.thread_running = false;
+            fb_info.need_refresh = false;
+
+            // 唤醒线程使其退出
+            pthread_cond_signal(&fb_info.cond);
+
+            pthread_mutex_unlock(&fb_info.mutex);
+
+            // 等待线程退出
+            usleep(50000); // 等待50ms
+
+            pthread_mutex_lock(&fb_info.mutex);
+
+            // 清理资源
+            release_video_mode_refresh_list();
+            release_refresh_list();
+            release_area_list();
+        }
+
+        pthread_mutex_unlock(&fb_info.mutex);
+    }
+}
+
+static int video_mode_refresh(const lv_area_t *src_area, unsigned char *data, const lv_area_t *dst_area, const lv_area_t *ref_area)
+{
+    refresh_list *reflist = fb_info.refreshlist;
+    struct ak_tde_layer src, dst;
+    unsigned char *addres = NULL;
+    while (reflist)
+    {
+        if (is_area_same(&reflist->area, dst_area))
+        {
+            break;
+        }
+        reflist = reflist->next;
+    }
+
+    unsigned int src_area_width = lv_area_get_width(src_area);
+    unsigned int src_area_height = lv_area_get_height(src_area);
+    unsigned int dst_area_width = lv_area_get_width(dst_area);
+    unsigned int dst_area_height = lv_area_get_height(dst_area);
+    unsigned int dst_pos_width = lv_area_get_width(ref_area);
+    unsigned int dst_pos_height = lv_area_get_height(ref_area);
+
+    if (reflist == NULL)
+    {
+        addres = (unsigned char *)ak_mem_dma_alloc(MODULE_ID_TDE, dst_area_width * dst_area_height * 4);
+        reflist = new_refresh_insert(dst_area, addres);
+    }
+    if (!reflist->addres)
+    {
+        reflist->addres = (unsigned char *)ak_mem_dma_alloc(MODULE_ID_TDE, dst_area_width * dst_area_height * 4);
+    }
+
+    if ((dst_pos_width < 9) || (dst_pos_height < 18))
+    {
+        unsigned char *src_addres = (unsigned char *)(data + (ref_area->y1 - src_area->y1) * src_area_width * 4 + (ref_area->x1 - src_area->x1) * 4);
+        unsigned char *dst_addres = (unsigned char *)(reflist->addres + (ref_area->y1 - dst_area->y1) * dst_area_width * 4 + (ref_area->x1 - dst_area->x1) * 4);
+        for (int h = 0; h < dst_pos_height; h++)
+        {
+            memcpy(dst_addres, src_addres, dst_pos_width * 4);
+            src_addres += src_area_width * 4;
+            dst_addres += dst_area_width * 4;
+        }
+    }
+    else
+    {
+        tde_layer_init(src, src_area_width * 2, src_area_height, (ref_area->x1 - src_area->x1) * 2, ref_area->y1 - src_area->y1, dst_pos_width * 2, dst_pos_height, GP_FORMAT_RGB565, data);
+        tde_layer_init(dst, dst_area_width * 2, dst_area_height, (ref_area->x1 - dst_area->x1) * 2, ref_area->y1 - dst_area->y1, dst_pos_width * 2, dst_pos_height, GP_FORMAT_RGB565, reflist->addres);
+        ak_tde_opt_blit(&src, &dst);
+    }
+    return 0;
+}
+
+void Amy_gui_refresh(const lv_area_t *area, unsigned char *data)
+{
+    // 这个函数会被多个线程调用，需要加锁保护共享数据
+    pthread_mutex_lock(&fb_info.mutex);
+
+    struct ak_tde_layer src, dst;
+    int area_width = lv_area_get_width(area);
+    int area_height = lv_area_get_height(area);
+
+    if (!fb_info.video_refresh_list)
+    {
+        // 非视频模式
+        tde_layer_init(src, area_width, area_height, 0, 0, area_width, area_height, GP_FORMAT_ARGB8888, data);
+        tde_layer_init(dst, 1024, 600, area->x1, area->y1, area_width, area_height, GP_FORMAT_BGR888, 0);
+        dst.phyaddr = (unsigned long)fb_next_addres();
+        ak_tde_opt_format(&src, &dst);
+
+        new_refresh_insert(area, NULL);
+    }
+    else
+    {
+        // 视频模式
+        refresh_list *arealist = fb_info.arealist;
+        while (arealist)
+        {
+            lv_area_t dst_area_area;
+            if (get_overlap_rect(&(arealist->area), area, &dst_area_area))
+            {
+                video_mode_refresh(area, data, &(arealist->area), &dst_area_area);
+            }
+            arealist = arealist->next;
+        }
+
+        // 触发视频线程刷新
+        fb_info.need_refresh = true;
+        pthread_cond_signal(&fb_info.cond);
+    }
+
+    pthread_mutex_unlock(&fb_info.mutex);
+}
+
+void Amy_gui_display(void)
+{
+    // 检查是否有视频刷新设备
+    pthread_mutex_lock(&fb_info.mutex);
+    if (fb_info.video_refresh_list)
+    {
+        pthread_mutex_unlock(&fb_info.mutex);
+        return;
+    }
+    pthread_mutex_unlock(&fb_info.mutex);
+    fb_ioctcl_display();
+    double_fb_sync();
+}
+
+int Amy_rendering_area(lv_area_t *area)
+{
+    if ((lv_area_get_width(area) == 0) || (lv_area_get_height(area) == 0))
+    {
+        AMY_LOG_ERROR("area error\n");
+        return -1;
+    }
+
+    // 这个函数修改共享数据，需要加锁
+    pthread_mutex_lock(&fb_info.mutex);
+
+    refresh_list *alist = fb_info.arealist;
+    refresh_list *temp = NULL;
+    while (alist)
+    {
+        if (is_area_inside(area, &alist->area))
+        {
+            pthread_mutex_unlock(&fb_info.mutex);
+            return 0;
+        }
+        temp = alist;
+        if (is_area_inside(&temp->area, area))
+        {
+            delete_area_mask(alist);
+        }
+        alist = alist->next;
+    }
+    int ret = new_area_insert(area);
+
+    pthread_mutex_unlock(&fb_info.mutex);
+    return ret;
+}
+
+int Amy_video_mode_register_device(video_mode_attr_func func, void *user_data)
+{
+    // 这个函数修改共享数据，需要加锁
+    pthread_mutex_lock(&fb_info.mutex);
+
+    video_mode_refresh_list *refresh_list = fb_info.video_refresh_list;
+    while (refresh_list)
+    {
+        if ((refresh_list->func == func) && (refresh_list->user_data == user_data))
+        {
+            pthread_mutex_unlock(&fb_info.mutex);
+            return -1;
+        }
+        refresh_list = refresh_list->next;
+    }
+
+    video_mode_refresh_list *n = new_video_mode_refresh_list();
+    if (!n)
+    {
+        pthread_mutex_unlock(&fb_info.mutex);
+        return -1;
+    }
+
+    n->func = func;
+    n->user_data = user_data;
+
+    pthread_mutex_unlock(&fb_info.mutex);
+    return 0;
+}

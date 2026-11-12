@@ -1,0 +1,170 @@
+mainmenu "Tuya Linux BSP Configuration"
+
+config TUYA_DEFCONFIG
+	string
+	default "$(TUYA_DEFCONFIG)"
+
+config TUYA_TARGET_LEGACY
+        bool
+        default n
+
+
+menu "Build Optimize"
+
+config BUILD_OPTIMIZE
+        bool "build optimize enable"
+        default n
+
+config BUILD_WALL_ENABLE
+        bool "enable Wall"
+        depends on  BUILD_OPTIMIZE
+        default n
+        help
+            open all warning when build
+            used "-Wall"
+
+config BUILD_WERROR_ENABLE
+        bool "enable Werror"
+        depends on BUILD_OPTIMIZE
+        help
+            treat all warning as error
+            used "-Werror"
+
+choice
+        prompt "build aslr level choice"
+        depends on  BUILD_OPTIMIZE
+        default BUILD_ASLR_NONE
+
+config BUILD_ASLR_NONE
+        bool "aslr none"
+        depends on BUILD_OPTIMIZE
+        help
+            alsr optimize not open
+            "echo 0 > /proc/sys/kernel/randomize_va_space"
+
+config BUILD_ASLR_PARTIAL
+        bool "aslr partial"
+        help
+            "so,stack,mmap,vdso" address will randomize
+            "echo 1 > /proc/sys/kernel/randomize_va_space"
+
+config  BUILD_ASLR_ALL
+        bool "aslr strong"
+        help
+            "so,stack,mmap,vdso,brk" address will randomize
+            "echo 2 > /proc/sys/kernel/randomize_va_space"
+endchoice
+
+choice
+        prompt "build pie level choice"
+        depends on BUILD_OPTIMIZE
+        default BUILD_PIE_NONE
+
+config BUILD_PIE_NONE
+        bool "PIE none"
+
+config BUILD_PIE_WEAK
+        bool "pie weak"
+        help
+            Generate Position Independent Executable
+            code for executables if possible (small mode)
+            used "-fpic"
+
+config BUILD_PIE_STRONG
+        bool  "pie strong"
+        help
+            Generate Position Independent Executable
+            code for executables if possible (large mode)
+            used "-fPIE"
+endchoice
+
+config BUILD_NX_ENABLE
+        bool "build No-eXecute protect enable"
+        depends on BUILD_OPTIMIZE
+        default y
+        help
+            build No-eXecute protect enable
+            "-z execstack forbit NX protect"
+            "-z noexecstack open NX protect"
+choice
+        prompt "build stack canary choice"
+        depends on BUILD_OPTIMIZE
+        default BUILD_STACK_CANARY_PROTECT_NONE
+
+config BUILD_STACK_CANARY_PROTECT_NONE
+        bool "stack canary none"
+        help
+            forbit stack canary,used "-fno-stack-protector"
+
+config BUILD_STACK_CANARY_PROTECT_PARTIAL
+        bool "stack protect partial"
+        help
+            protect function that have local char array in paramter
+            used "-fstack-protector"
+
+config BUILD_STACK_CANARY_PROTECT_ALL
+        bool "stack protect all"
+        help
+            protect all function
+            used "-fstack-protector-all"
+
+config BUILD_STACK_CANARY_PROTECT_STRONG
+        bool "stack protect strong"
+        help
+            strong protect all function
+            sed "-fstack-protector-strong"
+endchoice
+
+choice
+        prompt "build fortify choice"
+        depends on  BUILD_OPTIMIZE
+
+config  BUILD_FORTIFY_NONE
+        bool "forbit fortify"
+        help
+            "forbit check string overflow "
+
+config  BUILD_FORTIFY_WEAK
+        bool "fortify partiall"
+        help
+            check string memory functions overflow in build
+            used "-D_FORTIFY_SOURCE=1" ,O > O1
+
+config  BUILD_FORTIFY_STRONG
+        bool "fortify strong"
+        help
+            check string memory overflow in run
+            used "-D_FORTIFY_SOURCE=2", O > O2"
+
+endchoice
+
+choice
+        prompt "build relro  choice"
+        depends on BUILD_OPTIMIZE
+
+config  BUID_RELRO_NONE
+        bool "relro none"
+         help
+                forbit relro "-z norelro"
+
+config BUILD_RELRO_PARTIAL
+        bool "relro partial"
+        help
+                open relro partial "-z lazy"
+
+config BUILD_RELRO_ALL
+        bool "relro all"
+        help
+                open relro partial "-z now"
+endchoice
+
+config EXPORT_SYMBL_USER_DEFINABLE
+        bool "dynamic Library Api export can defined"
+        depends on BUILD_OPTIMIZE
+        default n
+
+endmenu
+
+osource "components/*/IoTOSconfig"
+osource "tuyaos_adapter/IoTOSconfig"
+osource "tuyaos_adapter/src/*/IoTOSconfig"

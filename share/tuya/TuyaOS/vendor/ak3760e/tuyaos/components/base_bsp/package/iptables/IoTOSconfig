@@ -1,0 +1,22 @@
+menuconfig TUYA_PACKAGE_IPTABLES
+	bool "iptables"
+	help
+	  Linux kernel firewall, NAT, and packet mangling tools.
+
+	  http://www.netfilter.org/projects/iptables/index.html
+
+if TUYA_PACKAGE_IPTABLES
+
+config TUYA_PACKAGE_IPTABLES_VERSION
+	string "IPTABLES version to use?"
+	default "iptables-1.8.5"
+	help
+	  Select which version to use.
+
+config TUYA_PACKAGE_IPTABLES_BPF_NFSYNPROXY
+	bool "bpfc and nfsynproxy"
+	select TUYA_PACKAGE_LIBPCAP
+	help
+	  Build bpf compiler and nfsynproxy configuration tool.
+
+endif

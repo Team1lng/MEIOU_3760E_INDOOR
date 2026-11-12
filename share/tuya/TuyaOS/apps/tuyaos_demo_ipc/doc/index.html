@@ -1,0 +1,308 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Tuya OS联网控制类应用</title>
+  <link rel="stylesheet" href="https://images.tuyacn.com/smart/embed/package/vscode/tool-claat/js/codelab-elements.css">
+  <link rel="stylesheet" href="https://images.tuyacn.com/smart/embed/package/vscode/tool-claat/js/quickstart.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="tuyaos_demo_ipc"
+                  title="Tuya OS联网控制类应用"
+                  environment="web"
+                  feedback-link="">
+    
+      <google-codelab-step label="简介" duration="0">
+        <p>想快速的运用Tuya IPC SDK开发出属于自己的智能硬件产品吗？ 这个向导以能够通过APP拉流为指导，了解Tuya OS SDK的基本原理，并且利用Tuya IPC SDK快速进行开发。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="你能学到什么" duration="0">
+        <p>了解Tuya ipc sdk架构以及基础能力。</p>
+<p>如何通过APP来控制设备。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="你需要了解的名词" duration="0">
+        <table>
+<tr><td colspan="1" rowspan="1"><p>名词</p>
+</td><td colspan="1" rowspan="1"><p>释义</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>配网</p>
+</td><td colspan="1" rowspan="1"><p>建立设备端、手机 App、云端之间的通信链路</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>PID/Productkey</p>
+</td><td colspan="1" rowspan="1"><p>即产品 ID（Product ID），用来标示某一类产品，同一种类型的 IPC 设备共享同一个产品 ID。PID 关联了产品具有的功能点</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>UUID</p>
+</td><td colspan="1" rowspan="1"><p>即通用唯一识别码（Universally Unique Identifier），由一台机器上生成的数字，保证所有机器都具有唯一性</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>AUTHKEY</p>
+</td><td colspan="1" rowspan="1"><p>设备的授权值，在 <a href="https://iot.tuya.com" target="_blank">涂鸦 IoT 平台</a> 上已注册能够使用云服务的服务码</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>P2P ID</p>
+</td><td colspan="1" rowspan="1"><p>点对点服务ID，3.0.0版本以上SDK不需要填写P2P ID，云端自动进行分配</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Token</p>
+</td><td colspan="1" rowspan="1"><p>二维码配网过程中，由云服务器生成的标识码，10min有效期</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>DP</p>
+</td><td colspan="1" rowspan="1"><p>Date Point 设备与服务器数据交互的功能点</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Chromecast</p>
+</td><td colspan="1" rowspan="1"><p>谷歌电视棒或谷歌Home Hub 实时视频传输服务</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Echo Show</p>
+</td><td colspan="1" rowspan="1"><p>亚马逊音响实时视频传输服务</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>OTA</p>
+</td><td colspan="1" rowspan="1"><p>设备在线升级功能</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>TKL</p>
+</td><td colspan="1" rowspan="1"><p>驱动层代码 向下封装原厂提供的驱动和系统，不包含业务逻辑，只是面向芯片内部驱动</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>TAL</p>
+</td><td colspan="1" rowspan="1"><p>抽象层代码 向下封装TKL接口，向上提供统一接口</p>
+</td></tr>
+</table>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="你关心的代码结构说明" duration="0">
+        <pre><code>├── adapter                             TKL适配层
+│   ├── adc
+│   ├── bluetooth
+│   ├── cellular_catx
+│   ├── display
+│   ├── flash
+│   ├── gpio
+│   ├── hci
+│   ├── i2c
+│   ├── init
+│   ├── media
+│   ├── nb
+│   ├── network
+│   ├── pm
+│   ├── pwm
+│   ├── rtc
+│   ├── spi
+│   ├── storage
+│   ├── system
+│   ├── timer
+│   ├── uart
+│   ├── utilities
+│   ├── watchdog
+│   ├── wifi
+│   ├── wired
+│   └── zigbee
+├── apps       
+│   └── tuyaos_demo_ipc              tuyaos demo工程代码
+├── build                 
+│   └── tuya_iot.config              IPC SDK功能配置，外部修改无效
+├── build_app.sh                     编译脚本
+├── CHANGELOG.md
+├── docs               
+├── include                           头文件
+    ├── base                          基础头文件
+    └── components                    功能组件中的头文件
+		├── base_img_proc             图像类处理 
+		├── base_media                流媒体类的头文件
+		├── base_security             安全加密类接口
+		├── lib_cJSON                 JSON接口
+		├── mid_rtp                   rtp封包类接口 
+		├── svc_api_ipc               ipc对外提供接口，使用过程重点关注
+		├── svc_cloud_storage         ipc云存储相关接口
+		├── svc_ipc_core              ipc基础组件
+		├── svc_local_storage	      ipc本地存储相关接口
+		├── svc_ptz                   ipc摇头机功能相关接口
+		├── svc_ring_buffer           ipc ringbuffer
+		├── svc_rpc                   rpc用于接口测试，业务不需要对接
+		├── svc_rtsp_server           rtsp推流服务
+		├── svc_streaming_gateway     推流网关接口
+		├── svc_streaming_p2p         p2p拉流接口
+		├── svc_video_msg             视频留言接口               
+		├── svc_wired                 wired抽象接口
+		├── tal_compatible            适配层抽象接口
+		├── tal_driver                驱动抽象接口
+		├── tal_network               网络抽象接口
+		├── tal_system                系统抽象接口
+		├── tal_system_service        系统服务抽象
+		├── tal_wifi                  wifi抽象
+		└── tal_wired                 wire抽象
+├── libs							  ipc sdk库文件
+│   ├── libtuyaos.a
+│   └── libtuyaos.a.stripped
+├── LICENSE
+├── README.md
+└── tools
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="你需要什么" duration="0">
+        <p>linux操作系统</p>
+<p>要做完整个工作，我们需要完成以下几个步骤：</p>
+<ol type="1">
+<li>运行原理</li>
+<li>修改代码</li>
+<li>编译代码</li>
+<li>运行代码</li>
+<li>观看效果</li>
+</ol>
+<p>让我们愉快的开始吧。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="运行原理" duration="0">
+        <p>在开始开发前，需要了解 SDK 的初始化流程。流程示意图如</p>
+<p class="image-container"><img style="width: 400.00px" src="img/a835ce85495b6a47.png"></p>
+<p>首先需要进行SDK服务注册，注册操作通过SDK配网模块建立，服务通道建立成功，用户可以将设备的音视频信息按照格式要求送入SDK开辟的缓存中，至此用户无需关心后续的操作。可通过APP端进行操控设备。基于原始的的音视频数据，SDK结合手机端APP可以实现设备的存储功能、点对点传输服务以及其他的第三方接入功能（例如：EchoShow和ChromeCast接入功能）。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="编译代码" duration="0">
+        <pre><code>./build_app.sh apps/tuyaos_demo_ipc tuyaos_demo_ipc 1.0.0
+</code></pre>
+<p>编译后产物在apps/tuyaos_demo_ipc/output/tuyaos_demo_ipc_1.0.0/下</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="参数配置" duration="0">
+        <p>为启动sdk的基本业务，需要填写sdk所需要的基本参数，基本参数见tuya_device_cfg.json文件，如果不填写启动会存在问题。</p>
+<pre><code>{
+	&#34;pid&#34;:&#34;PID&#34;,		//PID 信息
+	&#34;uuid&#34;: &#34;UUID&#34;,		//UUID 信息
+	&#34;authkey&#34;: &#34;AUTHKEY&#34;, //Authkey信息
+	&#34;storage&#34;: &#34;./&#34;,	  //本地存储路径
+	&#34;media_path&#34;: &#34;./&#34;,   //模拟的流媒体数据
+	&#34;sd_path&#34;: &#34;/tmp/&#34;,   //sd卡路径
+	&#34;upgrade_file&#34;: &#34;/tmp/upgrade.file&#34;, //模拟升级文件
+	&#34;app_version&#34;: &#34;1.2.3&#34;	//固件版本
+}
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="token获取" duration="0">
+        <ol type="1">
+<li>使用手机下载安装涂鸦智能 App，打开 App，点击添加设备。<img alt="4139670f5aedc2d3b31b212cf25e75a3" src="img/3330434a91109f9e.jpeg"></li>
+<li>选择安防监控品类–智能摄像机（Wi-Fi）。<img alt="f9de278c24157f1a4158f9622958d6fe" src="img/71680e36e85652c5.jpeg"></li>
+<li>勾选&#34;确认指示灯在快闪或听到提示音&#34; 然后点击下一步。<img alt="7347debdea436afc286a0f8d154a1f33" src="img/843352cc0b0863c3.jpeg"></li>
+<li>输入Wi-Fi名称和密码。:::info 此处连接的 Wi-Fi 要为2.4GHz。 :::<img alt="7a7233ad27d51df35bebe9e7a429934b" src="img/f512e19c15d0b459.png"></li>
+<li>生成和识别二维码。将二维码进行截屏，打开微信，使用&#34;扫一扫&#34;功能的扫码选项进行二维码图片的识别。:::info 此处不要点击&#34;听到提示音按钮&#34; ，在第11步时进行点击。 :::<img alt="f8bf4dffa71da1eb0d82fc11c421e31e" src="img/b19905c578518d50.png"></li>
+<li>将获取到的数据中的token提取出来。获取到的数据：<code>{"p":"test","s":"test","t":"AYYBJt2OGvY2w1"}</code>:::info &#34;t&#34;后的参数即为Token，有效期：10分钟，10分钟后token失效，需要按照上述流程重新获取。 :::</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="运行代码" duration="0">
+        <pre><code>cd apps/tuyaos_demo_ipc
+./output/tuyaos_demo_ipc_1.0.0/tuyaos_demo_ipc -m 2 -t &#34;xxx&#34; -p &#34;xxx&#34; -u &#34;xxx&#34; -a &#34;xxx&#34; -r &#34;xxx&#34;
+</code></pre>
+<p>参数说明</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>参数类型</p>
+</td><td colspan="1" rowspan="1"><p>参数意义</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>m</p>
+</td><td colspan="1" rowspan="1"><p>配网模式的选择[1,2] 1为AP配网 2为debug配网</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>t</p>
+</td><td colspan="1" rowspan="1"><p>授权码token参数</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>p</p>
+</td><td colspan="1" rowspan="1"><p>运行pid</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>u</p>
+</td><td colspan="1" rowspan="1"><p>运行的设备uuid</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>a</p>
+</td><td colspan="1" rowspan="1"><p>运行的设备authkey信息</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>r</p>
+</td><td colspan="1" rowspan="1"><p>运行过程中使用的resource资源路径</p>
+</td></tr>
+</table>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="效果展示" duration="0">
+        <p>点击添加成功的设备即可成功的获取到视频流，如果没有视频显示，则表示之前的demo_resource文件没有设置正确，请检查-r参数是否设置正确。</p>
+<p class="image-container"><img alt="2196909521aaca5c0e3c7c6a18c33082.jpg" src="img/7532fdc61f3f771d.png"></p>
+<p>在终端中输入下列指令可以模拟体验IPC功能：</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>指令</p>
+</td><td colspan="1" rowspan="1"><p>指令说明</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>start</p>
+</td><td colspan="1" rowspan="1"><p>模拟移动侦测事件触发</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>stop</p>
+</td><td colspan="1" rowspan="1"><p>模拟停止移动侦测事件</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>status</p>
+</td><td colspan="1" rowspan="1"><p>获取设备激活状态</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>bell</p>
+</td><td colspan="1" rowspan="1"><p>模拟门铃事件上报</p>
+</td></tr>
+</table>
+<p>例如虚拟设备执行过程中，执行：</p>
+<pre><code>#start
+</code></pre>
+<p>可以在消息中心产看得到一条移动侦测的上报。</p>
+<p class="image-container"><img alt="图片18.jpg" src="img/2829388522e467b6.png"></p>
+<p>通过上述步骤可以快速体验 IPC SDK功能。</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="FAQ" duration="0">
+        <p>在使用过程中，如果遇到问题，可以访问涂鸦开发者平台，按照自己遇到的问题分类，寻找合适的解决方法。</p>
+<p><a href="https://support.tuya.com/zh/help/_list?category=Cb5moij51pyje" target="_blank">SDK对接前置问题及处理</a></p>
+<p><a href="https://support.tuya.com/zh/help/_list?category=Cb5mok5s9wiu0" target="_blank">常见编译问题及处理</a></p>
+<p><a href="https://support.tuya.com/zh/help/_list?category=Cb5mopusow389" target="_blank">配网问题</a></p>
+<p><a href="https://support.tuya.com/zh/help/_list?category=Cb5mp8yzht91u" target="_blank">dp问题</a></p>
+<p><a href="https://support.tuya.com/zh/help/_list?category=Cb5mpcgxvzmmq" target="_blank">音视频问题</a></p>
+<p><a href="https://support.tuya.com/zh/help/_list?category=Cb5mpeb6hk55x" target="_blank">本地存储问题</a></p>
+<p><a href="https://support.tuya.com/zh/help/_list?category=Cb5mq53fpzj2u" target="_blank">云存储问题</a></p>
+<p><a href="https://support.tuya.com/zh/help/_list?category=Cb5mqcgauw0et" target="_blank">OTA问题</a></p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+
+  <script src="https://images.tuyacn.com/smart/embed/package/vscode/tool-claat/js/native-shim.js"></script>
+  <script src="https://images.tuyacn.com/smart/embed/package/vscode/tool-claat/js/custom-elements.min.js"></script>
+  <script src="https://images.tuyacn.com/smart/embed/package/vscode/tool-claat/js/prettify.js"></script>
+  <script src="https://images.tuyacn.com/smart/embed/package/vscode/tool-claat/js/codelab-elements.js"></script>
+  <script src="//support.google.com/inapp/api.js"></script>
+
+</body>
+</html>

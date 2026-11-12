@@ -1,0 +1,16 @@
+menuconfig TUYA_PACKAGE_DHCPCD
+	bool "dhcpcd"
+	help
+	  An RFC2131 compliant DHCP client
+
+	  http://roy.marples.name/projects/dhcpcd/
+
+if TUYA_PACKAGE_DHCPCD
+
+config TUYA_PACKAGE_DHCPCD_VERSION
+	string "dhcpcd version to use?"
+	default "dhcpcd-6.11.5"
+	help
+	  Select which version to use.
+
+endif

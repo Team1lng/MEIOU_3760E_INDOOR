@@ -1,0 +1,143 @@
+decoder.lo: decoder.c config.h global.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/types.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/_ansi.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/newlib.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/_newlib_version.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/config.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/machine/ieeefp.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/features.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/cdefs.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/machine/_default_types.h \
+ /opt/arm-anykav500-eabi/lib/gcc/arm-anykav500-eabi/4.9.4/include/stddef.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/machine/_types.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/_types.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/lock.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/_stdint.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/machine/endian.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/machine/_endian.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/select.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/_sigset.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/_timeval.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/timespec.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/_timespec.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/_pthreadtypes.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/sched.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/machine/types.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/wait.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/unistd.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/unistd.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/fcntl.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/fcntl.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/_default_fcntl.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/stat.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/time.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/_ansi.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/reent.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/machine/time.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/xlocale.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/stdlib.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/machine/stdlib.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/alloca.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/errno.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/errno.h \
+ stream.h bit.h frame.h fixed.h timer.h synth.h decoder.h
+
+config.h:
+
+global.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/types.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/_ansi.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/newlib.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/_newlib_version.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/config.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/machine/ieeefp.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/features.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/cdefs.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/machine/_default_types.h:
+
+/opt/arm-anykav500-eabi/lib/gcc/arm-anykav500-eabi/4.9.4/include/stddef.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/machine/_types.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/_types.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/lock.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/_stdint.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/machine/endian.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/machine/_endian.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/select.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/_sigset.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/_timeval.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/timespec.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/_timespec.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/_pthreadtypes.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/sched.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/machine/types.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/wait.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/unistd.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/unistd.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/fcntl.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/fcntl.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/_default_fcntl.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/stat.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/time.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/_ansi.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/reent.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/machine/time.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/xlocale.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/stdlib.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/machine/stdlib.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/alloca.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/errno.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/errno.h:
+
+stream.h:
+
+bit.h:
+
+frame.h:
+
+fixed.h:
+
+timer.h:
+
+synth.h:
+
+decoder.h:

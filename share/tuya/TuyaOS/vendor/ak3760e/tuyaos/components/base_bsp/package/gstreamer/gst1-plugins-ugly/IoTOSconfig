@@ -1,0 +1,43 @@
+menuconfig TUYA_PACKAGE_GST1_PLUGINS_UGLY
+	bool "gst1-plugins-ugly"
+	select TUYA_PACKAGE_GST1_PLUGINS_BASE
+	help
+	  A set of well-supported plug-ins for GStreamer, but might pose
+	  problems for distributors.
+
+	  http://gstreamer.freedesktop.org/
+
+if TUYA_PACKAGE_GST1_PLUGINS_UGLY
+
+config TUYA_PACKAGE_GST1_PLUGINS_UGLY_VERSION
+	string "gst-plugins-ugly version to use?"
+	default "gst-plugins-ugly-1.16.2"
+	help
+	  Select which version to use.
+
+comment "dependency-less plugins"
+
+config TUYA_PACKAGE_GST1_PLUGINS_UGLY_PLUGIN_ASFDEMUX
+	bool "asfdemux"
+	help
+	  Demuxes and muxes audio and video in Microsofts ASF format
+
+config TUYA_PACKAGE_GST1_PLUGINS_UGLY_PLUGIN_XINGMUX
+	bool "xingmux"
+	help
+	  Add XING tags to mpeg audio files
+
+config TUYA_PACKAGE_GST1_PLUGINS_UGLY_PLUGIN_REALMEDIA
+	bool "realmedia"
+	help
+	  RealMedia support plugins
+
+comment "plugins with external dependencies (there may be more available)"
+
+config TUYA_PACKAGE_GST1_PLUGINS_UGLY_PLUGIN_MPEG2DEC
+	bool "mpeg2dec"
+	select TUYA_PACKAGE_LIBMPEG2
+	help
+	  LibMpeg2 decoder
+
+endif

@@ -1,0 +1,25 @@
+# TKL WiFi configure
+
+menu "TY TKL WiFi configure"
+
+config TKL_WIFI_MAIN_DEV
+        string "wifi main devices name"
+        default "wlan0"
+
+config TKL_WIFI_CONCUR_DEV
+        string "wifi concurrent device name"
+        default "wlan1"
+
+config TKL_WIFI_INFACE_IS_NL80211
+        bool "wifi is NL80211"
+        default y
+
+config TKL_WIFI_EXTERNAL_UDHCPC
+        bool "wifi uses external udhcpc"
+        default n
+
+config TKL_WIFI_TEST_ENABLE
+        bool "ENABLE WIFI TKL TEST"
+        default n
+
+endmenu

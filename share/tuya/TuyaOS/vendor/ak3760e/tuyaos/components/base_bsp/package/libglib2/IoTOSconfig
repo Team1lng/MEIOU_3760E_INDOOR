@@ -1,0 +1,19 @@
+menuconfig TUYA_PACKAGE_LIBGLIB2
+	bool "libglib2"
+	select TUYA_PACKAGE_GETTEXT
+	select TUYA_PACKAGE_LIBFFI
+	select TUYA_PACKAGE_ZLIB
+	help
+	  Low-level core library that forms the basis of GTK+ and GNOME.
+
+	  http://www.gtk.org/
+
+if TUYA_PACKAGE_LIBGLIB2
+
+config TUYA_PACKAGE_LIBGLIB2_VERSION
+	string "libglib2 version to use?"
+	default "glib-2.67.0"
+	help
+	  Select which version to use.
+
+endif

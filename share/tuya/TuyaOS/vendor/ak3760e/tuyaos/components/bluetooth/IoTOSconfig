@@ -1,0 +1,14 @@
+# Ktuyaconf
+
+menuconfig ENABLE_BLUETOOTH
+    bool "ENABLE_BLUETOOTH: support bluetooth"
+	default n
+
+    if (ENABLE_BLUETOOTH)
+        config ENABLE_BLUETOOTH_MESH
+            bool "ENABLE_BLUETOOTH_MESH: support bluetooth mesh"
+            default n
+        config ENABLE_BLUETOOTH_BREDR
+            bool "ENABLE_BLUETOOTH_BREDR: support bluetooth br-edr"
+            default n
+    endif

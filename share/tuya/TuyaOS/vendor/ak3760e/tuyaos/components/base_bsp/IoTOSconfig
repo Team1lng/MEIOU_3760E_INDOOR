@@ -1,0 +1,154 @@
+menu "Tuya Linux BSP base packages"
+
+rsource "base/IoTOSconfig"
+rsource "package/busybox/IoTOSconfig"
+
+menu "Audio and video applications"
+	rsource "package/alsa-lib/IoTOSconfig"
+	rsource "package/alsa-utils/IoTOSconfig"
+	rsource "package/alsa-plugins/IoTOSconfig"
+	rsource "package/bluez-alsa/IoTOSconfig"
+	rsource "package/faad2/IoTOSconfig"
+	rsource "package/flac/IoTOSconfig"
+	rsource "package/ffmpeg/IoTOSconfig"
+	rsource "package/gstreamer/IoTOSconfig"
+	rsource "package/libmpeg2/IoTOSconfig"
+	rsource "package/libogg/IoTOSconfig"
+	rsource "package/libopenh264/IoTOSconfig"
+	rsource "package/libsamplerate/IoTOSconfig"
+	rsource "package/libsndfile/IoTOSconfig"
+	rsource "package/opus/IoTOSconfig"
+	rsource "package/pulseaudio/IoTOSconfig"
+	rsource "package/portaudio/IoTOSconfig"
+	rsource "package/sbc/IoTOSconfig"
+	rsource "package/speex/IoTOSconfig"
+	rsource "package/taglib/IoTOSconfig"
+	rsource "package/tinyalsa/IoTOSconfig"
+	rsource "package/shairport-sync/IoTOSconfig"
+endmenu
+
+menu "Compressors and decompressors"
+	rsource "package/bzip2/IoTOSconfig"
+	rsource "package/lzo/IoTOSconfig"
+	rsource "package/xz/IoTOSconfig"
+	rsource "package/zlib/IoTOSconfig"
+endmenu
+
+menu "Crypto"
+	rsource "package/ca-certificates/IoTOSconfig"
+	rsource "package/gnutls/IoTOSconfig"
+	rsource "package/libgcrypt/IoTOSconfig"
+	rsource "package/libgpg-error/IoTOSconfig"
+	rsource "package/mbedtls/IoTOSconfig"
+	rsource "package/nettle/IoTOSconfig"
+	rsource "package/openssl/IoTOSconfig"
+	rsource "package/opensc/IoTOSconfig"
+	rsource "package/libp11/IoTOSconfig"
+endmenu
+
+menu "Database"
+	rsource "package/sqlite/IoTOSconfig"
+endmenu
+
+menu "Debug tools"
+	rsource "package/gdbserver/IoTOSconfig"
+	rsource "package/lmbench/IoTOSconfig"
+	rsource "package/sysstat/IoTOSconfig"
+	rsource "package/valgrind/IoTOSconfig"
+endmenu
+
+menu "Development tools"
+	rsource "package/adbd/IoTOSconfig"
+	rsource "package/gettext/IoTOSconfig"
+	rsource "package/libtool/IoTOSconfig"
+	rsource "package/lua/IoTOSconfig"
+endmenu
+
+menu "Filesystem and flash utilities"
+	rsource "package/e2fsprogs/IoTOSconfig"
+	rsource "package/libconfig/IoTOSconfig"
+	rsource "package/libsysfs/IoTOSconfig"
+	rsource "package/mtd-utils/IoTOSconfig"
+endmenu
+
+menu "Graphics"
+	rsource "package/cairo/IoTOSconfig"
+	rsource "package/fontconfig/IoTOSconfig"
+	rsource "package/freetype/IoTOSconfig"
+	rsource "package/libdrm/IoTOSconfig"
+	rsource "package/libjpeg/IoTOSconfig"
+	rsource "package/libpng/IoTOSconfig"
+	rsource "package/openjpeg/IoTOSconfig"
+	rsource "package/pixman/IoTOSconfig"
+	rsource "package/webp/IoTOSconfig"
+endmenu
+
+menu "JSON/XML"
+	rsource "package/cjson/IoTOSconfig"
+	rsource "package/expat/IoTOSconfig"
+	rsource "package/libxml2/IoTOSconfig"
+endmenu
+
+menu "Networking applications"
+	rsource "package/bluez/IoTOSconfig"
+	rsource "package/bridge-utils/IoTOSconfig"
+	rsource "package/c-ares/IoTOSconfig"
+	rsource "package/dropbear/IoTOSconfig"
+	rsource "package/glib-networking/IoTOSconfig"
+	rsource "package/igmpproxy/IoTOSconfig"
+	rsource "package/iperf/IoTOSconfig"
+	rsource "package/iproute/IoTOSconfig"
+	rsource "package/iptables/IoTOSconfig"
+	rsource "package/l2tpd/IoTOSconfig"
+	rsource "package/libcurl/IoTOSconfig"
+	rsource "package/libnl/IoTOSconfig"
+	rsource "package/libpcap/IoTOSconfig"
+	rsource "package/libsoup/IoTOSconfig"
+	rsource "package/libpsl/IoTOSconfig"
+	rsource "package/nghttp2/IoTOSconfig"
+	rsource "package/ntp/IoTOSconfig"
+	rsource "package/pptp/IoTOSconfig"
+	rsource "package/tcpdump/IoTOSconfig"
+	rsource "package/updatedd/IoTOSconfig"
+	rsource "package/wireless_tools/IoTOSconfig"
+	rsource "package/wpa_supplicant/IoTOSconfig"
+	rsource "package/dhcpcd/IoTOSconfig"
+	rsource "package/hostapd/IoTOSconfig"
+	rsource "package/avahi/IoTOSconfig"
+	rsource "package/mdnsresponder/IoTOSconfig"
+endmenu
+
+menu "Other"
+	rsource "package/boost/IoTOSconfig"
+	rsource "package/dbus/IoTOSconfig"
+	rsource "package/fftw/IoTOSconfig"
+	rsource "package/gmp/IoTOSconfig"
+	rsource "package/libevent/IoTOSconfig"
+	rsource "package/libevdev/IoTOSconfig"
+	rsource "package/libffi/IoTOSconfig"
+	rsource "package/libglib2/IoTOSconfig"
+	rsource "package/libtasn1/IoTOSconfig"
+	rsource "package/lirc/IoTOSconfig"
+	rsource "package/rng-tools/IoTOSconfig"
+	rsource "package/libdaemon/IoTOSconfig"
+endmenu
+
+menu "System tools"
+	rsource "package/eudev/IoTOSconfig"
+	rsource "package/libinput/IoTOSconfig"
+	rsource "package/mtdev/IoTOSconfig"
+	rsource "package/util-linux/IoTOSconfig"
+endmenu
+
+menu "Security"
+    rsource "package/softhsm2/IoTOSconfig"
+endmenu
+
+menu "Text and terminal handling"
+	rsource "package/ncurses/IoTOSconfig"
+	rsource "package/readline/IoTOSconfig"
+	rsource "package/pcre/IoTOSconfig"
+	rsource "package/popt/IoTOSconfig"
+endmenu
+
+endmenu

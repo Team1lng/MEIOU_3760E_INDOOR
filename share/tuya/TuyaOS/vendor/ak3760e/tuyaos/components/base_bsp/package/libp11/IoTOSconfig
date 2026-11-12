@@ -1,0 +1,14 @@
+menuconfig TUYA_PACKAGE_LIBP11
+    bool "libp11"
+    help
+      https://github.com/OpenSC/libp11
+
+if TUYA_PACKAGE_LIBP11
+
+config TUYA_PACKAGE_LIBP11_VERSION
+    string "libp11 version to use?"
+    default "libp11-0.4.11"
+    help
+      Select which version to use.
+
+endif

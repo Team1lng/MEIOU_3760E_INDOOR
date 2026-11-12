@@ -1,0 +1,4 @@
+
+config TY_TKL_BUS_TEST_SPI
+	bool "TKL - spi test"
+	default n

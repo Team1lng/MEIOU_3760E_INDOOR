@@ -1,0 +1,550 @@
+menuconfig TY_BSP_HW_CONFIG
+        bool "BSP Hardware Configure"
+        default n
+        help
+            "bsp hardware configure support"
+
+if TY_BSP_HW_CONFIG
+
+# FLASH 
+menuconfig TY_BSP_HW_FLASH_ENABLE
+    bool "Enable Flash"
+    default y
+
+if TY_BSP_HW_FLASH_ENABLE
+config TY_BSP_HW_FLASH_SIZE
+    int "Flash Size (MBytes)"
+    default 8
+endif
+
+# KEY
+
+menuconfig TY_BSP_HW_RST_KEY_ENABLE
+    bool "Enable Reset Key"
+    default y
+
+if TY_BSP_HW_RST_KEY_ENABLE
+
+config TY_BSP_HW_RESET_KEY_GPIO_NUM
+    int "GPIO: Reset Key Gpio Number"
+    default 10
+
+config TY_BSP_HW_RESET_KEY_GPIO_POLARITY
+    int "GPIO: Reset Key Polarity"
+    default 0
+
+endif
+
+# RED LED
+
+menuconfig TY_BSP_HW_RED_LED_ENABLE
+    bool "Enable LED Red"
+    default y
+
+if TY_BSP_HW_RED_LED_ENABLE
+
+choice
+     prompt "LED - Interface Mode"
+     default TY_BSP_HW_RED_LED_INFACE_IS_GPIO
+
+config TY_BSP_HW_RED_LED_INFACE_IS_PWM 
+    bool "LED Interface type is PWM"
+
+config TY_BSP_HW_RED_LED_INFACE_IS_GPIO 
+    bool "LED Interface type is GPIO"
+
+endchoice
+
+
+if TY_BSP_HW_RED_LED_INFACE_IS_PWM
+
+config TY_BSP_HW_RED_LED_PWM_DEV
+    int "PWM: LED - PWM DEV"
+    default 0
+
+config TY_BSP_HW_RED_LED_PWM_CHAN
+    int "PWM: LED - PWM CHAN"
+    default 0
+
+config TY_BSP_HW_RED_LED_PWM_FRQ
+    int "PWM: LED - PWM Frequency"
+    default 200000
+
+config TY_BSP_HW_RED_LED_PWM_DUTY
+   int "PWM: LED - PWM DUTY"
+   default 1000000
+
+config TY_BSP_HW_RED_LED_PWM_ON
+   int "PWM: LED - ON (0 ~ 1000000)"
+   default 200000
+
+config  TY_BSP_HW_RED_LED_PWM_OFF
+   int "PWM: LED - OFF (0 ~ 1000000)"
+   default 5500 
+
+endif
+
+if TY_BSP_HW_RED_LED_INFACE_IS_GPIO
+
+config TY_BSP_HW_RED_LED_GPIO_NUM
+    int "GPIO: LED - GPIO Number"
+    default 5 
+
+config TY_BSP_HW_RED_LED_GPIO_POLARITY
+    int "GPIO: LED - GPIO Polarity"
+    default 0
+
+endif
+endif
+
+# GREEN LED
+
+menuconfig TY_BSP_HW_GREEN_LED_ENABLE
+    bool "Enable LED Green"
+    default y
+
+if TY_BSP_HW_GREEN_LED_ENABLE
+
+choice
+    prompt "LED - Interface Mode"
+    default  TY_BSP_HW_GREEN_LED_INFACE_IS_GPIO
+
+config TY_BSP_HW_GREEN_LED_INFACE_IS_PWM 
+    bool "LED Interface type is PWM"
+
+config TY_BSP_HW_GREEN_LED_INFACE_IS_GPIO 
+    bool "LED Interface type is GPIO"
+
+endchoice
+
+
+if TY_BSP_HW_GREEN_LED_INFACE_IS_PWM 
+
+config TY_BSP_HW_GREEN_LED_PWM_DEV
+    int "PWM: LED - PWM DEV"
+    default 0
+
+config TY_BSP_HW_GREEN_LED_PWM_CHAN
+    int "PWM: LED - PWM CHAN"
+    default 0
+
+config TY_BSP_HW_GREEN_LED_PWM_FRQ
+    int "PWM: LED - PWM Frequency"
+    default 200000
+
+config TY_BSP_HW_GREEN_LED_PWM_DUTY
+   int "PWM: LED - PWM DUTY"
+   default 1000000
+
+config TY_BSP_HW_GREEN_LED_PWM_ON
+   int "PWM: LED - ON (0 ~ 1000000)"
+   default 200000
+
+config  TY_BSP_HW_GREEN_LED_PWM_OFF
+   int "PWM: LED - OFF (0 ~ 1000000)"
+   default 5500 
+endif
+
+if TY_BSP_HW_GREEN_LED_INFACE_IS_GPIO
+
+config TY_BSP_HW_GREEN_LED_GPIO_NUM
+    int "GPIO: LED - GPIO Number"
+    default 0
+
+config TY_BSP_HW_GREEN_LED_GPIO_POLARITY
+    int "GPIO: LED - GPIO Polarity"
+    default 0
+
+endif
+endif
+
+# IR LED
+
+menuconfig TY_BSP_HW_IR_LED_ENABLE
+    bool "Enable LED Ir"
+    default y
+
+if TY_BSP_HW_IR_LED_ENABLE
+
+choice
+     prompt "LED - Interface Mode"
+     default TY_BSP_HW_IR_LED_INFACE_IS_GPIO
+
+config TY_BSP_HW_IR_LED_INFACE_IS_PWM 
+    bool "LED Interface type is PWM"
+
+config TY_BSP_HW_IR_LED_INFACE_IS_GPIO 
+    bool "LED Interface type is GPIO"
+
+endchoice
+
+if TY_BSP_HW_IR_LED_INFACE_IS_PWM
+
+config TY_BSP_HW_IR_LED_PWM_DEV
+    int "PWM: LED - PWM DEV"
+    default 0
+
+config TY_BSP_HW_IR_LED_PWM_CHAN
+    int "PWM: LED - PWM CHAN"
+    default 0
+
+config TY_BSP_HW_IR_LED_PWM_FRQ
+    int "PWM: LED - PWM Frequency"
+    default 200000
+
+config TY_BSP_HW_IR_LED_PWM_DUTY
+   int "PWM: LED - PWM DUTY"
+   default 1000000
+
+config TY_BSP_HW_IR_LED_PWM_ON
+   int "PWM: LED - ON (0 ~ 1000000)"
+   default 200000
+
+config  TY_BSP_HW_IR_LED_PWM_OFF
+   int "PWM: LED - OFF (0 ~ 1000000)"
+   default 5500 
+
+endif
+
+if TY_BSP_HW_IR_LED_INFACE_IS_GPIO
+
+config TY_BSP_HW_IR_LED_GPIO_NUM
+    int "GPIO: LED - GPIO Number"
+    default 47
+
+config TY_BSP_HW_IR_LED_GPIO_POLARITY
+    int "GPIO: LED - GPIO Polarity"
+    default 1
+
+endif
+endif
+
+# BLUE LED
+
+menuconfig TY_BSP_HW_BLUE_LED_ENABLE
+    bool "Enable LED Blue"
+    default n
+
+if TY_BSP_HW_BLUE_LED_ENABLE
+
+choice
+     prompt "LED - Interface Mode"
+     default  TY_BSP_HW_BLUE_LED_INFACE_IS_GPIO
+
+config TY_BSP_HW_BLUE_LED_INFACE_IS_PWM 
+    bool "LED Interface type is PWM"
+
+config TY_BSP_HW_BLUE_LED_INFACE_IS_GPIO 
+    bool "LED Interface type is GPIO"
+
+endchoice
+
+
+if TY_BSP_HW_BLUE_LED_INFACE_IS_PWM
+
+config TY_BSP_HW_BLUE_LED_PWM_DEV
+    int "PWM: LED - PWM DEV"
+    default 0
+
+config TY_BSP_HW_BLUE_LED_PWM_CHAN
+    int "PWM: LED - PWM CHAN"
+    default 0
+
+config TY_BSP_HW_BLUE_LED_PWM_FRQ
+    int "PWM: LED - PWM Frequency"
+    default 200000
+
+config TY_BSP_HW_BLUE_LED_PWM_DUTY
+   int "PWM: LED - PWM DUTY"
+   default 1000000
+
+config TY_BSP_HW_BLUE_LED_PWM_ON
+   int "PWM: LED - ON (0 ~ 1000000)"
+   default 200000
+
+config  TY_BSP_HW_BLUE_LED_PWM_OFF
+   int "PWM: LED - OFF (0 ~ 1000000)"
+   default 5500 
+
+endif
+
+if  TY_BSP_HW_BLUE_LED_INFACE_IS_GPIO
+
+config TY_BSP_HW_BLUE_LED_GPIO_NUM
+    int "GPIO: LED - GPIO Number"
+    default 9
+
+config TY_BSP_HW_BLUE_LED_GPIO_POLARITY
+    int "GPIO: LED - GPIO Polarity"
+    default 0
+
+endif
+endif
+
+# WHITE LED
+
+menuconfig TY_BSP_HW_WHITE_LED_ENABLE
+    bool "Enable LED White"
+    default n
+
+if TY_BSP_HW_WHITE_LED_ENABLE
+
+choice
+     prompt "LED - Interface Mode"
+     default TY_BSP_HW_WHITE_LED_INFACE_IS_GPIO
+
+config TY_BSP_HW_WHITE_LED_INFACE_IS_PWM
+    bool "LED Interface type is PWM"
+
+config TY_BSP_HW_WHITE_LED_INFACE_IS_GPIO 
+    bool "LED Interface type is GPIO"
+
+endchoice
+
+if TY_BSP_HW_WHITE_LED_INFACE_IS_PWM
+
+config TY_BSP_HW_WHITE_LED_PWM_DEV
+    int "PWM: LED - PWM DEV"
+    default 0
+
+config TY_BSP_HW_WHITE_LED_PWM_CHAN
+    int "PWM: LED - PWM CHAN"
+    default 0
+
+config TY_BSP_HW_WHITE_LED_PWM_FRQ
+    int "PWM: LED - PWM Frequency"
+    default 200000
+
+config TY_BSP_HW_WHITE_LED_PWM_DUTY
+   int "PWM: LED - PWM DUTY"
+   default 1000000
+
+config TY_BSP_HW_WHITE_LED_PWM_ON
+   int "PWM: LED - ON (0 ~ 1000000)"
+   default 200000
+
+config  TY_BSP_HW_WHITE_LED_PWM_OFF
+   int "PWM: LED - OFF (0 ~ 1000000)"
+   default 5500 
+
+endif
+
+if TY_BSP_HW_WHITE_LED_INFACE_IS_GPIO 
+
+config TY_BSP_HW_WHITE_LED_GPIO_NUM
+    int "GPIO: LED - GPIO Number"
+    default 10
+
+config TY_BSP_HW_WHITE_LED_GPIO_POLARITY
+    int "GPIO: LED - GPIO Polarity"
+    default 0
+
+endif
+endif
+
+# IRCUT
+
+menuconfig TY_BSP_HW_IRCUT_ENABLE
+    bool "Enable IRCUT"
+    default y
+
+if TY_BSP_HW_IRCUT_ENABLE
+
+config TY_BSP_HW_IRCUTP_GPIO_NUM
+    int "GPIO: IRCUTP - GPIO Number"
+    default 80
+
+config TY_BSP_HW_IRCUTP_GPIO_POLARITY
+    int "GPIO: IRCUTP - GPIO Polarity"
+    default 0
+
+config TY_BSP_HW_IRCUTN_GPIO_NUM
+    int "GPIO: IRCUTN - GPIO Number"
+    default 81
+
+config TY_BSP_HW_IRCUTN_GPIO_POLARITY
+    int "GPIO: IRCUTN - GPIO Polarity"
+    default 0 
+endif
+
+# SPK EN
+
+menuconfig TY_BSP_HW_SPK_EN_ENABLE
+    bool "Enable Speaker"
+    default y
+
+if TY_BSP_HW_SPK_EN_ENABLE
+
+
+config TY_BSP_HW_SPK_EN_GPIO_NUM
+    int "GPIO: SPK Enable - GPIO Number"
+    default 14
+
+config TY_BSP_HW_SPK_EN_GPIO_POLARITY
+    int "GPIO: SPK Enable- GPIO Polarity"
+    default 0
+endif
+
+# LDR
+
+menuconfig TY_BSP_HW_LDR_ENABLE
+    bool "Enable Light Sensor"
+    default y
+
+if TY_BSP_HW_LDR_ENABLE
+
+choice
+    prompt "Photoresistor Type"
+    default TY_BSP_HW_LDR_TYPE_SOFT
+
+    config TY_BSP_HW_LDR_TYPE_GPIO
+    bool "LDR - GPIO"
+
+    config TY_BSP_HW_LDR_TYPE_ADC
+    bool "LDR - ADC"
+
+    config TY_BSP_HW_LDR_TYPE_SOFT
+    bool "LDR - SOFT"
+
+endchoice
+
+if TY_BSP_HW_LDR_TYPE_GPIO
+
+
+config TY_BSP_HW_LDR_GPIO_NUM
+    int "GPIO: LDR - GPIO Number"
+    default 30
+
+config TY_BSP_HW_LDR_GPIO_POLARITY
+    int "GPIO: LDR - GPIO Polarity"
+    default 0
+
+endif
+
+if TY_BSP_HW_LDR_TYPE_ADC
+
+config TY_BSP_HW_LDR_ADC_NUM
+    int  "ADC: LDR ADC DEV Number"
+    default  2
+
+endif
+endif
+
+# ETHERENT
+
+menuconfig TY_BSP_HW_ETHERENT_ENABLE
+    bool "Enable Ethernet"
+    default n    
+
+if TY_BSP_HW_ETHERENT_ENABLE
+    
+config TY_BSP_HW_ETHERENT_DEV_NAME
+    string "Ethernet Device name"
+    default "eth0"
+    
+endif
+
+# WIFI
+
+menuconfig TY_BSP_HW_WIFI_ENABLE
+    bool "Enable Wifi Device"
+    default y
+
+if TY_BSP_HW_WIFI_ENABLE
+
+choice
+   prompt "Wifi Type"
+   default TY_BSP_HW_WIFI_TYPE_RTL8188FTV
+
+config TY_BSP_HW_WIFI_TYPE_RTL8188FTV
+    bool "Wifi - rtl8188ftv"
+
+endchoice
+
+config TY_BSP_HW_WIFI_DRIVER_NAME
+   string "Wifi Driver Driver Name" 
+   default "rtl8188ftv.ko" if TY_BSP_HW_WIFI_TYPE_RTL8188FTV
+
+config TY_BSP_HW_WIFI_DEV_NAME
+    string "Wifi Device Name"
+    default "wlan0"
+
+config TY_BSP_HW_INFACE_PROTOCOL
+    string "Wireless Protocol(nl80211,wext)"
+    default "nl80211"
+endif
+
+# SENSOR 
+
+menuconfig TY_BSP_HW_SENSOR_ENABLE
+    bool "Enable Camera Sensor Device"
+    default y
+
+if TY_BSP_HW_SENSOR_ENABLE
+
+choice
+   prompt "Camera Sensor type"
+   default TY_BSP_HW_SENSOR_TYPE_SC3336
+
+config TY_BSP_HW_SENSOR_TYPE_SC2232H
+    bool "Sensor - sc2232h"
+
+config TY_BSP_HW_SENSOR_TYPE_SC223A
+    bool "Sensor - sc223a"
+
+config TY_BSP_HW_SENSOR_TYPE_SC2335
+    bool "Sensor - sc2335"
+
+config TY_BSP_HW_SENSOR_TYPE_SC2336
+    bool "Sensor - sc2336"
+
+config TY_BSP_HW_SENSOR_TYPE_SC3335
+    bool "Sensor - sc3335"
+
+config TY_BSP_HW_SENSOR_TYPE_SC3336
+    bool "Sensor - sc3336"
+
+config TY_BSP_HW_SENSOR_TYPE_GC4653
+    bool "Sensor - gc4653"
+
+config TY_BSP_HW_SENSOR_TYPE_SC401AI
+    bool "Sensor - sc401ai"
+
+endchoice
+
+config TY_BSP_HW_SENSOR_DRIVER_NAME
+   string "Camera Sensor Driver Name" 
+   default "sensor_sc2232h.ko" if TY_BSP_HW_SENSOR_TYPE_SC2232H
+   default "sensor_sc223a.ko" if TY_BSP_HW_SENSOR_TYPE_SC223A
+   default "sensor_sc2335.ko" if TY_BSP_HW_SENSOR_TYPE_SC2335
+   default "sensor_sc2336.ko" if TY_BSP_HW_SENSOR_TYPE_SC2336
+   default "sensor_sc3335.ko" if TY_BSP_HW_SENSOR_TYPE_SC3335
+   default "sensor_sc3336.ko" if TY_BSP_HW_SENSOR_TYPE_SC3336
+   default "sensor_gc4653.ko" if TY_BSP_HW_SENSOR_TYPE_GC4653
+   default "sensor_sc401ai.ko" if TY_BSP_HW_SENSOR_TYPE_SC401AI
+
+endif
+
+# MOTOR
+
+menuconfig TY_BSP_HW_MOTOR_ENABLE
+    bool "Enable MOTOR Device"
+    default y
+
+if TY_BSP_HW_MOTOR_ENABLE
+
+choice
+   prompt "Motor Type"
+   default TY_BSP_HW_MOTOR_TYPE_GENERAL
+
+config TY_BSP_HW_MOTOR_TYPE_GENERAL
+    bool "Motor - General"
+
+endchoice
+
+config TY_BSP_HW_MOTOR_DRIVER_NAME
+   string "MOTOR Driver Name" 
+   default "ty_driver.ko" if TY_BSP_HW_MOTOR_TYPE_GENERAL
+
+endif
+endif

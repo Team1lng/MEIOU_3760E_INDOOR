@@ -1,0 +1,19 @@
+menuconfig TUYA_PACKAGE_IGMPPROXY
+	bool "igmpproxy"
+	help
+	  A simple dynamic Multicast Routing Daemon
+	  using only IGMP signalling. It's intended
+	  for simple forwarding of Multicast traffic
+	  between networks.
+
+	  http://sourceforge.net/projects/igmpproxy/
+
+if TUYA_PACKAGE_IGMPPROXY
+
+config TUYA_PACKAGE_IGMPPROXY_VERSION
+	string "IGMPPROXY version to use?"
+	default "igmpproxy-0.2.1"
+	help
+	  Select which version to use.
+
+endif

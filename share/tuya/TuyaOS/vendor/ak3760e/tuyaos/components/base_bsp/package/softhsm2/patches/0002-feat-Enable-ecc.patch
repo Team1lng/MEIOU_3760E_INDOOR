@@ -1,0 +1,63 @@
+From 9eee56123fac0b7791585308e83e6b14a20d6975 Mon Sep 17 00:00:00 2001
+From: Jason <jsliu@tuya.com>
+Date: Tue, 7 Jun 2022 10:30:19 +0800
+Subject: [PATCH] [feat] Enable ecc
+
+Signed-off-by: Jason <jsliu@tuya.com>
+---
+ modules/CompilerOptions.cmake | 39 ++++++++++++++++++-----------------
+ 1 file changed, 20 insertions(+), 19 deletions(-)
+
+diff --git a/modules/CompilerOptions.cmake b/modules/CompilerOptions.cmake
+index 1aa7697..e7054c0 100644
+--- a/modules/CompilerOptions.cmake
++++ b/modules/CompilerOptions.cmake
+@@ -303,25 +303,26 @@ elseif(WITH_CRYPTO_BACKEND STREQUAL "openssl")
+     check_library_exists(crypto "BN_new" "${CRYPTO_LIB_DIR}" HAVE_LIBCRYPTO)
+ 
+     # acx_openssl_ecc.m4
+-    if(ENABLE_ECC)
+-        set(testfile ${CMAKE_SOURCE_DIR}/modules/tests/test_openssl_ecc.c)
+-        try_run(RUN_ECC COMPILE_RESULT
+-                "${CMAKE_BINARY_DIR}/prebuild_santity_tests" ${testfile}
+-                LINK_LIBRARIES ${CRYPTO_LIBS}
+-                CMAKE_FLAGS
+-                    "-DINCLUDE_DIRECTORIES=${CRYPTO_INCLUDES}"
+-                )
+-        if(COMPILE_RESULT AND RUN_ECC EQUAL 0)
+-            set(WITH_ECC 1)
+-            message(STATUS "OpenSSL: Found P-256, P-384, and P-521")
+-        else()
+-            set(error_msg "OpenSSL: Cannot find P-256, P-384, or P-521! OpenSSL library has no ECC support!")
+-            message(FATAL_ERROR ${error_msg})
+-        endif()
+-    else(ENABLE_ECC)
+-        message(STATUS "OpenSSL: Support for ECC is disabled")
+-    endif(ENABLE_ECC)
+-
++    #if(ENABLE_ECC)
++    #    set(testfile ${CMAKE_SOURCE_DIR}/modules/tests/test_openssl_ecc.c)
++    #    try_run(RUN_ECC COMPILE_RESULT
++    #            "${CMAKE_BINARY_DIR}/prebuild_santity_tests" ${testfile}
++    #            LINK_LIBRARIES ${CRYPTO_LIBS}
++    #            CMAKE_FLAGS
++    #                "-DINCLUDE_DIRECTORIES=${CRYPTO_INCLUDES}"
++    #            )
++    #    if(COMPILE_RESULT AND RUN_ECC EQUAL 0)
++    #        set(WITH_ECC 1)
++    #        message(STATUS "OpenSSL: Found P-256, P-384, and P-521")
++    #    else()
++    #        set(error_msg "OpenSSL: Cannot find P-256, P-384, or P-521! OpenSSL library has no ECC support!")
++    #        message(FATAL_ERROR ${error_msg})
++    #    endif()
++    #else(ENABLE_ECC)
++    #    message(STATUS "OpenSSL: Support for ECC is disabled")
++    #endif(ENABLE_ECC)
++
++    set(WITH_ECC 1)
+     # acx_openssl_eddsa.m4
+     if(ENABLE_EDDSA)
+         # ED25519
+-- 
+2.33.0
+

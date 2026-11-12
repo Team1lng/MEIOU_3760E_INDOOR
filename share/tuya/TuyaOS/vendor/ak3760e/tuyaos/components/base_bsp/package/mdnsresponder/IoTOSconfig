@@ -1,0 +1,16 @@
+menuconfig TUYA_PACKAGE_MDNSRESPONDER
+	bool "mDNSResponder"
+	help
+	  mDNSResponder is a core part of the Bonjour protocol
+
+	  https://opensource.apple.com/tarballs/mDNSResponder/
+
+if TUYA_PACKAGE_MDNSRESPONDER
+
+config TUYA_PACKAGE_MDNSRESPONDER_VERSION
+	string "mDNSResponder version to use?"
+	default "mDNSResponder-878.200.35"
+	help
+	  Select which version to use.
+
+endif

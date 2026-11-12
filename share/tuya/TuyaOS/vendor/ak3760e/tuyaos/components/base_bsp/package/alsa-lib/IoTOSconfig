@@ -1,0 +1,59 @@
+menuconfig TUYA_PACKAGE_ALSA_LIB
+	bool "alsa-lib"
+	select TUYA_PACKAGE_ALSA_LIB_PCM
+	help
+	  The Advanced Linux Sound Architecture (ALSA) provides audio
+	  and MIDI functionality to the Linux operating system.
+
+	  http://www.alsa-project.org/
+
+if TUYA_PACKAGE_ALSA_LIB
+
+config TUYA_PACKAGE_ALSA_LIB_VERSION
+	string "alsa-lib version to use?"
+	default "alsa-lib-1.1.5"
+	help
+	  Select which version to use.
+
+config TUYA_PACKAGE_ALSA_LIB_DEVDIR
+	string "directory with ALSA device files"
+	default "/dev/snd"
+
+config TUYA_PACKAGE_ALSA_LIB_PCM_PLUGINS
+	string "built PCM plugins"
+	default "all"
+
+config TUYA_PACKAGE_ALSA_LIB_CTL_PLUGINS
+	string "built control plugins"
+	default "all"
+
+config TUYA_PACKAGE_ALSA_LIB_ALOAD
+	bool "aload"
+	default y
+
+config TUYA_PACKAGE_ALSA_LIB_MIXER
+	bool "mixer"
+	default y
+
+config TUYA_PACKAGE_ALSA_LIB_PCM
+	bool "pcm"
+	default y
+
+config TUYA_PACKAGE_ALSA_LIB_RAWMIDI
+	bool "rawmidi"
+	default y
+
+config TUYA_PACKAGE_ALSA_LIB_HWDEP
+	bool "hwdep"
+	default y
+
+config TUYA_PACKAGE_ALSA_LIB_SEQ
+	bool "seq"
+	default y
+
+config TUYA_PACKAGE_ALSA_LIB_UCM
+	bool "ucm"
+	default y
+	select TUYA_PACKAGE_ALSA_LIB_MIXER
+
+endif

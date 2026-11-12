@@ -1,0 +1,5 @@
+
+config TUYA_HAL_TEST_MODEM_4G
+	bool "modem 4g test"
+	default n
+	depends on TUYA_BASE_HAL_TEST

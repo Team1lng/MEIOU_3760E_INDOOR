@@ -1,0 +1,31 @@
+menuconfig TUYA_PACKAGE_GNUTLS
+	bool "gnutls"
+	select TUYA_PACKAGE_LIBTASN1
+	select TUYA_PACKAGE_NETTLE
+	select TUYA_PACKAGE_PCRE
+	help
+	  GnuTLS is a secure communications library implementing the SSL
+	  and TLS protocols and technologies around them.
+
+	  http://www.gnutls.org
+
+if TUYA_PACKAGE_GNUTLS
+
+config TUYA_PACKAGE_GNUTLS_VERSION
+	string "gnutls version to use?"
+	default "gnutls-3.6.14"
+	help
+	  Select which version to use.
+
+config TUYA_PACKAGE_GNUTLS_OPENSSL
+	bool "OpenSSL compatibility library"
+	help
+	  Install OpenSSL compatibility library.
+
+config TUYA_PACKAGE_GNUTLS_TOOLS
+	bool "install tools"
+	help
+	  Install GnuTLS command line tools for various cryptographic
+	  tasks.
+
+endif

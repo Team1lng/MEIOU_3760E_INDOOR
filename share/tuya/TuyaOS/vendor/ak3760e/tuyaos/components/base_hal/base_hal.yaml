@@ -1,0 +1,16 @@
+spec:
+  name: base_hal
+  version: EMBED_VERSION
+  summary: embed module created by embedded-cli.
+  homepage: YOUR_HOMEPAGE
+  license:
+    type: MIT
+    file: LICENSE
+  author:
+    name: embedCI
+
+    email: embed@tuya.com
+
+  source:
+    git: https://code.registry.wgine.com/ci_bsp_group/base_hal.git
+    tag: EMBED_VERSION

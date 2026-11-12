@@ -1,0 +1,19 @@
+menuconfig TUYA_PACKAGE_SYSSTAT
+	bool "sysstat"
+	help
+	  The sysstat utilities are a collection of performance
+	  monitoring tools for Linux. These include sar, sadf, mpstat,
+	  iostat, pidstat and sa tools.
+
+	  http://pagesperso-orange.fr/sebastien.godard
+
+
+if TUYA_PACKAGE_SYSSTAT
+
+config TUYA_PACKAGE_SYSSTAT_VERSION
+	string "sysstat version to use?"
+	default "sysstat-12.6.0"
+	help
+	  Select which version to use.
+
+endif

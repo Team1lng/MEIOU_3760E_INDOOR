@@ -1,0 +1,52 @@
+menu "Tuya board_anyka3760e Configuration"
+
+config TUYA_TARGET_BOARD
+        string
+        default "board_anyka3760e" if TUYA_TARGET_BOARD_MODEL_AK3760E_EVB
+
+config TUYA_KERNEL_LOADADDR
+        string
+        default "0xXXXXXXXX"
+
+choice
+        prompt "Board Model"
+        default TUYA_TARGET_BOARD_MODEL_AK3760E_EVB
+
+config TUYA_TARGET_BOARD_MODEL_AK3760E_EVB
+	bool "ak3760e_evb"
+
+config TUYA_TARGET_BOARD_MODEL_RC210
+	bool "rc210"
+
+endchoice
+
+config TUYA_TARGET_BOARD_MODEL
+        string
+        default "ak37e_evb" if TUYA_TARGET_BOARD_MODEL_AK3760E_EVB
+        default "rc210" if TUYA_TARGET_BOARD_MODEL_RC210
+
+config TUYA_KERNEL_CONFIG
+        string
+        default "anycloud_ak37e_mini_defconfig" if TUYA_TARGET_BOARD_MODEL_AK3760E_EVB
+        default "anycloud_ak37e_rc210_defconfig" if TUYA_TARGET_BOARD_MODEL_RC210
+
+ config TUYA_BOOTLOADER_CONFIG
+        string
+        default "anycloud_ak37e_config" if TUYA_TARGET_BOARD_MODEL_AK3760E_EVB || TUYA_TARGET_BOARD_MODEL_RC210
+
+config TUYA_TARGET_FLASH_SIZE
+        string
+        default "0x800000" if TUYA_TARGET_BOARD_MODEL_AK3760E_EVB
+        default "0x8000000" if TUYA_TARGET_BOARD_MODEL_RC210
+
+config TUYA_FLASH_PARTITION_ENV
+        string
+        default "board_anyka3760e/partition_ak3760e.json"  if TUYA_TARGET_BOARD_MODEL_AK3760E_EVB
+
+config TUYA_TARGET_MILESTONE
+        string "target milestone version"
+        default "v1"
+
+rsource "3rd-party/realtek/IoTOSconfig"
+
+endmenu

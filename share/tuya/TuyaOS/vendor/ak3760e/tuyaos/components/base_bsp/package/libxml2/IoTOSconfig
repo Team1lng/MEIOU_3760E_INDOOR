@@ -1,0 +1,16 @@
+menuconfig TUYA_PACKAGE_LIBXML2
+	bool "libxml2"
+	help
+	  XML C Parser
+
+	  http://xmlsoft.org/
+
+if TUYA_PACKAGE_LIBXML2
+
+config TUYA_PACKAGE_LIBXML2_VERSION
+	string "libxml2 version to use?"
+	default "libxml2-2.9.10"
+	help
+	  Select which version to use.
+
+endif

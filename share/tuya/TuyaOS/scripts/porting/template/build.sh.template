@@ -1,0 +1,17 @@
+#!/bin/sh
+APP_BIN_NAME=$1
+APP_VERSION=$2
+TARGET_PLATFORM=$3
+APP_PATH=$4
+USER_CMD=$5
+
+#****************************************************************************************
+# 在下下方添加您的编译、连接、打包命令
+# 注意：
+#   1，您不需要对tuyaos_adapter进行编译，tuya提供内容都将编译完成并存放于根目录的./libs目录之下，
+#	您只需要按照顺序进行连接即可，链接的顺序为：
+#   -l$(APP_BIN_NAME) -ltuyaapp_components -ltuyaapp_drivers -ltuyaos -ltuyaos_adapter
+#   2，所有tuyaos的头文件均存放于根目录的./include目录之下
+#   3，输出产物需要存放于$APP_PATH/output/$APP_VERSION目录之下
+#   4，涂鸦内部需要实现对CI自动编译的支持，需要使用
+#****************************************************************************************

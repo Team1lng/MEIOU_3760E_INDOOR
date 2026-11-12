@@ -1,0 +1,17 @@
+menuconfig TUYA_PACKAGE_LIBGCRYPT
+	bool "libgcrypt"
+	select TUYA_PACKAGE_LIBGPG_ERROR
+	help
+	  LibGCrypt is GNU's basic cryptographic library.
+
+	  http://www.gnu.org/software/libgcrypt/
+
+if TUYA_PACKAGE_LIBGCRYPT
+
+config TUYA_PACKAGE_LIBGCRYPT_VERSION
+	string "libgcrypt version to use?"
+	default "libgcrypt-1.8.6"
+	help
+	  Select which version to use.
+
+endif

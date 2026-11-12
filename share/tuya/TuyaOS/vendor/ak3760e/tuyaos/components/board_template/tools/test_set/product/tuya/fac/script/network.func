@@ -1,0 +1,31 @@
+ping_network_check_connect()
+{
+	local dest=$1
+	local total="0"
+	local i="0"
+	local line=""
+
+	while [ $i -lt 30 ]; do
+		line=""
+
+		line=`ping ${dest} -c 1 -s 1 -W 1 | grep "100% packet loss" | wc -l`
+		if [ "${line}" != "0" ]; then
+			total=$((total+1))
+		else
+			total="0"
+		fi
+
+		i=$((i+1))
+
+		sleep 1
+	done
+
+	if [ $total -gt 15 ]; then
+		echo "ping check failed!" > /dev/console
+		return 1
+	else
+		echo "ping check ok!" > /dev/console
+		return 0
+	fi
+}
+

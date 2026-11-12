@@ -1,0 +1,16 @@
+menuconfig TUYA_PACKAGE_POPT
+    bool "popt"
+    help
+      Popt is a C library for parsing command line parameters.
+
+      http://rpm5.org
+
+if TUYA_PACKAGE_POPT
+
+config TUYA_PACKAGE_POPT_VERSION
+    string "popt version to use?"
+    default "popt-1.16"
+    help
+       Select which version to use.
+
+endif

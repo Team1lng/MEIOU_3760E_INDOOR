@@ -1,0 +1,7 @@
+menu "Tuya TKL INPUT EVENT"
+
+config TUYA_TKL_INPUT_EVENT_TEST
+	bool "TKL- input event test"
+	default n
+
+endmenu

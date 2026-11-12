@@ -1,0 +1,16 @@
+menuconfig TUYA_PACKAGE_LIBEVDEV
+	bool "libevdev"
+	help
+	  libevdev is a wrapper library for evdev devices
+
+	  http://freedesktop.org/wiki/Software/libevdev/
+
+if TUYA_PACKAGE_LIBEVDEV
+
+config TUYA_PACKAGE_LIBEVDEV_VERSION
+	string "libevdev version to use?"
+	default "libevdev-1.9.1"
+	help
+	  Select which version to use.
+
+endif

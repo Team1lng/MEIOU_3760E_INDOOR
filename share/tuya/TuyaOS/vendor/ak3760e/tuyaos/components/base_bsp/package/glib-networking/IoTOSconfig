@@ -1,0 +1,18 @@
+menuconfig TUYA_PACKAGE_GLIB_NETWORKING
+	bool "glib-networking"
+	select TUYA_PACKAGE_LIBGLIB2
+	select TUYA_PACKAGE_OPENSSL if !TUYA_PACKAGE_GNUTLS
+	help
+	  Network-related GIO modules for glib.
+
+	  https://gitlab.gnome.org/GNOME/glib-networking
+
+if TUYA_PACKAGE_GLIB_NETWORKING
+
+config TUYA_PACKAGE_GLIB_NETWORKING_VERSION
+	string "glib-networking version to use?"
+	default "glib-networking-2.65.90"
+	help
+	  Select which version to use.
+
+endif

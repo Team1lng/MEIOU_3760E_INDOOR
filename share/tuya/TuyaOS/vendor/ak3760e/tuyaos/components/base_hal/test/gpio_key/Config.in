@@ -1,0 +1,5 @@
+
+config TUYA_HAL_TEST_GPIO_KEY
+	bool "gpio key test"
+	default n
+	depends on TUYA_BASE_HAL_TEST

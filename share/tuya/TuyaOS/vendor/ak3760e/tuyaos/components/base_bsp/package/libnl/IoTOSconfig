@@ -1,0 +1,21 @@
+menuconfig TUYA_PACKAGE_LIBNL
+	bool "libnl"
+	help
+	  A library for applications dealing with netlink socket.
+
+	  https://github.com/thom311/libnl
+
+if TUYA_PACKAGE_LIBNL
+
+config TUYA_PACKAGE_LIBNL_VERSION
+	string "libnl version to use?"
+	default "libnl-3.5.0"
+	help
+	  Select which version to use.
+
+config TUYA_PACKAGE_LIBNL_TOOLS
+	bool "install tools"
+	help
+	  Install binary tools.
+
+endif

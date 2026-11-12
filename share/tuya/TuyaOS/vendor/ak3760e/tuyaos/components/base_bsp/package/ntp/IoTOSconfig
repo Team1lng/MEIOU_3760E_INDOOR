@@ -1,0 +1,77 @@
+menuconfig TUYA_PACKAGE_NTP
+	bool "ntp"
+	select TUYA_PACKAGE_LIBEVENT
+	help
+	  Network Time Protocol suite/programs.
+	  Provides things like ntpd, ntpdate, ntpq, etc...
+
+	  http://www.ntp.org/
+
+if TUYA_PACKAGE_NTP
+
+config TUYA_PACKAGE_NTP_VERSION
+	string "ntp version to use?"
+	default "ntp-4.2.8p14"
+	help
+	  Select which version to use.
+
+config TUYA_PACKAGE_NTP_SNTP
+	bool "sntp"
+	help
+	  Simple network time protocol program (a replacement
+	  for the ntpdate tool)
+
+	  A script is installed as S48sntp which will retrieve and
+	  step the time if there is a large difference before ntpd
+	  takes over the necessary slew adjustments in S49ntp.
+
+config TUYA_PACKAGE_NTP_NTP_KEYGEN
+	bool "ntp-keygen"
+	help
+	  Create a NTP host key
+
+config TUYA_PACKAGE_NTP_NTP_SHM_CLK
+	bool "SHM clock support"
+	help
+	  Compile ntp with support for a SHM clock attached through
+	  shared memory.
+
+config TUYA_PACKAGE_NTP_NTPD
+	bool "ntpd"
+	default y
+	help
+	  ntpd is the time synchronization daemon keeping your local
+	  system date and time in sync and optionally serving time and
+	  date information on the network via the NTP protocol.
+
+config TUYA_PACKAGE_NTP_NTPDATE
+	bool "ntpdate"
+	help
+	  The ntpdate utility program is used to set the local date
+	  and time from an NTP server given as an argument.
+
+config TUYA_PACKAGE_NTP_NTPDC
+	bool "ntpdc"
+	help
+	  The ntpdc utility program is used to query an NTP daemon about
+	  its current state and to request changes in that state.
+
+config TUYA_PACKAGE_NTP_NTPQ
+	bool "ntpq"
+	help
+	  The ntpq utility program is used to query NTP servers
+	  requesting information about current state and/or changes in
+	  that state.
+
+config TUYA_PACKAGE_NTP_NTPTIME
+	bool "ntptime"
+	help
+	  The ntptime utility program is used to read and set kernel
+	  time variables.
+
+config TUYA_PACKAGE_NTP_TICKADJ
+	bool "tickadj"
+	help
+	  set time-related kernel variables
+
+endif

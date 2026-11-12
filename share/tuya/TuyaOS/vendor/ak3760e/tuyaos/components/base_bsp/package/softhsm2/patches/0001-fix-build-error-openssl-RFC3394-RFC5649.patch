@@ -1,0 +1,81 @@
+From 0b635966a2c52cc6d55b0a8c5ce95fadb6d0ae32 Mon Sep 17 00:00:00 2001
+From: Jason <jsliu@tuya.com>
+Date: Wed, 16 Feb 2022 15:57:35 +0800
+Subject: [PATCH] [fix] build-error-openssl-RFC3394-RFC5649.
+
+Signed-off-by: Jason <jsliu@tuya.com>
+---
+ modules/CompilerOptions.cmake | 57 ++++++++++++++++++-----------------
+ 1 file changed, 29 insertions(+), 28 deletions(-)
+
+diff --git a/modules/CompilerOptions.cmake b/modules/CompilerOptions.cmake
+index 56f5b9d..e9d77c3 100644
+--- a/modules/CompilerOptions.cmake
++++ b/modules/CompilerOptions.cmake
+@@ -383,34 +383,35 @@ elseif(WITH_CRYPTO_BACKEND STREQUAL "openssl")
+     endif(ENABLE_FIPS)
+ 
+     # acx_openssl_rfc3349
+-    set(testfile ${CMAKE_SOURCE_DIR}/modules/tests/test_openssl_rfc3394.c)
+-    try_run(RUN_AES_KEY_WRAP COMPILE_RESULT
+-            "${CMAKE_BINARY_DIR}/prebuild_santity_tests" ${testfile}
+-            LINK_LIBRARIES ${CRYPTO_LIBS}
+-            CMAKE_FLAGS
+-                "-DINCLUDE_DIRECTORIES=${CRYPTO_INCLUDES}"
+-            )
+-    if(COMPILE_RESULT AND RUN_AES_KEY_WRAP EQUAL 0)
+-        set(HAVE_AES_KEY_WRAP 1)
+-        message(STATUS "OpenSSL: RFC 3394 is supported")
+-    else()
+-        message(STATUS "OpenSSL: RFC 3394 is not supported")
+-    endif()
+-
+-    # acx_openssl_rfc5649
+-    set(testfile ${CMAKE_SOURCE_DIR}/modules/tests/test_openssl_rfc5649.c)
+-    try_run(RUN_AES_KEY_WRAP_PAD COMPILE_RESULT
+-            "${CMAKE_BINARY_DIR}/prebuild_santity_tests" ${testfile}
+-            LINK_LIBRARIES ${CRYPTO_LIBS}
+-            CMAKE_FLAGS
+-                "-DINCLUDE_DIRECTORIES=${CRYPTO_INCLUDES}"
+-            )
+-    if(COMPILE_RESULT AND RUN_AES_KEY_WRAP_PAD EQUAL 0)
+-        set(HAVE_AES_KEY_WRAP_PAD 1)
+-        message(STATUS "OpenSSL: RFC 5649 is supported")
+-    else()
+-        message(STATUS "OpenSSL: RFC 5649 is not supported")
+-    endif()
++    #set(testfile ${CMAKE_SOURCE_DIR}/modules/tests/test_openssl_rfc3394.c)
++    #message(STATUS "RUN_AES_KEY_WRAP: CMAKE_BINARY_DIR ${CMAKE_BINARY_DIR}")
++    #try_run(RUN_AES_KEY_WRAP COMPILE_RESULT
++    #        "${CMAKE_BINARY_DIR}/prebuild_santity_tests" ${testfile}
++    #        LINK_LIBRARIES ${CRYPTO_LIBS}
++    #        CMAKE_FLAGS
++    #            "-DINCLUDE_DIRECTORIES=${CRYPTO_INCLUDES}"
++    #        )
++    #if(COMPILE_RESULT AND RUN_AES_KEY_WRAP EQUAL 0)
++    #    set(HAVE_AES_KEY_WRAP 1)
++    #    message(STATUS "OpenSSL: RFC 3394 is supported")
++    #else()
++    #    message(STATUS "OpenSSL: RFC 3394 is not supported")
++    #endif()
++
++    ## acx_openssl_rfc5649
++    #set(testfile ${CMAKE_SOURCE_DIR}/modules/tests/test_openssl_rfc5649.c)
++    #try_run(RUN_AES_KEY_WRAP_PAD COMPILE_RESULT
++    #        "${CMAKE_BINARY_DIR}/prebuild_santity_tests" ${testfile}
++    #        LINK_LIBRARIES ${CRYPTO_LIBS}
++    #        CMAKE_FLAGS
++    #            "-DINCLUDE_DIRECTORIES=${CRYPTO_INCLUDES}"
++    #        )
++    #if(COMPILE_RESULT AND RUN_AES_KEY_WRAP_PAD EQUAL 0)
++    #    set(HAVE_AES_KEY_WRAP_PAD 1)
++    #    message(STATUS "OpenSSL: RFC 5649 is supported")
++    #else()
++    #    message(STATUS "OpenSSL: RFC 5649 is not supported")
++    #endif()
+ 
+     # Compile with RAW PKCS PSS
+     set(WITH_RAW_PSS 1)
+-- 
+2.33.0
+

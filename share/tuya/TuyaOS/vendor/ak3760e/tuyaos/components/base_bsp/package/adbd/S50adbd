@@ -1,0 +1,78 @@
+#!/bin/sh
+
+DAEMON=/bin/adbd
+ADB_NVRAM_MODE=`nvram get adb.disable`
+
+adb_sn_init()
+{
+	ADB_SN=`nvram get ADB_SN`
+	if [ "$ADB_SN" == "" ]; then
+		echo "Get ADB_SN is NULL, Set to default."
+		ADB_SN=`cat /proc/sys/kernel/random/uuid | md5sum | cut -c1-16`
+		nvram set ADB_SN $ADB_SN
+		nvram commit
+	else
+		echo "Get ADB_SN : $ADB_SN"
+	fi
+}
+
+configfs_init()
+{
+	mount -t configfs none /sys/kernel/config
+	mkdir /sys/kernel/config/usb_gadget/iot  -m 0770
+	echo 0x2207 > /sys/kernel/config/usb_gadget/iot/idVendor
+	echo 0x0006 > /sys/kernel/config/usb_gadget/iot/idProduct
+	mkdir /sys/kernel/config/usb_gadget/iot/strings/0x409   -m 0770
+	echo $ADB_SN > /sys/kernel/config/usb_gadget/iot/strings/0x409/serialnumber
+	echo "TuyaIotDevice"  > /sys/kernel/config/usb_gadget/iot/strings/0x409/manufacturer
+	echo "TuyaIotModule"  > /sys/kernel/config/usb_gadget/iot/strings/0x409/product
+	mkdir /sys/kernel/config/usb_gadget/iot/configs/b.1  -m 0770
+	mkdir /sys/kernel/config/usb_gadget/iot/configs/b.1/strings/0x409  -m 0770
+	echo 500 > /sys/kernel/config/usb_gadget/iot/configs/b.1/MaxPower
+	echo "adb" > /sys/kernel/config/usb_gadget/iot/configs/b.1/strings/0x409/configuration
+	mkdir /sys/kernel/config/usb_gadget/iot/functions/ffs.adb
+	ln -s /sys/kernel/config/usb_gadget/iot/functions/ffs.adb /sys/kernel/config/usb_gadget/iot/configs/b.1/ffs.adb
+	mkdir -p /dev/usb-ffs/adb
+	mount -o uid=2000,gid=2000 -t functionfs adb /dev/usb-ffs/adb
+}
+
+start() {
+	if [ "$ADB_NVRAM_MODE" == "" ]; then
+		if grep -qs 'adb' /proc/mounts ;then
+			echo "configfs already init."
+		else
+			adb_sn_init
+			configfs_init
+		fi
+		source /etc/profile
+		start-stop-daemon -S -q -b -x $DAEMON
+		sleep 1
+		UDC=`ls /sys/class/udc/`
+		echo $UDC > /sys/kernel/config/usb_gadget/iot/UDC
+	else
+		echo "adb.disable is set."
+	fi
+}
+
+stop() {
+	echo "none" > /sys/kernel/config/usb_gadget/iot/UDC
+	start-stop-daemon -K -q -b -n adbd
+}
+
+restart() {
+	stop
+	sleep 1
+	start
+}
+
+reload() {
+	echo "Nothing to do, $DAEMON does not support reload."
+}
+
+case "$1" in
+	start|stop|restart|reload)
+		"$1";;
+	*)
+		echo "Usage: $0 {start|stop|restart|reload}"
+		exit 1
+esac

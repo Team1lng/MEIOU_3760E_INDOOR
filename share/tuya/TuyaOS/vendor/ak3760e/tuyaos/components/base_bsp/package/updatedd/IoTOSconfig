@@ -1,0 +1,17 @@
+menuconfig TUYA_PACKAGE_UPDATEDD
+	bool "updatedd"
+	help
+	  Updatedd is a client to update your dynamic dns. At the moment
+	  dyndns.org, ovh.net, no-ip.org, ods.org and hn.org are supported.
+
+	  https://savannah.nongnu.org/projects/updatedd
+
+if TUYA_PACKAGE_UPDATEDD
+
+config TUYA_PACKAGE_UPDATEDD_VERSION
+	string "UPDATEDD version to use?"
+	default "updatedd-2.6"
+	help
+	  Select which version to use.
+
+endif

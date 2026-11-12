@@ -1,0 +1,17 @@
+menuconfig TUYA_PACKAGE_BRIDGE_UTILS
+	bool "bridge-utils"
+	help
+	  Manage ethernet bridging; a way to connect networks together
+	  to form a larger network.
+
+	  https://git.kernel.org/cgit/linux/kernel/git/shemminger/bridge-utils.git/
+
+if TUYA_PACKAGE_BRIDGE_UTILS
+
+config TUYA_PACKAGE_BRIDGE_UTILS_VERSION
+	string "BRIDGE_UTILS version to use?"
+	default "bridge-utils-1.6"
+	help
+	  Select which version to use.
+
+endif

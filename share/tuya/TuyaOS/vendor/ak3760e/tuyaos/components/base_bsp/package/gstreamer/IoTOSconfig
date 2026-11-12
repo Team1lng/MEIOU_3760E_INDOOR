@@ -1,0 +1,10 @@
+# Gstreamer 1.x & Plugins
+rsource "gstreamer1/IoTOSconfig"
+
+if TUYA_PACKAGE_GSTREAMER1
+rsource "gst1-plugins-base/IoTOSconfig"
+rsource "gst1-plugins-good/IoTOSconfig"
+rsource "gst1-plugins-bad/IoTOSconfig"
+rsource "gst1-plugins-ugly/IoTOSconfig"
+rsource "gst1-libav/IoTOSconfig"
+endif

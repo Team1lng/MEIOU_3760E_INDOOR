@@ -1,0 +1,17 @@
+menuconfig TUYA_PACKAGE_LIBSYSFS
+	bool "libsysfs"
+	help
+	  These are a set of utilities built upon sysfs, a filesystem in
+	  Linux 2.6 kernels that exposes a system's device tree.
+
+	  http://linux-diag.sourceforge.net/Sysfsutils.html
+
+if TUYA_PACKAGE_LIBSYSFS
+
+config TUYA_PACKAGE_LIBSYSFS_VERSION
+	string "libsysfs version to use?"
+	default "sysfsutils-2.1.0"
+	help
+	  Select which version to use.
+
+endif

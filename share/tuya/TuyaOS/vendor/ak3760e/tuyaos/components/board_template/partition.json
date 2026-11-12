@@ -1,0 +1,115 @@
+{
+    "product_name": "rts3917_16m",
+    "flash_type": "nor", 
+    "flash_size": "0x1000000", 
+    "pack_ota_only": "0", 
+    "ota_mode": "single-copy", 
+    "files": {}, 
+    "partitions": {
+        "part1": {
+            "name": "boot", 
+            "version": "1.0.0-beta.2", 
+            "offset": "0x0", 
+            "size": "0xa0000", 
+            "device": [
+                "/dev/mtd0"
+            ], 
+            "device_offset": "0", 
+            "filename": "boot.bin", 
+            "need_ota": "0", 
+            "filesystem": "raw"
+        }, 
+        "part2": {
+            "name": "dtb", 
+            "version": "1.0.0-beta.2", 
+            "offset": "0xa0000",
+            "size": "0x20000",
+            "device": [
+                "/dev/mtd1"
+            ],
+            "device_offset": "0", 
+            "filename": "dtb.bin", 
+            "need_ota": "0", 
+            "filesystem": "raw"
+        }, 
+        "part3": {
+            "name": "kernel", 
+            "version": "0.0.1-beta.1", 
+            "offset": "0xc0000",
+            "size": "0x300000", 
+            "device": [
+                "/dev/mtd2"
+            ], 
+            "device_offset": "0", 
+            "filename": "kernel.bin", 
+            "need_ota": "1", 
+            "filesystem": "raw"
+        }, 
+        "part4": {
+            "name": "rootfs",
+            "version": "1.0.0-beta.2", 
+            "offset": "0x3c0000", 
+            "size": "0x240000",
+            "device": [
+                "/dev/mtd3"
+            ], 
+            "device_offset": "0",
+            "filename": "images/rootfs.squashfs.bin",
+            "need_ota": "1",
+            "filesystem": "squashfs"
+        }, 
+        "part5":{
+            "name": "app", 
+            "version": "", 
+            "offset": "0x600000", 
+            "size": "0x300000", 
+            "device": [
+                "/dev/mtd4"
+            ], 
+            "device_offset": "0", 
+            "filename": "user.bin", 
+            "need_ota": "1", 
+            "filesystem": "squashfs",
+	    "copy_in_boot":"1"
+        }, 
+        "part6": {
+            "name": "backup",
+            "version": "", 
+            "offset": "0x900000",
+            "size": "0x300000",
+            "device": [
+                "/dev/mtd5"
+            ], 
+            "device_offset": "0", 
+            "filename": "", 
+            "need_ota": "0", 
+            "filesystem": "raw"
+        }, 
+        "part7": {
+            "name": "data", 
+            "version": "", 
+            "offset": "0xc00000", 
+            "size": "0x3e0000", 
+            "device": [
+                "/dev/mtd6"
+            ], 
+            "device_offset": "0", 
+            "filename": "mtd.bin", 
+            "need_ota": "0", 
+            "filesystem": "raw"
+        },
+	"part8": {
+            "name": "factory", 
+            "version": "", 
+            "offset": "0xfe0000", 
+            "size": "0x20000", 
+            "device": [
+                "/dev/mtd7"
+            ], 
+            "device_offset": "0", 
+            "filename": "cfg.bin", 
+            "need_ota": "0", 
+            "filesystem": "raw"
+        }
+    }
+}

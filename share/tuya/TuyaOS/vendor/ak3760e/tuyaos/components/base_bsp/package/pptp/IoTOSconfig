@@ -1,0 +1,16 @@
+menuconfig TUYA_PACKAGE_PPTP
+	bool "pptp"
+	help
+	  An implementation of the Point-to-point protocol client.
+
+	  http://pptpclient.sourceforge.net/
+
+if TUYA_PACKAGE_PPTP
+
+config TUYA_PACKAGE_PPTP_VERSION
+	string "PPTP version to use?"
+	default "pptp-1.7.2"
+	help
+	  Select which version to use.
+
+endif

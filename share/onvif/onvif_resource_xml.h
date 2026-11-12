@@ -1,0 +1,27 @@
+#ifndef _ONVIF_RESOURCE_XML_H_
+#define _ONVIF_RESOURCE_XML_H_
+
+// 所有XML字符串变量改为extern声明（仅声明，不定义）
+extern char GET_DISCONVER_DEVICE[];
+extern char GET_DEVICE_INFOMATION[];
+extern char GET_STREAM_URL[];
+extern char GET_MEIDA_PROFILE[];
+extern char DEVICE_EDIT_XML[];
+extern char DEVICE_SET_SCOPES_XML[];
+extern char DEVICE_GET_SCOPES_XML[];
+extern char DEVICE_SET_PASSWORD_XML[];
+extern char GET_ONVIF_IMAGEING_GET_OPTIONS_PATH[];
+extern char GET_ONVIF_IMAGEING_GET_IMAGING_SETTING_PATH[];
+extern char SET_ONVIF_IMAGEING_SET_IMAGING_SETTING_PATH[];
+extern char GET_ONVIF_IMAGEING_GET_VIDEOSOURCE_PATH[];
+extern char GET_ONVIF_NETWORK_INTERFACED_PATH[];
+extern char GET_ONVIF_NETWORK_GATEWAY_PATH[];
+extern char GET_ONVIF_NETWORK_DNS_PATH[];
+extern char SET_ONVIF_NETWORK_INTERFACED_PATH[];
+extern char SET_ONVIF_NETWORK_GATEWAY_PATH[];
+extern char SET_ONVIF_NETWORK_DNS_PATH[];
+extern char SET_ONVIF_SYSTEM_TIME_GET_PATH[];
+extern const char BAD_REQUEST_PATH[];
+extern const char S200_OK_REQUEST_PATH[];
+
+#endif

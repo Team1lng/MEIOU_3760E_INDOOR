@@ -1,0 +1,26 @@
+menuconfig TUYA_PACKAGE_LIBDRM
+	bool "libdrm"
+	help
+	  Direct Rendering Manager
+
+	  http://dri.freedesktop.org/libdrm/
+
+if TUYA_PACKAGE_LIBDRM
+
+config TUYA_PACKAGE_LIBDRM_VERSION
+	string "libdrm version to use?"
+	default "libdrm-2.4.102"
+	help
+	  Select which version to use.
+
+config TUYA_PACKAGE_LIBDRM_VC4
+	bool "vc4"
+	help
+	  Install vc4 (Raspberry Pi) driver.
+
+config TUYA_PACKAGE_LIBDRM_INSTALL_TESTS
+	bool "Install test programs"
+	help
+	  This option allows to install the libdrm test programs.
+
+endif

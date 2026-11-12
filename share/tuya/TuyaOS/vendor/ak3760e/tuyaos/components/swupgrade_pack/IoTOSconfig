@@ -1,0 +1,12 @@
+menuconfig TUYA_BSP_PACK_PARTITION_SETABLE
+        bool "Tuya bsp swupgrade pack partition cnt setable"
+        help
+          "Tuya bsp swupgrade pack partition cnt"
+
+if TUYA_BSP_PACK_PARTITION_SETABLE
+
+config TUYA_BSP_PACK_PARTITION_CNT
+        string "tuya bsp pack partition count"
+        default "10"
+
+endif

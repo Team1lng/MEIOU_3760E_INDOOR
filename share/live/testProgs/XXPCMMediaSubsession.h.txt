@@ -1,0 +1,40 @@
+#ifndef _XX_PCM_MEDIA_SUBSESSION_HH
+#define _XX_PCM_MEDIA_SUBSESSION_HH
+
+#include <OnDemandServerMediaSubsession.hh>
+#include <Groupsock.hh>
+#include <RTCP.hh>
+
+class XXPCMServerMediaSubssion : public OnDemandServerMediaSubsession
+{
+public:
+  static XXPCMServerMediaSubssion *createNew(
+      UsageEnvironment &env,
+      Boolean reuseFirstSource,
+      Groupsock *rtpGroupsock,
+      Groupsock *rtcpGroupsock);
+
+protected:
+  XXPCMServerMediaSubssion(
+      UsageEnvironment &env,
+      Boolean reuseFirstSource,
+      Groupsock *rtpGroupsock,
+      Groupsock *rtcpGroupsock);
+  virtual ~XXPCMServerMediaSubssion();
+
+  virtual RTPSink *createNewRTPSink(
+      Groupsock *rtpGroupsock,
+      unsigned char rtpPayloadTypeIfDynamic,
+      FramedSource *inputSource);
+
+  virtual FramedSource *createNewStreamSource(
+      unsigned clientSessionId,
+      unsigned &estBitrate);
+
+private:
+  Groupsock *fRTPSock;         // 组播RTP Groupsock
+  Groupsock *fRTCPSock;        // 组播RTCP Groupsock
+  RTCPInstance *fRTCPInstance; // RTCP实例（由子会话管理）
+};
+
+#endif

@@ -1,0 +1,52 @@
+menuconfig TUYA_PACKAGE_CAIRO
+	bool "cairo"
+	select TUYA_PACKAGE_PIXMAN
+	select TUYA_PACKAGE_FONTCONFIG
+	help
+	  Cairo is a 2D graphics library with support for multiple
+	  output devices. Currently supported output targets include
+	  the X Window System, Win32, image buffers, and PostScript,
+	  PDF, and SVG file output. Experimental backends include
+	  OpenGL (through glitz), Quartz, and XCB.
+
+	  http://cairographics.org/
+
+if TUYA_PACKAGE_CAIRO
+
+config TUYA_PACKAGE_CAIRO_VERSION
+	string "cairo version to use?"
+	default "cairo-1.16.0"
+	help
+	  Select which version to use.
+
+config TUYA_PACKAGE_CAIRO_PS
+	bool "postscript support"
+	select TUYA_PACKAGE_ZLIB
+	select TUYA_PACKAGE_CAIRO_PDF
+
+config TUYA_PACKAGE_CAIRO_PDF
+	bool "pdf support"
+	select TUYA_PACKAGE_ZLIB
+
+config TUYA_PACKAGE_CAIRO_PNG
+	bool "png support"
+	select TUYA_PACKAGE_LIBPNG
+	select TUYA_PACKAGE_ZLIB
+
+config TUYA_PACKAGE_CAIRO_SCRIPT
+	bool "script support"
+	select TUYA_PACKAGE_CAIRO_PNG
+
+config TUYA_PACKAGE_CAIRO_SVG
+	bool "svg support"
+	select TUYA_PACKAGE_CAIRO_PNG
+	select TUYA_PACKAGE_CAIRO_PDF
+
+config TUYA_PACKAGE_CAIRO_TEE
+	bool "tee support"
+
+config TUYA_PACKAGE_CAIRO_XML
+	bool "xml support"
+	select TUYA_PACKAGE_CAIRO_PNG
+
+endif

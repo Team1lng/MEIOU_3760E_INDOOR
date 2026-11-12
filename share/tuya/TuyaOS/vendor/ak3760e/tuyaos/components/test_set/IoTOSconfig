@@ -1,0 +1,8 @@
+#TuyaOS Product  support
+
+menu "TuyaOS Product Test configure"
+
+config MEDIA_TKL_SUPPORT 
+	bool "support tkl media"
+	default y
+endmenu

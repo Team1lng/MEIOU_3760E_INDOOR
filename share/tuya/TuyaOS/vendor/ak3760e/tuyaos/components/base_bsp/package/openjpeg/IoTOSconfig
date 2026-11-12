@@ -1,0 +1,17 @@
+menuconfig TUYA_PACKAGE_OPENJPEG
+	bool "openjpeg"
+	help
+	  The OpenJPEG library is an open-source JPEG 2000 codec
+	  written in C.
+
+	  http://www.openjpeg.org
+
+if TUYA_PACKAGE_OPENJPEG
+
+config TUYA_PACKAGE_OPENJPEG_VERSION
+	string "openjpeg version to use?"
+	default "openjpeg-2.3.1"
+	help
+	  Select which version to use.
+
+endif

@@ -1,0 +1,17 @@
+menuconfig TUYA_PACKAGE_IPROUTE2
+	bool "iproute2"
+	help
+	  Kernel routing and traffic control utilities. Provides things
+	  like ip and tc.
+
+	  http://www.linuxfoundation.org/collaborate/workgroups/networking/iproute2
+
+if TUYA_PACKAGE_IPROUTE2
+
+config TUYA_PACKAGE_IPROUTE2_VERSION
+	string "IPROUTE2 version to use?"
+	default "iproute2-5.7.0"
+	help
+	  Select which version to use.
+
+endif

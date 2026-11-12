@@ -1,0 +1,13 @@
+diff --git a/pph/Makefile.in b/pph/Makefile.in
+index c55a8aa..89735d3 100644
+--- a/pph/Makefile.in
++++ b/pph/Makefile.in
+@@ -611,7 +611,7 @@ install-data: install-data-am
+ uninstall: uninstall-am
+ 
+ install-am: all-am
+-	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
++	@$(MAKE) $(AM_MAKEFLAGS) install-data-am install-exec-am
+ 
+ installcheck: installcheck-am
+ install-strip:

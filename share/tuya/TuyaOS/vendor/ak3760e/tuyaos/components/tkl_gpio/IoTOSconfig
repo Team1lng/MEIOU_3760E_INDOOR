@@ -1,0 +1,11 @@
+menu "TY TKL GPIO"
+
+config TY_TKL_GPIO_UPPERCASE
+	bool "TKL - GPIO Uppercase"
+	default n
+
+config TY_TKL_GPIO_TEST
+	bool "TKL - gpio test"
+	default n
+
+endmenu

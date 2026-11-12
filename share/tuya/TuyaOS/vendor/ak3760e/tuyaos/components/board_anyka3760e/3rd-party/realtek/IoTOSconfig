@@ -1,0 +1,25 @@
+menuconfig REALTEK_BLUETOOTH_DRIVER
+	bool "Realtek Bluetooth driver"
+	help
+	  Select if device support realtek bluetooth.
+
+if REALTEK_BLUETOOTH_DRIVER
+
+choice
+	prompt "Bluetooth driver version"
+	default BLUETOOTH_DRIVER_20200602
+	help
+	  Select the version of the Bluetooth driver.
+
+config BLUETOOTH_DRIVER_20200602
+	bool "2.2.407c1dd.20200602-140151"
+
+config BLUETOOTH_DRIVER_20220519
+	bool "2.2.3634cd9.20220519-142433"
+
+config BLUETOOTH_DRIVER_20220718
+	bool "2.2.3634cd9.20220718-164929"
+
+endchoice
+
+endif

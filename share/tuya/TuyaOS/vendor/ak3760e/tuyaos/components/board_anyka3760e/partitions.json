@@ -1,0 +1,200 @@
+{
+    "files": {}, 
+    "flash_type": "nand", 
+    "pack_ota_only": "1", 
+    "ota_mode": "double-copy", 
+    "flash_size": "0x8000000", 
+    "product_name": "ak3760e", 
+    "partitions": {
+        "part1": {
+            "device_offset": "0", 
+            "name": "spl", 
+            "offset": "0x0", 
+            "filename": "Image/u-boot-spl.bin", 
+            "need_ota": "0", 
+            "version": "", 
+            "filesystem": "raw", 
+            "device": [
+                "/dev/mtd0"
+            ], 
+            "size": "0x40000"
+        }, 
+        "part2": {
+            "device_offset": "0", 
+            "name": "uboot", 
+            "offset": "0x40000", 
+            "filename": "Image/u-boot.img", 
+            "need_ota": "0", 
+            "version": "", 
+            "filesystem": "raw", 
+            "device": [
+                "/dev/mtd1"
+            ], 
+            "size": "0x80000"
+        }, 
+        "part3": {
+            "device_offset": "0", 
+            "name": "env", 
+            "offset": "0xc0000", 
+            "filename": "Image/env.img", 
+            "need_ota": "0", 
+            "version": "", 
+            "filesystem": "raw", 
+            "device": [
+                "/dev/mtd2"
+            ], 
+            "size": "0x40000"
+        }, 
+        "part4": {
+            "device_offset": "0", 
+            "name": "logo", 
+            "offset": "0x100000", 
+            "filename": "Image/tuya_logo.rgb", 
+            "need_ota": "0", 
+            "version": "", 
+            "filesystem": "raw", 
+            "device": [
+                "/dev/mtd3"
+            ], 
+            "size": "0x80000"
+        }, 
+        "part5": {
+            "device_offset": "0", 
+            "name": "dtb", 
+            "offset": "0x180000", 
+            "filename": "Image/cloudOS.dtb", 
+            "need_ota": "1", 
+            "version": "", 
+            "filesystem": "raw", 
+            "device": [
+                "/dev/mtd4", 
+                "/dev/mtd5"
+            ], 
+            "size": "0x40000"
+        }, 
+        "part6": {
+            "device_offset": "0", 
+            "name": "dtb", 
+            "offset": "0x1c0000", 
+            "filename": "Image/cloudOS.dtb", 
+            "need_ota": "0", 
+            "version": "", 
+            "filesystem": "raw", 
+            "device": [
+                "/dev/mtd4", 
+                "/dev/mtd5"
+            ], 
+            "size": "0x40000"
+        }, 
+        "part7": {
+            "device_offset": "0", 
+            "name": "kernel", 
+            "offset": "0x200000", 
+            "filename": "Image/kernel.bin", 
+            "need_ota": "1", 
+            "version": "", 
+            "filesystem": "squashfs", 
+            "device": [
+                "/dev/mtd6", 
+                "/dev/mtd7"
+            ], 
+            "size": "0x280000"
+        }, 
+        "part8": {
+            "device_offset": "0", 
+            "name": "kernel", 
+            "offset": "0x480000", 
+            "filename": "Image/kernel.bin", 
+            "need_ota": "0", 
+            "version": "", 
+            "filesystem": "squashfs", 
+            "device": [
+                "/dev/mtd6", 
+                "/dev/mtd7"
+            ], 
+            "size": "0x280000"
+        }, 
+        "part9": {
+            "device_offset": "0", 
+            "name": "rootfs", 
+            "offset": "0x700000", 
+            "filename": "Image/rootfs.img", 
+            "need_ota": "1", 
+            "version": "", 
+            "filesystem": "squashfs", 
+            "device": [
+                "/dev/mtd8", 
+                "/dev/mtd9"
+            ], 
+            "size": "0x1000000"
+        }, 
+        "part10": {
+            "device_offset": "0", 
+            "name": "rootfs", 
+            "offset": "0x1700000", 
+            "filename": "Image/rootfs.img", 
+            "need_ota": "0", 
+            "version": "", 
+            "filesystem": "squashfs", 
+            "device": [
+                "/dev/mtd8", 
+                "/dev/mtd9"
+            ], 
+            "size": "0x1000000"
+        }, 
+        "part11": {
+            "device_offset": "0", 
+            "name": "user", 
+            "offset": "0x2700000", 
+            "filename": "Image/oem.img", 
+            "need_ota": "1", 
+            "version": "", 
+            "filesystem": "squashfs", 
+            "device": [
+                "/dev/mtd10", 
+                "/dev/mtd11"
+            ], 
+            "size": "0x1900000"
+        }, 
+        "part12": {
+            "device_offset": "0", 
+            "name": "user", 
+            "offset": "0x4000000", 
+            "filename": "Image/oem.img", 
+            "need_ota": "0", 
+            "version": "", 
+            "filesystem": "squashfs", 
+            "device": [
+                "/dev/mtd10", 
+                "/dev/mtd11"
+            ], 
+            "size": "0x1900000"
+        }, 
+        "part13": {
+            "device_offset": "0", 
+            "name": "data", 
+            "offset": "0x5900000", 
+            "filename": "Image/data.img", 
+            "need_ota": "0", 
+            "version": "", 
+            "filesystem": "raw", 
+            "device": [
+                "/dev/mtd12"
+            ], 
+            "size": "0x2680000"
+        }, 
+        "part14": {
+            "device_offset": "0", 
+            "name": "factory", 
+            "offset": "0x7f80000", 
+            "filename": "Image/nvram.img", 
+            "need_ota": "0", 
+            "version": "", 
+            "filesystem": "raw", 
+            "device": [
+                "/dev/mtd13"
+            ], 
+            "size": "0x80000"
+        }
+    }
+}

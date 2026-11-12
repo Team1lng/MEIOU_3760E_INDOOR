@@ -1,0 +1,19 @@
+menuconfig TUYA_PACKAGE_READLINE
+	bool "readline"
+	select TUYA_PACKAGE_NCURSES
+	help
+	  The GNU Readline library provides a set of functions for use
+	  by applications that allow users to edit command lines
+	  as they are typed in.
+
+	  https://cnswww.cns.cwru.edu/php/chet/readline/rltop.html
+
+if TUYA_PACKAGE_READLINE
+
+config TUYA_PACKAGE_READLINE_VERSION
+	string "readline version to use?"
+	default "readline-8.0"
+	help
+	  Select which version to use.
+
+endif

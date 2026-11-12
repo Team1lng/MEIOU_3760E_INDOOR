@@ -1,0 +1,355 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <errno.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
+#include "hal_ir.h"
+
+
+#define TY_IR_TEST_FEQ              38000
+#define TY_IR_TEST_MAX              (1024*2)
+
+#define IR_DATA_S   560
+#define IR_DATA_0   560
+#define IR_DATA_1   1680
+
+//红外起始信号
+#define IR_CMD_START_1    9000
+#define IR_CMD_START_2    4500
+//结束帧
+#define IR_CMD_STOP_1     9000
+#define IR_CMD_STOP_2     2200
+//红外结束信号
+#define IR_CMD_STOP_3     560
+#define IR_CMD_STOP_4     50000
+//红外信号误差
+#define IR_TIME_ALW       250
+
+const unsigned short  ir_cmd_start[] = {IR_CMD_START_1, IR_CMD_START_2};
+const unsigned short  ir_cmd_stop[]  = {IR_CMD_STOP_1, IR_CMD_STOP_2, IR_CMD_STOP_3, IR_CMD_STOP_4};
+
+int tuya_ir_send_proc(unsigned short *ir_time_data, unsigned short data_len)
+{
+
+	int  ret;
+	int i;
+    printf("%s data_len: %d \n", __func__, data_len);
+
+    ir_raw_code ir_data_s;
+    ir_data_s.codelist = malloc(sizeof(int)*TY_IR_TEST_MAX);
+    ir_data_s.count = data_len;
+    ir_data_s.size = sizeof(int)*TY_IR_TEST_MAX;
+    if(NULL == ir_data_s.codelist) {
+        printf("Malloc ir_data_s.codelist failed!\n");
+        return -1;
+    }
+    memset(ir_data_s.codelist, 0, ir_data_s.size);
+
+    for (i=0; i<data_len; i++) {
+        ir_data_s.codelist[i] = ir_time_data[i];
+    }
+    if (0 == ir_data_s.count%2) {
+        ir_data_s.codelist[ir_data_s.count++] = 10;
+    }
+
+#if 1
+    for (i=0; i<ir_data_s.count; i++) {
+        printf("%d ", ir_data_s.codelist[i]);
+    }
+#endif
+    printf("\r\n");
+
+    ret = hal_ir_set_tx_carrier(HAL_BOARD_RK3308, TY_IR_TEST_FEQ);
+
+    printf("hal_ir_set_tx_carrier ret = %d\n", ret);
+
+    ret = hal_ir_rawcode_tx(HAL_BOARD_RK3308, &ir_data_s);
+
+    free(ir_data_s.codelist);
+
+    printf("%s ret = %d\n", __func__, ret);
+
+	return ret;
+}
+
+static unsigned short tuya_ir_send_pkg(char  *str,  unsigned short  *trsdata,  unsigned short str_len)
+{
+	unsigned short  trsdata_len;
+	int  i, j;
+
+	if (str == NULL) {
+		return -1;
+	}
+
+	//ir_start_cmd
+	memcpy(trsdata, ir_cmd_start, 4);
+	trsdata += 2;
+
+	//ir_data_cmd
+	for (i = 0; i < str_len; i++) {
+		for (j = 0; j < 8; j++) {
+			*trsdata = IR_DATA_S;
+			if (((*str >> j) & 0x01) == 1) {
+				*(trsdata + 1) = IR_DATA_1;
+			} else {
+				*(trsdata + 1) = IR_DATA_0;
+			}
+			trsdata += 2;
+		}
+		str++;
+	}
+
+	//ir_stop_cmd
+	memcpy(trsdata, ir_cmd_stop, 8);
+	trsdata_len = 2 + str_len * 8 * 2 + 4;
+
+	return trsdata_len;
+}
+
+int tuya_ir_send_str(char  *ir_buf, int  ir_len)
+{
+	int  ret = -1;
+	unsigned short  ir_time_len;
+	unsigned short  *ir_time_buf;
+
+	ir_time_buf = (unsigned short  *)malloc(TY_IR_TEST_MAX);
+	if (NULL == ir_time_buf) {
+		printf("malloc error\n");
+		return -1;
+	}
+	memset(ir_time_buf, 0, TY_IR_TEST_MAX);
+
+	printf("%s send_str:%s, len:%d\n", __func__, ir_buf, ir_len);
+
+    ir_time_len = tuya_ir_send_pkg(ir_buf, ir_time_buf, ir_len);
+    ret  = tuya_ir_send_proc(ir_time_buf, ir_time_len);
+
+	free(ir_time_buf);
+
+	return ret;
+}
+static int compare_value(unsigned short value1, unsigned short  value2)
+{
+	if (value1 > value2) {
+		if ((value1 - value2) < IR_TIME_ALW) {
+			return 1;
+		} else {
+			return 0;
+		}
+	} else {
+		if ((value2 - value1) < IR_TIME_ALW) {
+			return 1;
+		} else {
+			return  0;
+		}
+	}
+}
+
+static  int tuya_ir_rec_to_string(ir_raw_code *raw_code,char  *recv_buf, int  *buf_size)
+{
+	unsigned short ir_data_len;
+	unsigned char  ir_data_buf = 0;
+	unsigned char  i = 0, j;
+	unsigned char  ir_rev_buf[32] = {0};
+	unsigned char  ir_rev_len = 0;
+
+	if (!raw_code) {
+		printf("ir into error\n");
+		return -1;
+	}
+
+    int  *trsdata = raw_code->codelist;
+    int  str_len = raw_code->count;
+
+	while (!(compare_value(*trsdata, IR_CMD_START_1) && compare_value(*(trsdata + 1), IR_CMD_START_2))) {
+		trsdata++;
+		str_len--;
+
+		if (str_len == 1) {
+			printf("not found ir start cmd\n");
+			return -1;
+		}
+	}
+
+	trsdata += 2;
+	ir_data_len = str_len - 2;
+
+	while (ir_data_len / 16) {
+		for (j = 0; j < 8; j++) {
+			if ((compare_value(*trsdata, IR_DATA_S) && compare_value(*(trsdata + 1), IR_DATA_1))) {
+				ir_data_buf |= (0x01 << j);
+			} else if ((compare_value(*trsdata, IR_DATA_S) && compare_value(*(trsdata + 1), IR_DATA_0))) {
+				ir_data_buf &= ~(0x01 << j);
+			} else {
+				goto end_data;
+			}
+
+			trsdata += 2;
+			ir_data_len -= 2;
+		}
+
+		ir_rev_buf[i] = ir_data_buf;
+		ir_data_buf = 0;
+		i++;
+	}
+
+end_data:
+	ir_rev_len = i;
+	printf("rev_buf_len:%d\n", ir_rev_len);
+	while (!((compare_value(*trsdata, IR_CMD_STOP_1) && compare_value(*(trsdata + 1), IR_CMD_STOP_2)))) {
+		trsdata++;
+		ir_data_len--;
+		if (ir_data_len == 1) {
+			printf("not found ir stop cmd1\n");
+			return -1;
+		}
+	}
+
+	if (compare_value(*(trsdata + 2), IR_CMD_STOP_3)) {
+		ir_data_buf |= (0x01 << j);
+	} else {
+		printf("not found ir stop cmd2\n");
+		return -1;
+	}
+printf("[Tuyadyha]ir_rev_buf:%s *recv_buf:%p recv_buf:%p\n", ir_rev_buf, *recv_buf, recv_buf);
+    memcpy(recv_buf, ir_rev_buf, ir_rev_len);
+	*buf_size = ir_rev_len;
+	return 0;
+}
+
+// linux infrared test start
+
+struct member {
+	int num;
+	char *str;
+};
+
+void *tuya_ir_send_test(void *arg)
+{
+	int snd_times = 10;
+	struct member *temp;
+	temp = (struct member *)arg;
+	char *snd_str = temp->str;
+
+	printf("snd_str:%s\n", temp->str);
+
+    if (!snd_str) {
+        printf("%s err, invalid\n");
+        return;
+    }
+
+    do {
+        tuya_ir_send_str(snd_str, strlen(snd_str));
+        if (--snd_times > 0) {
+            usleep(300 * 1000);
+        }
+    } while(snd_times > 0);
+
+    return;
+}
+
+void *tuya_ir_recv_test(void *arg)
+{
+	int size = 20;
+	struct member *temp;
+	temp = (struct member *)arg;
+	char *recv_buf = temp->str;
+    if (NULL == recv_buf) {
+        printf("%s err invalid parm\n", __func__);
+        return ;
+    }
+printf("recv_buf:%p &recv_buf:%p\n", recv_buf, &recv_buf);
+    printf("%s begin\n", __func__);
+
+    ir_raw_code ir_data_s;
+    int ret = 0;
+
+    ir_data_s.codelist = malloc(sizeof(int)*TY_IR_TEST_MAX);
+    if(NULL == ir_data_s.codelist) {
+        printf("%s malloc failed.\n", __func__);
+        return ;
+    }
+    ir_data_s.count = 0;
+    ir_data_s.size = sizeof(int)*TY_IR_TEST_MAX;
+    memset(ir_data_s.codelist, 0, ir_data_s.size);
+
+    struct timeval timeout;
+    timeout.tv_sec = 20;
+    timeout.tv_usec = 0;
+
+    //hal_ir_set_tx_carrier(HAL_BOARD_RK3308, TY_IR_TEST_FEQ);
+
+    ret = hal_ir_rawcode_rx(HAL_BOARD_RK3308, &ir_data_s, &timeout);
+    if(ret < 0) {
+        printf("ir_rawdata_recv: hal_ir_rawcode_rx failed, errcode = %d\n", ret);
+        goto exit;
+    }
+
+    if (ir_data_s.count < 6) {
+        printf("hal_ir_rawcode_rx recv count=%d, is invailed\n", ir_data_s.count);
+        ret = -1;
+        goto exit;
+    }
+   tuya_ir_rec_to_string(&ir_data_s, recv_buf, &size);
+
+printf("6661\n");
+	printf("recv_buf: %s\n", recv_buf);
+exit:
+    if(NULL != ir_data_s.codelist) {
+        free(ir_data_s.codelist);
+        ir_data_s.codelist = NULL;
+    }
+
+    printf("%s ret = %d\n", __func__, ret);
+
+    return ;
+
+}
+int main(int argc,char **argv)
+{
+	int ret;
+	char *send_str = "AC64CF576C37";
+	char *recv_str = NULL;
+	recv_str = malloc(sizeof(int)*TY_IR_TEST_MAX);
+
+	struct member *s, *r;
+	s = (struct member *)malloc(sizeof(struct member));
+	s->str = send_str;
+	//memset(s, 0, sizeof(struct member));
+	//memcpy(s->str, send_str, strlen(send_str));
+
+	r = (struct member *)malloc(sizeof(struct member));
+	//memset(r, 0, sizeof(struct member));
+	r->str = recv_str;
+printf("r->str:%p recv_str:%p\n", r->str, recv_str); //0x2f5560e4
+	// create two threads infrared send and recv
+	pthread_t send_tid;
+	//pthread_t recv_tid;
+
+	if(pthread_create(&send_tid, NULL, tuya_ir_send_test, (void*)s) != 0)
+	{
+		perror("pthread_create");
+		exit(1);
+	}
+/*
+	if(pthread_create(&recv_tid, NULL, tuya_ir_recv_test, (void*)r) != 0)
+	{
+		perror("pthread_create");
+		exit(1);
+	}
+*/
+	// join the threads, though it'll never be excuted.
+	pthread_join(send_tid, NULL);
+	//pthread_join(recv_tid, NULL);
+printf("main: recv_str:%s\n", recv_str);
+	if (!strcmp(send_str, recv_str))
+		ret = 0;
+	else
+		ret = -1;
+
+	return 0;
+}

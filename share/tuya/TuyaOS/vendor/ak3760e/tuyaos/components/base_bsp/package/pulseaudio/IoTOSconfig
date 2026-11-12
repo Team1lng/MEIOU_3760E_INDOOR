@@ -1,0 +1,32 @@
+menuconfig TUYA_PACKAGE_PULSEAUDIO
+	bool "pulseaudio"
+	select TUYA_PACKAGE_LIBTOOL
+	select TUYA_PACKAGE_LIBSNDFILE
+	select TUYA_PACKAGE_SPEEX
+	help
+	  PulseAudio is a sound system for POSIX OSes, meaning that it
+	  is a proxy for your sound applications. It allows you to do
+	  advanced operations on your sound data as it passes between
+	  your application and your hardware. Things like transferring
+	  the audio to a different machine, changing the sample format
+	  or channel count and mixing several sounds into one are
+	  easily achieved using a sound server.
+
+	  http://pulseaudio.org
+
+if TUYA_PACKAGE_PULSEAUDIO
+
+config TUYA_PACKAGE_PULSEAUDIO_VERSION
+	string "pulseaudio version to use?"
+	default "pulseaudio-13.0"
+	help
+	  Select which version to use.
+
+config TUYA_PACKAGE_PULSEAUDIO_DAEMON
+	bool "start as a system daemon"
+	help
+	  PulseAudio can be started as a system daemon. This is not the
+	  recommended way of using PulseAudio unless you are building a
+	  headless system.
+
+endif

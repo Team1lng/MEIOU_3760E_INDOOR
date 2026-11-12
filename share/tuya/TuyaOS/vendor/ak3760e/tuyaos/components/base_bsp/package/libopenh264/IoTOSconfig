@@ -1,0 +1,21 @@
+config TUYA_PACKAGE_LIBOPENH264_ARCH_SUPPORTS
+	bool
+	default y if TUYA_TARGET_ARCH_ARM || TUYA_TARGET_ARCH_AARCH64 || \
+		TUYA_TARGET_ARCH_MIPS || TUYA_TARGET_ARCH_MIPSEL
+
+config TUYA_PACKAGE_LIBOPENH264
+	bool "libopenh264"
+	depends on TUYA_PACKAGE_LIBOPENH264_ARCH_SUPPORTS
+	help
+	  OpenH264 is a codec library which supports H.264 encoding and
+	  decoding.
+
+if TUYA_PACKAGE_LIBOPENH264
+
+config TUYA_PACKAGE_LIBOPENH264_VERSION
+	string "libopenh264 version to use?"
+	default "libopenh264-2.1.1"
+	help
+	  Select which version to use.
+
+endif

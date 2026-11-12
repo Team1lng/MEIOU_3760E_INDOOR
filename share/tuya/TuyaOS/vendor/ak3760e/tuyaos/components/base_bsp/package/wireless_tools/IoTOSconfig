@@ -1,0 +1,21 @@
+menuconfig TUYA_PACKAGE_WIRELESS_TOOLS
+	bool "wireless tools"
+	help
+	  A collection of tools to configure wireless lan cards.
+
+	  https://hewlettpackard.github.io/wireless-tools/
+
+if TUYA_PACKAGE_WIRELESS_TOOLS
+
+config TUYA_PACKAGE_WIRELESS_TOOLS_VERSION
+	string "wireless tools version to use?"
+	default "wireless_tools.30.pre9"
+	help
+	  Select which version to use.
+
+config TUYA_PACKAGE_WIRELESS_TOOLS_LIB
+	bool "Install shared library"
+	help
+	  The shared library of wireless tools
+
+endif

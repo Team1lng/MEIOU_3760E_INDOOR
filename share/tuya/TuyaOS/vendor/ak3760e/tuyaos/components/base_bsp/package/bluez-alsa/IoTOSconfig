@@ -1,0 +1,26 @@
+menuconfig TUYA_PACKAGE_BLUEZ_ALSA
+	bool "bluez-alsa"
+	select TUYA_PACKAGE_ALSA_LIB
+	select TUYA_PACKAGE_BLUEZ5_UTILS
+	select TUYA_PACKAGE_LIBGLIB2
+	select TUYA_PACKAGE_SBC
+	help
+	  Bluetooth Audio ALSA Backend.
+
+	  https://github.com/Arkq/bluez-alsa
+
+if TUYA_PACKAGE_BLUEZ_ALSA
+
+config TUYA_PACKAGE_BLUEZ_ALSA_VERSION
+	string "bluez-alsa version to use?"
+	default "bluez-alsa-2.1.0"
+	help
+	  Select which version to use.
+
+config TUYA_PACKAGE_BLUEZ_ALSA_RFCOMM
+	bool "rfcomm"
+	select TUYA_PACKAGE_READLINE
+	help
+	  Simple tool for sending RFCOMM commands.
+
+endif

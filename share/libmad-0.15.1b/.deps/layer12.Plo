@@ -1,0 +1,53 @@
+layer12.lo: layer12.c config.h global.h \
+ /opt/arm-anykav500-eabi/lib/gcc/arm-anykav500-eabi/4.9.4/include-fixed/limits.h \
+ /opt/arm-anykav500-eabi/lib/gcc/arm-anykav500-eabi/4.9.4/include-fixed/syslimits.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/limits.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/newlib.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/_newlib_version.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/cdefs.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/machine/_default_types.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/features.h \
+ /opt/arm-anykav500-eabi/lib/gcc/arm-anykav500-eabi/4.9.4/include/stddef.h \
+ /opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/syslimits.h \
+ fixed.h bit.h stream.h frame.h timer.h layer12.h sf_table.dat \
+ qc_table.dat
+
+config.h:
+
+global.h:
+
+/opt/arm-anykav500-eabi/lib/gcc/arm-anykav500-eabi/4.9.4/include-fixed/limits.h:
+
+/opt/arm-anykav500-eabi/lib/gcc/arm-anykav500-eabi/4.9.4/include-fixed/syslimits.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/limits.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/newlib.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/_newlib_version.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/cdefs.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/machine/_default_types.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/features.h:
+
+/opt/arm-anykav500-eabi/lib/gcc/arm-anykav500-eabi/4.9.4/include/stddef.h:
+
+/opt/arm-anykav500-eabi/arm-anykav500-eabi/sys-include/sys/syslimits.h:
+
+fixed.h:
+
+bit.h:
+
+stream.h:
+
+frame.h:
+
+timer.h:
+
+layer12.h:
+
+sf_table.dat:
+
+qc_table.dat:

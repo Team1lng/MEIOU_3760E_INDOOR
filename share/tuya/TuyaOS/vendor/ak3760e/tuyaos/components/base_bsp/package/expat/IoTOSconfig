@@ -1,0 +1,16 @@
+menuconfig TUYA_PACKAGE_EXPAT
+	bool "expat"
+	help
+	  The Expat XML Parser.
+
+	  http://expat.sourceforge.net
+
+if TUYA_PACKAGE_EXPAT
+
+config TUYA_PACKAGE_EXPAT_VERSION
+	string "EXPAT version to use?"
+	default "expat-2.2.5"
+	help
+	  Select which version to use.
+
+endif

@@ -1,0 +1,17 @@
+menuconfig TUYA_PACKAGE_LIBPCAP
+	bool "libpcap"
+	help
+	  A system-independent library for user-level network packet
+	  capture.
+
+	  http://www.tcpdump.org/
+
+if TUYA_PACKAGE_LIBPCAP
+
+config TUYA_PACKAGE_LIBPCAP_VERSION
+	string "libpcap version to use?"
+	default "libpcap-1.10.1"
+	help
+	  Select which version to use.
+
+endif

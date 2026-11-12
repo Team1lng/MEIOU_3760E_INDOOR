@@ -1,0 +1,52 @@
+{
+    "deviceInfo": {
+        "productName": "sc115we02",
+        "manufacturerName": "Tuya Inc.",
+        "platform": "ssc337",
+        "description": "ssc337"
+    },
+    "interface": {
+        "websocket": {
+            "port":8090 
+        }
+    },
+    "capabilities": {
+        "led": {
+		"red": 1,
+		"green": 1,
+		"blue": 1,
+		"ir_red": 1
+	},
+        "ircut":{},
+        "button":{
+           "reset":1
+        },
+        "motor":{},
+        "sdcard":{},
+        "wifi": {},
+        "speaker": {
+            "channels": 0,
+            "volume": 80,
+            "formats":[
+                {
+                    "bit": 16,
+                    "freq": 8000,
+                    "channel": 0
+                }
+            ]
+        },
+        "microphone": {
+            "channels": 0,
+            "volume": 80,
+            "formats":[
+                {
+                    "bit": 16,
+                    "freq": 8000,
+                    "channel": 0
+                }
+            ]
+      },
+      "camera": {}
+    }
+}
+}

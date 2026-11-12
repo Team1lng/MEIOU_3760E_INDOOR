@@ -1,0 +1,20 @@
+
+menu "SYS LOG"
+
+config TUYA_SYS_LOG_JOURNALD
+    bool "sys -systemed sd-journal log support"
+    default n
+
+config TUYA_SYS_LOG_LEVEL_SAVE
+    bool "sys -log save log persist.log.level(0,5)"
+    default y
+
+config  TUYA_SYS_LOG_FILTER
+	bool "sys - log filter"
+	default y
+
+config TUYA_SYS_BASE_TEST_LOG
+	bool "sys - log test"
+	default n
+
+endmenu

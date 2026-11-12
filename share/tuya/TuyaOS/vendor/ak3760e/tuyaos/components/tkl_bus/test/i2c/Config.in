@@ -1,0 +1,4 @@
+
+config TY_TKL_BUS_TEST_I2C
+	bool "TKL - i2c test"
+	default n

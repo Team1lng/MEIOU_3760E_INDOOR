@@ -1,0 +1,48 @@
+menu "Tuya Xxx Board Configuration"
+config TUYA_TARGET_BOARD
+	string
+	default board-xxx
+
+config TUYA_CROSS_TARGET
+	string
+	default arm-gnu-linux
+
+config TUYA_KERNEL_LOADADDR
+	string
+	default 0x40008000
+
+choice
+	prompt "Board Model"
+	default TUYA_TARGET_BOARD_MODEL_A
+
+config TUYA_TARGET_BOARD_MODEL_A
+	bool "model_a"
+
+config TUYA_TARGET_BOARD_MODEL_B
+	bool "model_b"
+
+config TUYA_TARGET_BOARD_MODEL_C
+	bool "model_c"
+
+endchoice
+
+config TUYA_TARGET_BOARD_MODEL
+	string
+	default "model_a" if TUYA_TARGET_BOARD_MODEL_A
+	default "model_b" if TUYA_TARGET_BOARD_MODEL_B
+	default "model_c" if TUYA_TARGET_BOARD_MODEL_C
+
+config TUYA_KERNEL_CONFIG
+	string
+	default "board_xxx/config/linux_config_a" if TUYA_TARGET_BOARD_MODEL_A
+	default "board_xxx/config/linux_config_b" if TUYA_TARGET_BOARD_MODEL_B
+	default "board_xxx/config/linux_config_c" if TUYA_TARGET_BOARD_MODEL_C
+
+config TUYA_BOOTLOADER_CONFIG
+	string
+	default "board_xxx/config/uboot_config_a" if TUYA_TARGET_BOARD_MODEL_A
+	default "board_xxx/config/uboot_config_b" if TUYA_TARGET_BOARD_MODEL_B
+	default "board_xxx/config/uboot_config_c" if TUYA_TARGET_BOARD_MODEL_C
+
+endmenu
+

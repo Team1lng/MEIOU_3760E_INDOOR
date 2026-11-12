@@ -1,0 +1,10 @@
+
+config TUYA_HAL_TEST_VIDEO
+	bool "video test"
+	default n
+	depends on TUYA_BASE_HAL_TEST
+
+config TUYA_HAL_TEST_VIDEO_SSC33X
+	bool "ssc33x video test"
+	default n
+	depends on TUYA_HAL_TEST_VIDEO

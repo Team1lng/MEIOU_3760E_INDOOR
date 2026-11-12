@@ -1,0 +1,22 @@
+menuconfig TUYA_PACKAGE_LIBMPEG2
+	bool "libmpeg2"
+	help
+	  MPEG1/MPEG2 video decoder library
+
+	  http://libmpeg2.sourceforge.net/
+
+if TUYA_PACKAGE_LIBMPEG2
+
+config TUYA_PACKAGE_LIBMPEG2_VERSION
+	string "libmpeg2 version to use?"
+	default "libmpeg2-0.5.1"
+	help
+	  Select which version to use.
+
+config TUYA_PACKAGE_LIBMPEG2_BINS
+	bool "mpeg2 binaries"
+	help
+	  Install mpeg2dec, corrupt_mpeg2 and extract_mpeg2 programs as
+	  well.
+
+endif

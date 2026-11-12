@@ -1,0 +1,19 @@
+menuconfig TUYA_PACKAGE_BZIP2
+	bool "bzip2"
+	help
+	  Freely available, patent free, high-quality data compressor.
+	  It typically compresses files to within 10% to 15% of the best
+	  available techniques, while being around twice as fast at
+	  compression and six times faster at decompression.
+
+	  https://sourceware.org/bzip2/
+
+if TUYA_PACKAGE_BZIP2
+
+config TUYA_PACKAGE_BZIP2_VERSION
+	string "bzip2 version to use?"
+	default "bzip2-1.0.8"
+	help
+	  Select which version to use.
+
+endif

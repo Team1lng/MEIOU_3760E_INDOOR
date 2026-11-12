@@ -1,0 +1,17 @@
+menuconfig TUYA_PACKAGE_LIBGPG_ERROR
+	bool "libgpg-error"
+	help
+	  Libgpg-error is a small library with error codes and
+	  descriptions shared by most GnuPG related software.
+
+	  https://www.gnupg.org/related_software/libgpg-error
+
+if TUYA_PACKAGE_LIBGPG_ERROR
+
+config TUYA_PACKAGE_LIBGPG_ERROR_VERSION
+	string "libgpg-error version to use?"
+	default "libgpg-error-1.39"
+	help
+	  Select which version to use.
+
+endif

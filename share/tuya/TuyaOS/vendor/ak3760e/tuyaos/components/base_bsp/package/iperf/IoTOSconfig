@@ -1,0 +1,17 @@
+menuconfig TUYA_PACKAGE_IPERF
+	bool "iperf"
+	help
+	  Internet Protocol bandwidth measuring tool for measuring
+	  TCP/UDP performance.
+
+	  https://sourceforge.net/projects/iperf2/
+
+if TUYA_PACKAGE_IPERF
+
+config TUYA_PACKAGE_IPERF_VERSION
+	string "iperf version to use?"
+	default "iperf-2.0.13"
+	help
+	  Select which version to use.
+
+endif

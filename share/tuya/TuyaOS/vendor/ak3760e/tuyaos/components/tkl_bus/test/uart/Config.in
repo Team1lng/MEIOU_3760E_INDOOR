@@ -1,0 +1,4 @@
+
+config TUYA_TKL_BUS_TEST_UART
+	bool "TKL - uart test"
+	default n

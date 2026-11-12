@@ -1,0 +1,22 @@
+menuconfig TUYA_PACKAGE_GETTEXT
+	bool "gettext"
+	help
+	  The GNU `gettext' utilities are a set of tools that provide a
+	  framework to help other GNU packages produce multi-lingual
+	  messages.
+
+	  Only the libintl library will be installed in the
+	  target. The full gettext suite, including tools, will be
+	  installed in the staging directory.
+
+	  http://www.gnu.org/software/gettext/
+
+if TUYA_PACKAGE_GETTEXT
+
+config TUYA_PACKAGE_GETTEXT_VERSION
+	string "gettext version to use?"
+	default "gettext-0.20.1"
+	help
+	  Select which version to use.
+
+endif

@@ -1,0 +1,19 @@
+menuconfig TUYA_PACKAGE_LIBSAMPLERATE
+	bool "libsamplerate"
+	help
+	  Secret Rabbit Code (aka libsamplerate) is a Sample Rate
+	  Converter for audio. One example of where such a thing would
+	  be useful is converting audio from the CD sample rate of
+	  44.1kHz to the 48kHz sample rate used by DAT players.
+
+	  http://www.mega-nerd.com/SRC/
+
+if TUYA_PACKAGE_LIBSAMPLERATE
+
+config TUYA_PACKAGE_LIBSAMPLERATE_VERSION
+	string "libsamplerate version to use?"
+	default "libsamplerate-0.1.9"
+	help
+	  Select which version to use.
+
+endif

@@ -1,0 +1,16 @@
+menuconfig TUYA_PACKAGE_AVAHI
+	bool "avahi"
+	help
+      Avahi is a system which facilitates service discovery on a local network via the mDNS/DNS-SD protocol suite.
+
+      https://avahi.org/
+
+if TUYA_PACKAGE_AVAHI
+
+config TUYA_PACKAGE_AVAHI_VERSION
+	string "avahi version to use?"
+	default "avahi-0.6.31"
+	help
+	  Select which version to use.
+
+endif

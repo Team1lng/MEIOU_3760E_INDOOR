@@ -1,0 +1,17 @@
+menuconfig TUYA_PACKAGE_LUA
+	bool "lua"
+	help
+	  Lua is a powerful, fast, light-weight, embeddable scripting
+	  language.
+
+	  http://www.lua.org/
+
+if TUYA_PACKAGE_LUA
+
+config TUYA_PACKAGE_LUA_VERSION
+	string "lua version to use?"
+	default "lua-5.4.3"
+	help
+	  Select which version to use.
+
+endif

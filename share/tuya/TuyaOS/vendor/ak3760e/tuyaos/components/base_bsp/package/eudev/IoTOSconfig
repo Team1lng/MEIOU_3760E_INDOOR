@@ -1,0 +1,42 @@
+config TUYA_PACKAGE_HAS_UDEV
+	bool
+
+menuconfig TUYA_PACKAGE_EUDEV
+	bool "eudev"
+	depends on TUYA_DEVICE_CREATION_DYNAMIC
+	select TUYA_PACKAGE_HAS_UDEV
+	select TUYA_PACKAGE_UTIL_LINUX
+#	select TUYA_PACKAGE_UTIL_LINUX_LIBS
+	select TUYA_PACKAGE_UTIL_LINUX_LIBBLKID
+	help
+	  eudev is a fork of systemd-udev with the goal of obtaining
+	  better compatibility with existing software such as OpenRC and
+	  Upstart, older kernels, various toolchains and anything else
+	  required by users and various distributions.
+
+	  https://wiki.gentoo.org/wiki/Project:Eudev
+
+if TUYA_PACKAGE_EUDEV
+
+config TUYA_PACKAGE_EUDEV_VERSION
+	string "eudev version to use?"
+	default "eudev-3.2.9"
+	help
+	  Select which version to use.
+
+config TUYA_PACKAGE_PROVIDES_UDEV
+	string
+	default "eudev"
+
+config TUYA_PACKAGE_EUDEV_RULES_GEN
+	bool "enable rules generator"
+	help
+	  Enable persistent rules generator
+
+config TUYA_PACKAGE_EUDEV_ENABLE_HWDB
+	bool "enable hwdb installation"
+	default y
+	help
+	  Enables hardware database installation to /etc/udev/hwdb.bin
+
+endif

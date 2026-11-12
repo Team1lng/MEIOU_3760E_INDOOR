@@ -1,0 +1,13 @@
+diff --git a/configure b/configure
+index 6a0de36..9335611 100755
+--- a/configure
++++ b/configure
+@@ -6017,7 +6017,7 @@ $as_echo "ok (${host_cpu})" >&6; }
+         ARCH_MAX="s390x"
+         ;;
+ 
+-     armv7*)
++     arm|armv7*)
+ 	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: ok (${host_cpu})" >&5
+ $as_echo "ok (${host_cpu})" >&6; }
+ 	ARCH_MAX="arm"

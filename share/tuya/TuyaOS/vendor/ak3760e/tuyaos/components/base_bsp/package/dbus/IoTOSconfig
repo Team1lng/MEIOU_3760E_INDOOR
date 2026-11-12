@@ -1,0 +1,17 @@
+menuconfig TUYA_PACKAGE_DBUS
+	bool "dbus"
+	select TUYA_PACKAGE_EXPAT
+	help
+	  The D-Bus message bus system.
+
+	  http://www.freedesktop.org/wiki/Software/dbus
+
+if TUYA_PACKAGE_DBUS
+
+config TUYA_PACKAGE_DBUS_VERSION
+	string "dbus version to use?"
+	default "dbus-1.12.2"
+	help
+	  Select which version to use.
+
+endif

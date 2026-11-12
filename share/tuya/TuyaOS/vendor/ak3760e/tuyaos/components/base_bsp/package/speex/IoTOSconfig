@@ -1,0 +1,19 @@
+menuconfig TUYA_PACKAGE_SPEEX
+	bool "speex"
+	select TUYA_PACKAGE_LIBOGG
+	help
+	  Speex is an Open Source/Free Software patent-free
+	  audio compression format designed for speech.
+	  It can be used for Voice over IP
+
+	  http://www.speex.org/
+
+if TUYA_PACKAGE_SPEEX
+
+config TUYA_PACKAGE_SPEEX_VERSION
+	string "speex version to use?"
+	default "speex-1.2.0"
+	help
+	  Select which version to use.
+
+endif

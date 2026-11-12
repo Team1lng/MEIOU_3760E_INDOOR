@@ -1,0 +1,28 @@
+menuconfig TUYA_PACKAGE_LIBSOUP
+	bool "libsoup"
+	select TUYA_PACKAGE_LIBXML2
+	select TUYA_PACKAGE_LIBGLIB2
+	select TUYA_PACKAGE_SQLITE
+	help
+	  libsoup is an HTTP client/server library. It uses GObject
+	  and the GLib main loop, to integrate well with GNOME
+	  applications.
+
+	  https://wiki.gnome.org/Projects/libsoup
+
+if TUYA_PACKAGE_LIBSOUP
+
+config TUYA_PACKAGE_LIBSOUP_VERSION
+	string "libsoup version to use?"
+	default "libsoup-2.72.0"
+	help
+	  Select which version to use.
+
+config TUYA_PACKAGE_LIBSOUP_SSL
+	bool "https support"
+	select TUYA_PACKAGE_GLIB_NETWORKING
+	select TUYA_PACKAGE_GNUTLS
+	help
+	  Enable HTTPS (SSL) support.
+
+endif

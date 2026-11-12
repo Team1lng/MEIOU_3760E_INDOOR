@@ -1,0 +1,16 @@
+menuconfig TUYA_PACKAGE_LZO
+	bool "lzo"
+	help
+	  Portable lossless data compression library written in ANSI C.
+
+	  http://www.oberhumer.com/opensource/lzo/
+
+if TUYA_PACKAGE_LZO
+
+config TUYA_PACKAGE_LZO_VERSION
+	string "lzo version to use?"
+	default "lzo-2.10"
+	help
+	  Select which version to use.
+
+endif

@@ -1,0 +1,16 @@
+menuconfig TUYA_PACKAGE_FLAC
+	bool "flac"
+	help
+	  FLAC is an Open Source lossless audio codec.
+
+	  http://flac.sourceforge.net/
+
+if TUYA_PACKAGE_FLAC
+
+config TUYA_PACKAGE_FLAC_VERSION
+	string "flac version to use?"
+	default "flac-1.3.3"
+	help
+	  Select which version to use.
+
+endif

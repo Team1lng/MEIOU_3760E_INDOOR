@@ -1,0 +1,24 @@
+menuconfig TUYA_PACKAGE_WEBP
+	bool "webp"
+	help
+	  WebP is a new image format that provides lossless and lossy
+	  compression for images on the web
+
+	  https://developers.google.com/speed/webp/
+
+if TUYA_PACKAGE_WEBP
+
+config TUYA_PACKAGE_WEBP_VERSION
+	string "webp version to use?"
+	default "libwebp-1.1.0"
+	help
+	  Select which version to use.
+
+config TUYA_PACKAGE_WEBP_MUX
+	bool "webpmux"
+	help
+	  Mux is a part of WebPMux for creation and manipulation
+	  of an extended format WebP file, which can have features
+	  like color profile, metadata and animation.
+
+endif

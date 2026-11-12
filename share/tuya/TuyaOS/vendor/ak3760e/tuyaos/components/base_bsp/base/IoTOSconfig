@@ -1,0 +1,310 @@
+menu "Tuya BSP system configuration"
+
+menu "Platform selection"
+
+config TUYA_ARCH_IS_64
+	bool
+
+choice
+	prompt "Target Architecture"
+	default TUYA_TARGET_ARCH_ARM
+	help
+		Select the target architecture family to build for.
+
+config TUYA_TARGET_ARCH_ARM
+	bool "ARM (little endian)"
+	help
+	  ARM is a 32-bit reduced instruction set computer (RISC)
+	  instruction set architecture (ISA) developed by ARM Holdings.
+	  Little endian.
+
+config TUYA_TARGET_ARCH_AARCH64
+	bool "AArch64 (little endian)"
+	select TUYA_ARCH_IS_64
+	help
+	  Aarch64 is a 64-bit architecture developed by ARM Holdings.
+
+config TUYA_TARGET_ARCH_MIPS
+	bool "MIPS (big endian)"
+	help
+	  MIPS is a RISC microprocessor from MIPS Technologies. Big
+	  endian.
+
+config TUYA_TARGET_ARCH_MIPSEL
+	bool "MIPS (little endian)"
+	help
+	  MIPS is a RISC microprocessor from MIPS Technologies. Little
+	  endian.
+
+config TUYA_TARGET_ARCH_RLX
+	bool "rlx"
+	help
+	  rlx is a RISC microprocessor from MIPS Technologies. Little
+	  endian.
+
+endchoice
+
+config TUYA_TARGET_ARCH
+	string
+	default "arm" if TUYA_TARGET_ARCH_ARM
+	default "aarch64" if TUYA_TARGET_ARCH_AARCH64
+	default "mips" if TUYA_TARGET_ARCH_MIPS
+	default "mipsel" if TUYA_TARGET_ARCH_MIPSEL
+	default "rlx" if TUYA_TARGET_ARCH_RLX
+
+config TUYA_TARGET_ENDIAN
+	string
+	default "little" if (TUYA_TARGET_ARCH_ARM || TUYA_TARGET_ARCH_AARCH64 || TUYA_TARGET_ARCH_MIPSEL)
+	default "big" if TUYA_TARGET_ARCH_MIPSEL
+
+config TUYA_CROSS_COMPILE
+	string "Cross-compiler tool prefix"
+	help
+	  Same as running 'make CROSS_COMPILE=prefix-' but stored for
+	  default make runs in this SDK build directory.  You don't
+	  need to set this unless you want the configured SDK build
+	  directory to select the cross-compiler automatically.
+
+endmenu
+
+menu "Filesystem selection"
+choice
+	prompt "Target Rootfs Type"
+	default TUYA_TARGET_ROOTFS_SQUASHFS
+	help
+		Select the target rootfs filesystem type
+
+config TUYA_TARGET_ROOTFS_SQUASHFS
+	bool "squashfs"
+
+config TUYA_TARGET_ROOTFS_JFFS2
+	bool "jffs2"
+
+config TUYA_TARGET_ROOTFS_INITRAMFS
+	bool "initramfs"
+
+config TUYA_TARGET_ROOTFS_UBIFS
+	bool "ubifs"
+
+config TUYA_TARGET_ROOTFS_EXT4
+	bool "ext4"
+
+endchoice
+
+if TUYA_TARGET_ROOTFS_INITRAMFS
+choice
+	prompt "Initramfs Compression Method"
+	default TUYA_TARGET_ROOTFS_INITRAMFS_NONE
+	help
+	  Select compressor for cpio/initramfs filesystem.
+
+config TUYA_TARGET_ROOTFS_INITRAMFS_NONE
+	bool "none"
+
+config TUYA_TARGET_ROOTFS_INITRAMFS_GZIP
+	bool "gzip"
+
+config TUYA_TARGET_ROOTFS_INITRAMFS_BZIP2
+	bool "bzip2"
+
+config TUYA_TARGET_ROOTFS_INITRAMFS_LZMA
+	bool "lzma"
+
+config TUYA_TARGET_ROOTFS_INITRAMFS_LZO
+	bool "lzo"
+
+config TUYA_TARGET_ROOTFS_INITRAMFS_XZ
+	bool "xz"
+
+endchoice
+endif
+endmenu
+
+menu "Build Optimize Options"
+config TUYA_TARGET_CFLAGS
+	string "Target GCC options"
+	default "-Os"
+	help
+	  Extra options to pass to the gcc when building for the target
+
+config TUYA_TARGET_LDFLAGS
+	string "Target linker options"
+	default ""
+	help
+	  Extra options to pass to the linker when building for the target
+
+config TUYA_ENABLE_DEBUG
+	bool "Build with debug info"
+	default n
+
+endmenu
+
+menu "System security options"
+
+config TUYA_TARGET_ROOT_PASSWD
+	string "Root password"
+	default ""
+	help
+	  Set the initial root password (in clear). It will be md5-encrypted.
+
+	  If set to empty (the default), then no root password will be set,
+	  and root will need no password to log in.
+
+config TUYA_TARGET_PASSWD_METHOD
+	string
+	default "sha-256"
+
+config TUYA_TARGET_SECURE_BOOT
+	bool "Enable secure boot"
+	default n
+
+config TUYA_TARGET_CRYPTFS_ENABLE
+	bool "Enable filesystem encrypt support"
+	default n
+
+config TUYA_TARGET_USER_MODE_RUN_APP
+       bool "Enable user mode run app"
+       default n
+
+config  TUYA_TARGET_CAPABILITY_SET_IN_BOARD
+       bool "Enable setcap to divide autority in board"
+       default n
+       depends on TUYA_TARGET_USER_MODE_RUN_APP
+
+config TUYA_TARGET_USER_NAME
+        string "Login normal user name"
+        default "user"
+        depends on TUYA_TARGET_USER_MODE_RUN_APP
+
+config TUYA_TARGET_GROUP_NAME
+        string "Login user group name"
+        default "user"
+        depends on TUYA_TARGET_USER_MODE_RUN_APP
+
+
+
+config TUYA_TARGET_USER_PASSWD
+        string "Login normal user passwd"
+        default "123456"
+        depends on TUYA_TARGET_USER_MODE_RUN_APP
+
+config TUYA_TARGET_USER_PASSWD_METHOD
+	string "Passwd mode des,md5,sha-256,sha-512"
+	default "md5"
+        depends on TUYA_TARGET_USER_MODE_RUN_APP
+
+config TUYA_TARGET_USER_ID
+        int "Normal user id"
+        default 102
+        depends on TUYA_TARGET_USER_MODE_RUN_APP
+
+config TUYA_TARGET_GROUP_ID
+        int "Normal user group id"
+        default 102
+        depends on TUYA_TARGET_USER_MODE_RUN_APP
+
+endmenu
+
+config TUYA_TARGET_HOSTNAME
+	string "System hostname"
+	default "Tuya Linux"
+	help
+	  Select system hostname to be stored in /etc/hostname.
+
+	   Leave empty to not create /etc/hostname, or to keep the
+	   one from a custom skeleton.
+
+config TUYA_ROOTFS_OVERLAY
+	string "Root filesystem overlay directories"
+	default ""
+	help
+	  Specify a list of directories that are copied over the target
+	  root filesystem after the build has finished and before it is
+	  packed into the selected filesystem images.
+
+config TUYA_TARGET_GENERIC_GETTY
+        bool "Run a getty (login prompt) after boot"
+	        default y
+
+if TUYA_TARGET_GENERIC_GETTY
+menu "getty options"
+config TUYA_TARGET_GENERIC_GETTY_PORT
+	string "TTY port"
+	default "ttyS0"
+	help
+	  Specify a port to run a getty on.
+
+choice
+	prompt "Baudrate"
+	default TUYA_TARGET_GENERIC_GETTY_BAUDRATE_115200
+	help
+	  Select a baudrate to use.
+
+config TUYA_TARGET_GENERIC_GETTY_BAUDRATE_KEEP
+	bool "keep kernel default"
+config TUYA_TARGET_GENERIC_GETTY_BAUDRATE_9600
+	bool "9600"
+config TUYA_TARGET_GENERIC_GETTY_BAUDRATE_19200
+	bool "19200"
+config TUYA_TARGET_GENERIC_GETTY_BAUDRATE_38400
+	bool "38400"
+config TUYA_TARGET_GENERIC_GETTY_BAUDRATE_57600
+	bool "57600"
+config TUYA_TARGET_GENERIC_GETTY_BAUDRATE_115200
+	bool "115200"
+config TUYA_TARGET_GENERIC_GETTY_BAUDRATE_1500000
+	bool "1500000"
+endchoice
+
+config TUYA_TARGET_GENERIC_GETTY_BAUDRATE
+	string
+	default "0"             if TUYA_TARGET_GENERIC_GETTY_BAUDRATE_KEEP
+	default "9600"          if TUYA_TARGET_GENERIC_GETTY_BAUDRATE_9600
+	default "19200"         if TUYA_TARGET_GENERIC_GETTY_BAUDRATE_19200
+	default "38400"         if TUYA_TARGET_GENERIC_GETTY_BAUDRATE_38400
+	default "57600"         if TUYA_TARGET_GENERIC_GETTY_BAUDRATE_57600
+	default "115200"        if TUYA_TARGET_GENERIC_GETTY_BAUDRATE_115200
+	default "1500000"       if TUYA_TARGET_GENERIC_GETTY_BAUDRATE_1500000
+
+config TUYA_TARGET_GENERIC_GETTY_TERM
+	string "TERM environment variable"
+	default "vt100"
+	help
+	  Specify a TERM type.
+
+config TUYA_TARGET_GENERIC_GETTY_OPTIONS
+	string "other options to pass to getty"
+	default ""
+	help
+	  Any other flags you want to pass to getty,
+	  Refer to getty --help for details.
+endmenu
+endif
+
+choice
+	prompt "/dev management"
+	default TUYA_DEVICE_CREATION_DYNAMIC
+
+config TUYA_DEVICE_CREATION_STATIC
+	bool "Static using device table"
+
+config TUYA_DEVICE_CREATION_DYNAMIC
+	bool "Dynamic using mdev/udev"
+endchoice
+
+config TUYA_STATIC_DEVICE_TABLE
+	string "Path to the device tables"
+	default "system/device_table_dev.txt"
+	depends on TUYA_DEVICE_CREATION_STATIC
+	help
+	  Specify a space-separated list of device table locations
+
+config TUYA_TARGET_ZRAM_ENABLE
+	bool "Enable compressed RAM block device support"
+	default n
+
+config TUYA_PRODUCT_RELEASE_NAME
+	string "Release Archive Name"
+	default "$(TUYA_PRODUCT)"
+
+endmenu

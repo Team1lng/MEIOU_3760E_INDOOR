@@ -1,0 +1,19 @@
+menuconfig TUYA_PACKAGE_LIBOGG
+	bool "libogg"
+	help
+	  Ogg is a multimedia container format, and the native file
+	  and stream format for the Xiph.org multimedia codecs. As
+	  with all Xiph.org technology is it an open format free for
+	  anyone to use.
+
+	  http://xiph.org/ogg/
+
+if TUYA_PACKAGE_LIBOGG
+
+config TUYA_PACKAGE_LIBOGG_VERSION
+	string "libogg version to use?"
+	default "libogg-1.3.4"
+	help
+	  Select which version to use.
+
+endif

@@ -1,0 +1,24 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2022-07-14T13:52:08+08:00",
+  "id": "tuyaos_demo_ipc",
+  "duration": 0,
+  "title": "Tuya OS联网控制类应用",
+  "summary": "ipc component demo",
+  "source": "sdk_readme.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "quickstart",
+    "markdown"
+  ],
+  "tags": [
+    "web"
+  ],
+  "url": "tuyaos_demo_ipc"
+}

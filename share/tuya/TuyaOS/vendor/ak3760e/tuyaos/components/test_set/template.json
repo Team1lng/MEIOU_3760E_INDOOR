@@ -1,0 +1,244 @@
+{
+	"board": "xxxxxx",
+	"com_uart":{
+    		"enable":"1",
+    		"dev_name":"/dev/tty1",
+		"baud":"115200"
+	},
+	"com_tcp":{
+		"enable":"1",
+		"port":"8090"
+	},
+	"product_info":{
+		"enable":"1",
+		"mac_write":"1",
+		"lowpower_mode":"1",
+		"device_type":"IPcamera",
+		"firmware_name":"xxxxxx",
+		"firmware_version":"1.0.0",
+		"protocol_type":"general",
+		"protocol_version":"1.0.0.1"
+	},
+	"aging_test_info":{
+		"enable":"1",
+		"camera_test":"1",
+		"ircut_test":"1",
+		"irled_test":"1",
+		"led_group_test":"1",
+		"audio_test":"1",
+		"white_led_test":"1",
+		"motor_test":"1",
+		"sleep_s":"1"
+	},
+	"single_board_test_info":{
+		"enable":"1",
+		"camera_test":"1",
+		"ircut_test":"1",
+		"irled_test":"1",
+		"led_group_test":"1",
+		"audio_test":"1",
+		"white_led_test":"1",
+		"motor_test":"1",
+		"sleep_s":"1"
+	},
+	"product_cfg": {
+		"enable":"1",
+		"dynamic_passwd":"1",
+		"passwd_path":"/tuya/data",
+		"version_path":"/tuya/app/skyeye/conf/version",
+		"tiny_alsa":"1",
+		"sub_mcu_keys":"1",
+		"download_filename":"test.pcm",
+		"play_filename":"test.pcm",
+		"config_dir":"/tmp/"
+	},
+	"media_cfg":{
+		"enable":"1",
+		"video_num":"0",
+	        "video_fps":"25",
+		"video_gop":"50",
+		"video_bitrate":"1536",
+		"video_width":"2304",
+		"video_height":"1296",
+		"video_codectype":"4",
+		"video_minQp":"26",
+		"video_maxQp":"48",
+                "audio_num":"0",
+		"audio_sample":"8000",
+		"audio_databits":"16",
+		"audio_channel":"0",
+		"audio_codectype":"105",
+		"audio_fps":"25",
+		"mic_volume":"15",
+		"spk_volume":"5"
+	},
+	"camera_1": {
+		"enable":"1",
+		"sensor_type":"sc3335",
+		"seneor_flip":"0",
+		"sensor_mirror":"1"
+	},
+
+	"alarm_tool":{
+		"enable":"1",
+		"gpio_num":"52",
+		"high_active": "1"
+	},
+	"alarm_in":{
+		"enable":"1",
+		"gpio_num":"61",
+		"high_active": "0"
+	},
+	"alarm_out":{
+		"enable":"1",
+		"gpio_num":"52",
+		"high_active": "1"
+	},
+	"wifi":{
+		"enable":"1",
+		"wifi_type":"ssw101b",
+		"mac_in_fuse":"1"
+	},
+	"subg":{
+		"enable":"1",
+		"dev_name":"/dev/tysubg"
+	},
+	"motor":{
+		"enable":"1",
+		"dev_name":"/dev/tymotor",
+		"pan_speed":"1",
+		"tilt_speed":"1",
+		"pan_max_step":"4000",
+		"tilt_max_step":"2000",
+		"limit_switch":"0"
+	},
+	"led_red": {
+		"enable":"1",
+		"controlled_by_pwm":"0",
+		"gpio_num": "16",
+		"high_active": "1",
+		"is_in_group":"1"
+	},
+	"led_green": {
+		"enable":"1",
+		"controlled_by_pwm":"0",
+		"gpio_num": "16",
+		"high_active": "1",
+		"is_in_group":"1"
+	},
+	"led_blue": {
+		"enable":"1",
+		"controlled_by_pwm":"0",
+		"gpio_num": "16",
+		"high_active": "1",
+		"is_in_group":"1"
+	},
+	"led_white": {
+		"enable":"1",
+		"controlled_by_pwm":"0",
+		"gpio_num": "16",
+		"high_active": "1",
+		"is_in_group":"1"
+	},
+	"led_idle": {
+		"enable":"1",
+		"controlled_by_pwm":"0",
+		"gpio_num": "16",
+		"high_active": "1",
+		"is_in_group":"1"
+	},
+
+	"led_red_pwm": {
+		"enable":"1",
+		"pwm_device": "0",
+		"pwm_channel": "-1",
+		"pwm_duty":"50",
+                "pwm_frequency":"25000",
+		"polarity_inversed": "0"
+	},
+	"led_green_pwm": {
+		"enable":"1",
+		"pwm_device": "0",
+		"pwm_channel": "-1",
+		"pwm_duty":"50",
+                "pwm_frequency":"25000",
+		"polarity_inversed": "0"
+	},
+	"led_blue_pwm": {
+		"enable":"1",
+		"pwm_device": "0",
+		"pwm_channel": "-1",
+		"pwm_duty":"50",
+                "pwm_frequency":"25000",
+		"polarity_inversed": "0"
+	},
+	"led_white_pwm": {
+		"enable":"1",
+		"pwm_device": "0",
+		"pwm_channel": "-1",
+		"polarity_inversed": "0"
+	},
+	"led_idle_pwm": {
+		"enable":"1",
+		"pwm_device": "0",
+		"pwm_channel": "-1",
+		"pwm_duty":"50",
+                "pwm_frequency":"25000",
+		"polarity_inversed": "0"
+	},
+	"irled_red": {
+		"enable":"1",
+		"gpio_num": "16",
+		"high_active": "1",
+		"is_in_group":"1"
+	},
+	"irled_red_pwm": {
+		"enable":"1",
+		"pwm_device": "0",
+		"pwm_channel": "-1",
+		"polarity_inversed": "0"
+	},
+	"ircut_1": {
+		"enable":"1",
+    		"ircut_pin1": "78",
+    		"ircut_pin2": "79",
+    		"high_active": "1",
+		"ircut_reverse": "0"
+    	},
+	"key_1": {
+		"enable":"1",
+		"gpio_num":"66",
+    		"high_active": "0"
+    	},
+	"speaker_1": {
+		"enable":"1",
+    		"gpio_num": "66",
+    		"high_active": "1"
+    	},
+    	"adc_1": {
+		"enable":"1",
+   		"index":"2"
+    	},
+    	"led_ir_pwm": {
+		"enable":"0",
+    		"pwm_device": "0",
+    		"pwm_channel": "-1",
+    		"polarity_inversed": "0"
+    	},
+	"key_factory_reset": {
+		"enable":"0",
+     		"gpio_num": "-1",
+     		"high_active": "1"
+    	},
+	"pir": {
+		"enable":"0",
+    		"gpio_irq": "-1",
+    		"gpio_irq_high_active": "-1"
+    	},
+    	"modem_4g": {
+		"enable":"0",
+     		"net_dev": "-1",
+     		"at_port": "-1",
+     		"at_port_baud": "-1"
+    }
+}

@@ -1,0 +1,38 @@
+menuconfig TUYA_PACKAGE_ALSA_PLUGINS
+	bool "alsa-plugins"
+	depends on TUYA_PACKAGE_ALSA_LIB
+	help
+	  Advanced Linux Sound Architecture Plugins
+
+	  http://www.alsa-project.org/
+
+if TUYA_PACKAGE_ALSA_PLUGINS
+
+config TUYA_PACKAGE_ALSA_PLUGINS_VERSION
+	string "alsa-plugins version to use?"
+	default "alsa-plugins-1.1.5"
+	help
+	  Select which version to use.
+
+config TUYA_PACKAGE_ALSA_PLUGINS_MIX
+	bool "Enable upmix and vdownmix plugin"
+
+config TUYA_PACKAGE_ALSA_PLUGINS_USBSTREAM
+	bool "Enable usb_stream plugin"
+
+config TUYA_PACKAGE_ALSA_PLUGINS_ARCAMAV
+	bool "Enable Arcam AV control plugin"
+
+config TUYA_PACKAGE_ALSA_PLUGINS_SAMPLERATE
+	bool "Enable samplerate plugin"
+	select TUYA_PACKAGE_LIBSAMPLERATE
+
+config TUYA_PACKAGE_ALSA_PLUGINS_A52
+	bool "Enable plugins depending on avcodec (a52)"
+	select TUYA_PACKAGE_FFMPEG
+
+config TUYA_PACKAGE_ALSA_PLUGINS_SPEEX
+	bool "Enable speex plugin"
+	select TUYA_PACKAGE_SPEEX
+
+endif

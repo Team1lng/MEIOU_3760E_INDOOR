@@ -1,0 +1,26 @@
+From 882ebbb3ea70cae4a686b48140765f443d50a412 Mon Sep 17 00:00:00 2001
+From: Jason <jsliu@tuya.com>
+Date: Mon, 25 Oct 2021 11:43:28 +0800
+Subject: [PATCH] [fix] build error
+
+Signed-off-by: Jason <jsliu@tuya.com>
+---
+ poptconfig.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/poptconfig.c b/poptconfig.c
+index 8c8ee48..b3e1d5a 100644
+--- a/poptconfig.c
++++ b/poptconfig.c
+@@ -45,7 +45,7 @@ extern int glob_pattern_p (const char *__pattern, int __quote)
+ #if !defined(HAVE_GLOB_PATTERN_P)
+ /* Return nonzero if PATTERN contains any metacharacters.
+    Metacharacters can be quoted with backslashes if QUOTE is nonzero.  */
+-static int
++int
+ glob_pattern_p (const char * pattern, int quote)
+ 	/*@*/
+ {
+-- 
+2.33.0
+

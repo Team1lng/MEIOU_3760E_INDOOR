@@ -1,0 +1,89 @@
+#include "PCMMediaSubsession.hh"
+#include "XXPCMLiveSource.hh"
+#include "H264or5FramedLiveSource.hh"
+#include "H264VideoStreamFramer.hh"
+#include "H264VideoRTPSink.hh"
+#include <RTCP.hh>
+#include "SimpleRTPSink.hh"
+
+XXPCMServerMediaSubssion::XXPCMServerMediaSubssion(
+    UsageEnvironment &env,
+    Boolean reuseFirstSource,
+    Groupsock *rtpGroupsock,
+    Groupsock *rtcpGroupsock) : OnDemandServerMediaSubsession(env, reuseFirstSource),
+                                fRTPSock(rtpGroupsock),
+                                fRTCPSock(rtcpGroupsock),
+                                fRTCPInstance(NULL) // 初始化RTCP实例为NULL
+{
+  printf("[%s:%d] 初始化组播媒体子会话\n", __func__, __LINE__);
+}
+
+XXPCMServerMediaSubssion::~XXPCMServerMediaSubssion()
+{
+  // 释放RTCP实例（由子会话创建，需手动释放）
+  if (fRTCPInstance != NULL)
+  {
+    Medium::close(fRTCPInstance);
+    fRTCPInstance = NULL;
+  }
+  printf("[%s:%d] 销毁组播媒体子会话\n", __func__, __LINE__);
+}
+
+RTPSink *XXPCMServerMediaSubssion::createNewRTPSink(
+    Groupsock *rtpGroupsock,
+    unsigned char rtpPayloadTypeIfDynamic,
+    FramedSource *inputSource)
+{
+  printf("[%s:%d] 为PCM音频创建RTPSink\n", __func__, __LINE__);
+
+  // PCM音频需要使用SimpleRTPSink，并指定正确的音频参数
+  // 参数说明：
+  // 1. 环境变量
+  // 2. RTP传输的Groupsock
+  // 3. 负载类型（动态类型通常使用96-127）
+  // 4. 采样率（与PCM源一致，例如8000Hz）
+  // 5. 媒体类型（固定为"audio"）
+  // 6. 编码格式（PCM 16位对应"L16"）
+  // 7. 声道数（1=单声道，2=立体声）
+  // 8. 是否使用动态负载类型（固定为True）
+  return SimpleRTPSink::createNew(envir(),
+                                  fRTPSock,
+                                  rtpPayloadTypeIfDynamic, // 使用传入的动态负载类型
+                                  8000,                    // 采样率，需与PCM源匹配
+                                  "audio",
+                                  "PCMU", // 16位线性PCM
+                                  1,      // 声道数，根据实际情况修改
+                                  True);
+}
+
+FramedSource *XXPCMServerMediaSubssion::createNewStreamSource(
+    unsigned clientSessionId,
+    unsigned &estBitrate)
+{
+  printf("[%s:%d] 创建PCM音频源\n", __func__, __LINE__);
+  estBitrate = 64; // PCM音频预估带宽（根据实际采样率调整，例如8000Hz单声道16位约128kbps）
+
+  // 创建PCM音频源
+  PCMLiveSource *liveSource = PCMLiveSource::createNew(envir());
+  if (liveSource == NULL)
+  {
+    envir() << "Failed to create PCM audio source!\n";
+    return NULL;
+  }
+
+  // 直接返回原始PCM源（PCM无需复杂的帧解析，RTP打包时指定参数即可）
+  return liveSource;
+}
+
+XXPCMServerMediaSubssion *XXPCMServerMediaSubssion::createNew(
+    UsageEnvironment &env,
+    Boolean reuseFirstSource,
+    Groupsock *rtpGroupsock,
+    Groupsock *rtcpGroupsock)
+{
+  return new XXPCMServerMediaSubssion(
+      env,
+      reuseFirstSource,
+      rtpGroupsock,
+      rtcpGroupsock);
+}

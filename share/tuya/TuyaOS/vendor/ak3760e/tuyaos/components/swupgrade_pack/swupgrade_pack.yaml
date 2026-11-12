@@ -1,0 +1,15 @@
+spec:
+  name: swupgrade_pack
+  version: 1.0.0
+  summary: embed module created by embedded-cli.
+  homepage: YOUR_HOMEPAGE
+  license:
+    type: MIT
+    file: LICENSE
+  author:
+    name: embedCI
+    email: embed@tuya.com
+  source:
+    git: https://code.registry.wgine.com/ci_bsp_group/swupgrade_pack.git
+    tag: 1.0.0
+

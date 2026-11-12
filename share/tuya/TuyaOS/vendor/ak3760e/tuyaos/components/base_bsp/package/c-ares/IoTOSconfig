@@ -1,0 +1,16 @@
+menuconfig TUYA_PACKAGE_C_ARES
+	bool "c-ares"
+	help
+	  C library for asynchronous DNS requests.
+
+	  http://c-ares.haxx.se/
+
+if TUYA_PACKAGE_C_ARES
+
+config TUYA_PACKAGE_C_ARES_VERSION
+	string "c-ares version to use?"
+	default "c-ares-1.16.0"
+	help
+	  Select which version to use.
+
+endif

@@ -1,0 +1,77 @@
+menuconfig TUYA_PACKAGE_LIBCURL
+	bool "libcurl"
+	help
+	  cURL is a tool for getting files from FTP, HTTP, Gopher,
+	  Telnet, and Dict servers, using any of the supported
+	  protocols.
+
+	  http://curl.haxx.se/
+
+if TUYA_PACKAGE_LIBCURL
+
+config TUYA_PACKAGE_LIBCURL_VERSION
+	string "libcurl version to use?"
+	default "curl-7.69.1"
+	help
+	  Select which version to use.
+
+config TUYA_PACKAGE_LIBCURL_CURL
+	bool "curl binary"
+	help
+	  Install curl binary as well
+
+config TUYA_PACKAGE_LIBCURL_VERBOSE
+	bool "verbose strings"
+	help
+	  Enable verbose text strings
+
+config TUYA_PACKAGE_LIBCURL_HTTP2_SUPPORT
+	bool "http2 support"
+	default n
+	select TUYA_PACKAGE_NGHTTP2
+	help
+	  Enable http2 support.
+
+config TUYA_PACKAGE_LIBCURL_PROXY_SUPPORT
+	bool "proxy support"
+	default y
+	help
+	  Enable proxy support.
+
+config TUYA_PACKAGE_LIBCURL_COOKIES_SUPPORT
+	bool "cookies support"
+	default y
+	help
+	  Enable support for cookies.
+
+config TUYA_PACKAGE_LIBCURL_EXTRA_PROTOCOLS_FEATURES
+	bool "enable extra protocols and features"
+	default y
+	help
+	  Enable the following extra protocols and features:
+	  - LDAP / LDAPS
+	  - POP3 / IMAP / SMTP
+	  - Telnet
+	  - TFTP
+	  - RTSP
+	  - SMB / CIFS
+	  - DICT
+	  - Gopher
+
+choice
+	prompt "SSL/TLS library to use"
+
+config TUYA_PACKAGE_LIBCURL_OPENSSL
+	bool "OpenSSL"
+	depends on TUYA_PACKAGE_OPENSSL
+
+config TUYA_PACKAGE_LIBCURL_MBEDTLS
+	bool "mbed TLS"
+	depends on TUYA_PACKAGE_MBEDTLS
+
+config TUYA_PACKAGE_LIBCURL_TLS_NONE
+	bool "None"
+
+endchoice
+
+endif

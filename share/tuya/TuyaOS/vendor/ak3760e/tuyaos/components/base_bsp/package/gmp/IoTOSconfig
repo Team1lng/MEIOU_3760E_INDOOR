@@ -1,0 +1,16 @@
+menuconfig TUYA_PACKAGE_GMP
+	bool "gmp"
+	help
+	  GNU Multiple Precision Arithmetic Library.
+
+	  http://gmplib.org/
+
+if TUYA_PACKAGE_GMP
+
+config TUYA_PACKAGE_GMP_VERSION
+	string "gmp version to use?"
+	default "gmp-6.2.0"
+	help
+	  Select which version to use.
+
+endif

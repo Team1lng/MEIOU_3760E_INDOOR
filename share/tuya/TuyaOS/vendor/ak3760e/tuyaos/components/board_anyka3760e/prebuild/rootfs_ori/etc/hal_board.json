@@ -1,0 +1,77 @@
+{
+    "board": "xxxxxx",
+
+    "led_red": {
+        "controlled_by_pwm": "0",
+        "gpio_num": "-1",
+        "high_active": "1"
+    },
+    "led_green": {
+        "controlled_by_pwm": "0",
+        "gpio_num": "-1",
+        "high_active": "1"
+    },
+
+    "led_ir": {
+        "controlled_by_pwm": "1",
+        "pwm_device": "0",
+        "pwm_channel": "-1",
+        "polarity_inversed": "0"
+    },
+    "led_white_light": {
+        "controlled_by_pwm": "1",
+        "pwm_device": "0",
+        "pwm_channel": "-1",
+        "polarity_inversed": "0"
+    },
+
+    "key_factory_reset": {
+        "gpio_num": "-1",
+        "high_active": "1"
+    },
+
+    "pir": {
+        "gpio_irq": "-1",
+        "gpio_irq_high_active": "-1"
+    },
+
+    "ircut": {
+        "ircut_pin1": "-1",
+        "ircut_pin2": "-1"
+    },
+
+    "speaker_0": {
+        "gpio_num": "-1",
+        "high_active": "1"
+    },
+
+    "modem_4g": {
+        "net_dev": "-1",
+        "at_port": "-1",
+        "at_port_baud": "-1"
+    },
+
+    "ir": {
+        "device_rx": "/dev/lirc0",
+        "device_tx": "/dev/lirc1"
+    },
+
+    "rtc": {
+        "device": "/dev/rtc0"
+    },
+
+    "battery": {
+	"uevent_path":"/sys/devices/platform/soc/20150000.i2c0/i2c-0/0-0062",
+	"device_name":"power_supply/cw-bat"
+    },
+
+    "usb_storage": {
+        "uevent_path": "/sys/devices/platform/ehci",
+        "device_name": "block/sd"
+    },
+
+    "sdcard": {
+        "uevent_path": "/sys/devices/platform/rtk-sdmmc/mmc_host/mmc0",
+        "device_name": "block/mmcblk"
+    }
+}

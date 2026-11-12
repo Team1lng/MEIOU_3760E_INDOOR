@@ -1,0 +1,14 @@
+menuconfig TUYA_PACKAGE_GDB_SERVER
+	bool "gdb server"
+	help
+	  Build the gdbserver stub to run on the target.
+
+if TUYA_PACKAGE_GDB_SERVER
+
+config TUYA_PACKAGE_GDB_SERVER_VERSION
+	string "gdb server version to use?"
+	default "gdb-12.1"
+	help
+	  Select which version to use.
+
+endif

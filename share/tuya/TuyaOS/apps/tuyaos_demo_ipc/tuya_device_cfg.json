@@ -1,0 +1,10 @@
+{
+	"pid":"PID",
+	"uuid": "UUID",
+	"authkey": "AUTHKEY",
+	"storage": "./",
+	"media_path": "./",
+	"sd_path": "/tmp/",
+	"upgrade_file": "/tmp/upgrade.file",
+	"app_version": "1.2.3"
+}

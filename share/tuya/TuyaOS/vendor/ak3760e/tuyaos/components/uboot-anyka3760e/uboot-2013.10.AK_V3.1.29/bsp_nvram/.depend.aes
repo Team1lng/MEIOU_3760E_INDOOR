@@ -1,0 +1,21 @@
+aes.o: aes.c \
+ /home/xiongbing/project_ci/tuya_pad_ak3760e_sdk/sdk/uboot-anyka3760e/uboot-2013.10.AK_V3.1.29/include/linux/string.h \
+ /home/xiongbing/project_ci/tuya_pad_ak3760e_sdk/sdk/uboot-anyka3760e/uboot-2013.10.AK_V3.1.29/include/linux/types.h \
+ /home/xiongbing/project_ci/tuya_pad_ak3760e_sdk/sdk/uboot-anyka3760e/uboot-2013.10.AK_V3.1.29/include/linux/config.h \
+ /home/xiongbing/project_ci/tuya_pad_ak3760e_sdk/sdk/uboot-anyka3760e/uboot-2013.10.AK_V3.1.29/include/linux/posix_types.h \
+ /home/xiongbing/project_ci/tuya_pad_ak3760e_sdk/sdk/uboot-anyka3760e/uboot-2013.10.AK_V3.1.29/include/linux/stddef.h \
+ /home/xiongbing/project_ci/tuya_pad_ak3760e_sdk/sdk/uboot-anyka3760e/uboot-2013.10.AK_V3.1.29/include/asm/posix_types.h \
+ /home/xiongbing/project_ci/tuya_pad_ak3760e_sdk/sdk/uboot-anyka3760e/uboot-2013.10.AK_V3.1.29/include/asm/types.h \
+ /opt/arm-anykav500-linux-uclibcgnueabi/lib/gcc/arm-anykav500-linux-uclibcgnueabi/4.9.4/include/stdbool.h \
+ /home/xiongbing/project_ci/tuya_pad_ak3760e_sdk/sdk/uboot-anyka3760e/uboot-2013.10.AK_V3.1.29/include/asm/string.h \
+ /home/xiongbing/project_ci/tuya_pad_ak3760e_sdk/sdk/uboot-anyka3760e/uboot-2013.10.AK_V3.1.29/include/config.h \
+ /home/xiongbing/project_ci/tuya_pad_ak3760e_sdk/sdk/uboot-anyka3760e/uboot-2013.10.AK_V3.1.29/include/config_cmd_defaults.h \
+ /home/xiongbing/project_ci/tuya_pad_ak3760e_sdk/sdk/uboot-anyka3760e/uboot-2013.10.AK_V3.1.29/include/config_defaults.h \
+ /home/xiongbing/project_ci/tuya_pad_ak3760e_sdk/sdk/uboot-anyka3760e/uboot-2013.10.AK_V3.1.29/include/configs/anycloud_ak37e.h \
+ /home/xiongbing/project_ci/tuya_pad_ak3760e_sdk/sdk/uboot-anyka3760e/uboot-2013.10.AK_V3.1.29/include/configs/ak_board.h \
+ /home/xiongbing/project_ci/tuya_pad_ak3760e_sdk/sdk/uboot-anyka3760e/uboot-2013.10.AK_V3.1.29/include/asm/config.h \
+ /home/xiongbing/project_ci/tuya_pad_ak3760e_sdk/sdk/uboot-anyka3760e/uboot-2013.10.AK_V3.1.29/include/config_fallbacks.h \
+ /home/xiongbing/project_ci/tuya_pad_ak3760e_sdk/sdk/uboot-anyka3760e/uboot-2013.10.AK_V3.1.29/include/config_uncmd_spl.h \
+ /home/xiongbing/project_ci/tuya_pad_ak3760e_sdk/sdk/uboot-anyka3760e/uboot-2013.10.AK_V3.1.29/include/linux/linux_string.h \
+ /home/xiongbing/project_ci/tuya_pad_ak3760e_sdk/sdk/uboot-anyka3760e/uboot-2013.10.AK_V3.1.29/include/malloc.h \
+ aes.h

@@ -1,0 +1,23 @@
+export PATH=/bin:/sbin:/usr/bin:/usr/sbin
+PS1=rts3917
+
+if [ "$PS1" ]; then
+	if [ "`id -u`" -eq 0 ]; then
+		export PS1='# '
+	else
+		export PS1='$ '
+	fi
+fi
+
+export PAGER='/bin/more '
+export EDITOR='/bin/vi'
+export HISTSIZE=0
+export TMOUT=300
+
+# Source configuration files from /etc/profile.d
+for i in /etc/profile.d/*.sh ; do
+	if [ -r "$i" ]; then
+		. $i
+	fi
+	unset i
+done

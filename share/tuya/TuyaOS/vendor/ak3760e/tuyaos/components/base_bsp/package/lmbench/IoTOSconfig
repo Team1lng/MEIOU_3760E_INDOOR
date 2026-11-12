@@ -1,0 +1,18 @@
+menuconfig TUYA_PACKAGE_LMBENCH
+	bool "lmbench"
+	help
+	  LMbench is a suite of simple, portable,
+	  ANSI/C microbenchmarks for UNIX/POSIX.
+
+	  http://sourceforge.net/projects/lmbench
+	
+
+if TUYA_PACKAGE_LMBENCH
+
+config TUYA_PACKAGE_LMBENCH_VERSION
+	string "lmbench version to use?"
+	default "lmbench-3.0-a9"
+	help
+	  Select which version to use.
+
+endif

@@ -1,0 +1,22 @@
+menuconfig TUYA_PACKAGE_TCPDUMP
+	bool "tcpdump"
+	select TUYA_PACKAGE_LIBPCAP
+	help
+	  A tool for network monitoring and data acquisition.
+
+	  http://www.tcpdump.org/
+
+if TUYA_PACKAGE_TCPDUMP
+
+config TUYA_PACKAGE_TCPDUMP_VERSION
+	string "tcpdump version to use?"
+	default "tcpdump-4.9.3"
+	help
+	  Select which version to use.
+
+config TUYA_PACKAGE_TCPDUMP_SMB
+	bool "smb dump support"
+	help
+	  enable possibly-buggy SMB printer
+
+endif

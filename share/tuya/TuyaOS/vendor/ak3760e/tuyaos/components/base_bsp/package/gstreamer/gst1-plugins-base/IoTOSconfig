@@ -1,0 +1,159 @@
+menuconfig TUYA_PACKAGE_GST1_PLUGINS_BASE
+	bool "gst1-plugins-base"
+	help
+	  A basic set of well-supported plug-ins for GStreamer.
+
+	  http://gstreamer.freedesktop.org/
+
+if TUYA_PACKAGE_GST1_PLUGINS_BASE
+
+config TUYA_PACKAGE_GST1_PLUGINS_BASE_VERSION
+	string "gst-plugins-base version to use?"
+	default "gst-plugins-base-1.16.2"
+	help
+	  Select which version to use.
+
+config TUYA_PACKAGE_GST1_PLUGINS_BASE_INSTALL_TOOLS
+	bool "install tools"
+	help
+	  Install the gst-discoverer, gst-device-monitor and gst-play
+	  tools.
+
+comment "dependency-less plugins"
+
+config TUYA_PACKAGE_GST1_PLUGINS_BASE_PLUGIN_ADDER
+	bool "adder"
+	help
+	  Adds multiple streams
+
+config TUYA_PACKAGE_GST1_PLUGINS_BASE_PLUGIN_APP
+	bool "app"
+	help
+	  Elements used to communicate with applications
+
+config TUYA_PACKAGE_GST1_PLUGINS_BASE_PLUGIN_AUDIOCONVERT
+	bool "audioconvert (mandatory for audio playback)"
+	default y
+	help
+	  Convert audio to different formats
+
+config TUYA_PACKAGE_GST1_PLUGINS_BASE_PLUGIN_AUDIOMIXER
+	bool "audiomixer"
+	help
+	  Audio mixer plugin
+
+config TUYA_PACKAGE_GST1_PLUGINS_BASE_PLUGIN_AUDIORATE
+	bool "audiorate"
+	help
+	  Adjusts audio frames
+
+config TUYA_PACKAGE_GST1_PLUGINS_BASE_PLUGIN_AUDIOTESTSRC
+	bool "audiotestsrc"
+	help
+	  Creates audio test signals of given frequency and volume
+
+config TUYA_PACKAGE_GST1_PLUGINS_BASE_PLUGIN_COMPOSITOR
+	bool "compositor"
+	help
+	  Video compositor plugin
+
+config TUYA_PACKAGE_GST1_PLUGINS_BASE_PLUGIN_ENCODING
+	bool "encoding"
+	help
+	  various encoding-related elements
+
+config TUYA_PACKAGE_GST1_PLUGINS_BASE_PLUGIN_VIDEOCONVERT
+	bool "videoconvert"
+	help
+	  Colorspace conversion
+
+config TUYA_PACKAGE_GST1_PLUGINS_BASE_PLUGIN_GIO
+	bool "gio"
+	help
+	  GIO elements
+
+config TUYA_PACKAGE_GST1_PLUGINS_BASE_PLUGIN_OVERLAYCOMPOSITION
+	bool "overlaycomposition"
+	help
+	  Overlaycomposition plugin.
+
+config TUYA_PACKAGE_GST1_PLUGINS_BASE_PLUGIN_PLAYBACK
+	bool "playback"
+	default y
+	select TUYA_PACKAGE_GST1_PLUGINS_BASE_PLUGIN_TYPEFIND
+	help
+	  various playback elements
+
+config TUYA_PACKAGE_GST1_PLUGINS_BASE_PLUGIN_AUDIORESAMPLE
+	bool "audioresample (mandatory for audio playback)"
+	default y
+	help
+	  Resamples audio
+
+config TUYA_PACKAGE_GST1_PLUGINS_BASE_PLUGIN_RAWPARSE
+	bool "rawparse"
+	help
+	  Parses byte streams into raw frames
+
+config TUYA_PACKAGE_GST1_PLUGINS_BASE_PLUGIN_SUBPARSE
+	bool "subparse"
+	help
+	  Subtitle parsing
+
+config TUYA_PACKAGE_GST1_PLUGINS_BASE_PLUGIN_TCP
+	bool "tcp"
+	help
+	  transfer data over the network via TCP
+
+config TUYA_PACKAGE_GST1_PLUGINS_BASE_PLUGIN_TYPEFIND
+	bool "typefind"
+	default y
+	help
+	  default typefind functions
+
+config TUYA_PACKAGE_GST1_PLUGINS_BASE_PLUGIN_VIDEOTESTSRC
+	bool "videotestsrc"
+	help
+	  Creates a test video stream
+
+config TUYA_PACKAGE_GST1_PLUGINS_BASE_PLUGIN_VIDEORATE
+	bool "videorate"
+	help
+	  Adjusts video frames
+
+config TUYA_PACKAGE_GST1_PLUGINS_BASE_PLUGIN_VIDEOSCALE
+	bool "videoscale (mandatory for video playback)"
+	default y
+	help
+	  Resizes video
+
+config TUYA_PACKAGE_GST1_PLUGINS_BASE_PLUGIN_VOLUME
+	bool "volume (mandatory for audio playback)"
+	default y
+	help
+	  plugin for controlling audio volume
+
+comment "plugins with external dependencies"
+
+config TUYA_PACKAGE_GST1_PLUGINS_BASE_PLUGIN_ALSA
+	bool "alsa (mandatory for audio playback)"
+	select TUYA_PACKAGE_ALSA_LIB
+	select TUYA_PACKAGE_ALSA_LIB_MIXER
+	select TUYA_PACKAGE_ALSA_LIB_PCM
+	select TUYA_PACKAGE_ALSA_LIB_SEQ
+	help
+	  ALSA plugin library
+
+config TUYA_PACKAGE_GST1_PLUGINS_BASE_PLUGIN_OGG
+	bool "ogg (*.ogg audio/video)"
+	select TUYA_PACKAGE_LIBOGG
+	help
+	  ogg stream manipulation (info about ogg: http://xiph.org)
+
+config TUYA_PACKAGE_GST1_PLUGINS_BASE_PLUGIN_OPUS
+	bool "opus"
+	select TUYA_PACKAGE_OPUS
+	help
+	  Opus codec for speech and audio.
+
+endif

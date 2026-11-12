@@ -1,0 +1,50 @@
+--- netstat.c	2022-03-24 19:34:16.359912131 +0800
++++ source/networking/netstat.c	2022-03-24 20:10:51.328029355 +0800
+@@ -427,17 +427,42 @@ static int scan_inet_proc_line(struct in
+ 	 * of IPv6 address, followed by :PORT_IN_HEX
+ 	 */
+ 	char local_addr[33], rem_addr[33]; /* 32 + 1 for NUL */
++    char local_addr_buf[38];
++    char rem_addr_buf[38];
++    char *tmp = NULL;
+ 
++    memset( local_addr, 0x0, sizeof( local_addr ) );
++    memset( local_addr_buf, 0x0, sizeof( local_addr_buf ) );
++    memset( rem_addr, 0x0, sizeof( rem_addr ) );
++    memset( rem_addr_buf, 0x0, sizeof( rem_addr_buf ) );
+ 	num = sscanf(line,
+-			"%*d: %32[0-9A-Fa-f]:%X "
+-			"%32[0-9A-Fa-f]:%X %X "
++			"%*d: %s "
++			"%s %X "
+ 			"%lX:%lX %*X:%*X "
+ 			"%*X %d %*d %lu ",
+-			local_addr, &param->local_port,
+-			rem_addr, &param->rem_port, &param->state,
++			local_addr_buf, 
++			rem_addr_buf, &param->state,
+ 			&param->txq, &param->rxq,
+ 			&param->uid, &param->inode);
+-	if (num < 9) {
++	if (num < 7) {
++		return 1; /* error */
++	}
++
++    tmp = strchr( local_addr_buf, ':' );
++    if ( !tmp )
++        return 1;
++    *tmp = ' ';
++    num = sscanf( local_addr_buf, "%s %X", local_addr, &param->local_port );
++	if (num < 2) {
++		return 1; /* error */
++	}
++
++    tmp = strchr( rem_addr_buf, ':' );
++    if ( !tmp )
++        return 1;
++    *tmp = ' ';
++    sscanf( rem_addr_buf, "%s %X", rem_addr, &param->rem_port );
++	if (num < 2) {
+ 		return 1; /* error */
+ 	}
+ 

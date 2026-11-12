@@ -1,0 +1,23 @@
+menuconfig TUYA_PACKAGE_ADB
+	bool "adb-daemon"
+	default n
+	help
+	  This package contains the adb utilities, that can be
+	  used to interact with target devices using of these
+	  protocols.
+
+if TUYA_PACKAGE_ADB
+
+config TUYA_PACKAGE_ADB_PUBKEY
+	string "adb public key path"
+	default ""
+	help
+	  "adb public key path"
+
+config TUYA_PACKAGE_ADB_NOAUTHEN
+	bool "adb no authentication"
+	default n
+	help
+		"check if need adb authentication?"
+
+endif

@@ -1,0 +1,68 @@
+# ==============================
+# 编译中间产物 & 二进制文件
+# ==============================
+*.o
+*.obj
+*.a
+*.so
+*.elf
+*.bin
+*.BIN
+*.hex
+*.map
+*.out
+*.lib
+*.d
+*.depend
+
+# ==============================
+# 固件 & 镜像文件
+# ==============================
+*.sqsh4
+*.jffs2
+*.yaffs2
+*.tar.gz
+*.tgz
+*.sha1
+*.md5
+*.update
+*.img
+*.fs
+SAT_*
+AV100-*
+upgrade/
+
+# ==============================
+# 构建系统 & 输出目录
+# ==============================
+build/
+build_*/
+output/
+out/
+bin/
+lib/
+obj/
+CMakeFiles/
+cmake_install.cmake
+CMakeCache.txt
+Makefile
+*.mk
+*.cmake
+compilat_tool/
+
+# ==============================
+# IDE & 临时文件
+# ==============================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+*.pdf
+*.log
+*.tmp
+*.cache
+*.bak
+*.backup

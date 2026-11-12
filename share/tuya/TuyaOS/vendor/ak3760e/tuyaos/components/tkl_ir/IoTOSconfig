@@ -1,0 +1,15 @@
+menu "TY TKL IR"
+
+config TY_TKL_IR_DEV_PATTERN
+        string "TKL ir device pattern"
+        default "/dev/lirc%d"
+
+config TY_TKL_IR_RECV_TEST
+	bool "TKL ir recv test"
+	default n
+
+config TY_TKL_IR_SEND_TEST
+	bool "TKL ir send test"
+	default n
+
+endmenu

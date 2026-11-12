@@ -1,0 +1,28 @@
+void create_rgb_file(void)
+{
+	FILE * fp;
+	unsigned short u16r = 63488;
+	unsigned short u16g = 1024;
+	unsigned short u16b = 34429;
+	char str1[320*2*240] = {0};
+	int i = 0, j = 0;
+	int c = 0;
+	fp = fopen("/mnt/240x320.rgb", "w+");
+
+	for (j = 0; j < 100*240; j++) {
+		memcpy(str1+c, (void*)(&u16r), 2);
+		c = c + 2;
+	}
+	for (j = 100*240; j < 200*240; j++) {
+		memcpy(str1+c, (void*)(&u16g), 2);
+		c = c + 2;
+	}
+	for (j = 200*240; j < 320*240; j++) {
+		memcpy(str1+c, (void*)(&u16b), 2);
+		c = c + 2;
+	}
+
+	fwrite(str1, 320 * 2 * 240, 1, fp);
+	fclose(fp);
+	return;
+}

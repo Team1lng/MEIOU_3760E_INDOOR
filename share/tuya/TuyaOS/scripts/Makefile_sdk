@@ -1,0 +1,94 @@
+define my-dir
+$(strip	\
+	$(eval _md_file_:=$$(lastword $$(MAKEFILE_LIST)))	\
+	$(if $(filter $(CLEAR_VARS),$(_md_file_)),	\
+		$(error LOCAL_PATH must be set before including $$(CLEAR_VARS))	\
+		,	\
+		$(patsubst %/,%,$(dir $(_md_file_)))	\
+	)	\
+)
+endef
+
+APP_DIR := $(call my-dir)
+
+############################################################
+# 默认编译目标
+############################################################
+all: pack
+
+############################################################
+# 使用配置文件
+############################################################
+-include ./build/build_param
+
+############################################################
+# 包含开发环境定义
+############################################################
+-include $(TUYAOS_BUILD_PATH)/platform.mk
+
+APP_BIN_NAME := demo
+
+############################################################
+# 产物、组件的基准路径
+############################################################
+#编译产物、中间产物路径
+OUTPUT_DIR = $(APP_DIR)/output/$(APP_BIN_NAME)
+OUTPUT_DIR_OBJS = $(OUTPUT_DIR)/.objs
+#libs路径
+TUYAOS_LIB_DIR = $(APP_DIR)/sdk/
+#tuyaos_adapter基准路径
+TUYAOS_ADAPTER_DIR = $(APP_DIR)/demo_tuyaos_adapter
+#user app基准路径
+USER_APP_BASE_DIR = $(APP_DIR)/demo_tuyaos_app/
+
+############################################################
+# 包含所有demo_tuyaos_adapter,libs,demo_tuyaos_app组件的头文件路径,源文件
+############################################################
+#libs头文件路径
+TUYAOS_INCS += $(addprefix -I , $(shell find $(TUYAOS_LIB_DIR)/include -type d))
+
+#tuyaos_adapter头文件路径
+TUYAOS_INCS +=  $(addprefix -I , $(foreach dir,$(TUYAOS_ADAPTER_DIR)/include,$(wildcard $(dir)/*)))
+TUYAOS_INCS +=  $(addprefix -I , $(foreach dir,$(TUYAOS_ADAPTER_DIR),$(shell find $(dir) -name include -type d)))
+
+#tuyaos_app头文件路径
+USER_INC_BASE_DIR = $(shell find $(USER_APP_BASE_DIR) -name include -type d)
+USER_INCS = $(addprefix -I ,  $(shell find $(USER_INC_BASE_DIR) -type d))
+
+#源文件
+USER_SRC_DIRS = $(shell find $(USER_APP_BASE_DIR) -type d)
+USER_SRC_DIRS += $(shell find $(TUYAOS_ADAPTER_DIR) -type d)
+USER_SRCS += $(foreach dir, $(USER_SRC_DIRS), $(wildcard $(dir)/*.c)) 
+
+#obj文件
+USER_OBJS = $(addsuffix .o, $(USER_SRCS))
+
+#实际obj地址
+USER_OBJS_OUT =  $(addprefix $(OUTPUT_DIR_OBJS)/, $(USER_OBJS))
+
+LINKFLAGS = -L$(TUYAOS_LIB_DIR)/libs -ltuyaos -pthread -lm -lrt -ldl -lm -Wl,--gc-sections
+
+CCFLAGS = -g -fPIC -ffunction-sections -fdata-sections
+
+CFLAGS = $(CCFLAGS) $(TUYAOS_INCS) $(USER_INCS) $(USER_CFLAGS) $(TUYA_PLATFORM_CFLAGS)
+
+	
+pack: build_app
+ifneq ($(wildcard $(APP_PACK)),)
+	sh $(APP_PACK) $(OUTPUT_DIR) $(APP_DIR) $(APP_BIN_NAME) $(COMPILE_PREX)
+endif
+
+build_app: $(USER_OBJS_OUT)
+	@echo "Start Build APP"
+	@$(CC) $(CFLAGS)  $(USER_OBJS_OUT)  $(LINKFLAGS) -o $(OUTPUT_DIR)/$(APP_BIN_NAME)
+	@echo 
+	@echo "Build APP Finish."
+
+$(OUTPUT_DIR_OBJS)/%.c.o: %.c
+	@mkdir -p $(dir $@);
+	@echo "CC $<"
+	@$(CC) $(CFLAGS) -o $@ -c $<
+
+.PHONY: all clean SHOWARGS build_app pack
+clean:
+	rm -rf $(OUTPUT_DIR)

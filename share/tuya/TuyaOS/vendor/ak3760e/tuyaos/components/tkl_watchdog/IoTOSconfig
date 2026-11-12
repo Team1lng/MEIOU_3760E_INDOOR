@@ -1,0 +1,11 @@
+menu "Tuya TKL WATCHDOG"
+
+config TUYA_TKL_WATCHDOG_DEV
+        string "TKL watchdog device"
+        default "/dev/watchdog"
+
+config TUYA_TKL_WATCHDOG_TEST
+	bool "TKL - watchdog test"
+	default n
+
+endmenu

@@ -1,0 +1,16 @@
+
+menu "Tuya Base HAL"
+
+menu "Module"
+comment "All modules of Base HAL are compiled by default"
+endmenu
+
+menu "Test"
+config TUYA_BASE_HAL_TEST
+    bool "Base HAL Test"
+    default n
+
+source "sdk/base_hal/test/*/Config.in"
+endmenu
+
+endmenu

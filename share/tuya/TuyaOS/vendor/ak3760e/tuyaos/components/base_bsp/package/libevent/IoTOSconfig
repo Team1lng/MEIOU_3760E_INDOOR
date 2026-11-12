@@ -1,0 +1,16 @@
+menuconfig TUYA_PACKAGE_LIBEVENT
+	bool "libevent"
+	help
+	  Userspace library for handling asynchronous notifications
+
+	  http://libevent.org
+
+if TUYA_PACKAGE_LIBEVENT
+
+config TUYA_PACKAGE_LIBEVENT_VERSION
+	string "libevent version to use?"
+	default "libevent-2.1.12-stable"
+	help
+	  Select which version to use.
+
+endif

@@ -1,0 +1,18 @@
+menuconfig TUYA_PACKAGE_LIBSNDFILE
+	bool "libsndfile"
+	help
+	  Libsndfile is a C library for reading and writing files
+	  containing sampled sound (such as MS Windows WAV and the
+	  Apple/SGI AIFF format) through one standard library interface.
+
+	  http://www.mega-nerd.com/libsndfile/
+
+if TUYA_PACKAGE_LIBSNDFILE
+
+config TUYA_PACKAGE_LIBSNDFILE_VERSION
+	string "libsndfile version to use?"
+	default "libsndfile-1.0.30"
+	help
+	  Select which version to use.
+
+endif

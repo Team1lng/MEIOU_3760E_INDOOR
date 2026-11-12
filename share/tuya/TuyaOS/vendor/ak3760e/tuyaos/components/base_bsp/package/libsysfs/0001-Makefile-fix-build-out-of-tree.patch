@@ -1,0 +1,61 @@
+diff --git a/cmd/Makefile.in b/cmd/Makefile.in
+index 960fa78..f1aa95b 100644
+--- a/cmd/Makefile.in
++++ b/cmd/Makefile.in
+@@ -172,7 +172,7 @@ sharedstatedir = @sharedstatedir@
+ sysconfdir = @sysconfdir@
+ target_alias = @target_alias@
+ systool_SOURCES = systool.c names.c names.h
+-INCLUDES = -I../include
++INCLUDES = -I$(top_srcdir)/include
+ LDADD = ../lib/libsysfs.la
+ AM_CFLAGS = -Wall -W -Wstrict-prototypes $(EXTRA_CFLAGS)
+ all: all-am
+diff --git a/lib/Makefile.in b/lib/Makefile.in
+index a8b481d..4b87988 100644
+--- a/lib/Makefile.in
++++ b/lib/Makefile.in
+@@ -183,7 +183,7 @@ lib_LTLIBRARIES = libsysfs.la
+ libsysfs_la_SOURCES = sysfs_utils.c sysfs_attr.c sysfs_class.c dlist.c \
+       sysfs_device.c sysfs_driver.c sysfs_bus.c sysfs_module.c sysfs.h
+ 
+-INCLUDES = -I../include
++INCLUDES = -I$(top_srcdir)/include
+ libsysfs_la_LDFLAGS = -version-info 2:1:0
+ libsysfs_la_CFLAGS = -Wall -W -Wstrict-prototypes $(EXTRA_CLFAGS)
+ all: all-am
+diff --git a/test/Makefile.in b/test/Makefile.in
+index 6ac3a16..af57374 100644
+--- a/test/Makefile.in
++++ b/test/Makefile.in
+@@ -195,7 +195,7 @@ testlibsysfs_SOURCES = test.c test_attr.c test_bus.c test_class.c \
+ 		       test_device.c test_driver.c test_module.c test_utils.c \
+ 		       testout.c test-defs.h libsysfs.conf create-test
+ 
+-INCLUDES = -I../include
++INCLUDES = -I$(top_srcdir)/include
+ LDADD = ../lib/libsysfs.la
+ AM_CFLAGS = -Wall -W -Wstrict-prototypes $(EXTRA_CLFAGS)
+ all: $(BUILT_SOURCES)
+@@ -488,7 +488,7 @@ uninstall-am: uninstall-binPROGRAMS uninstall-info-am
+ 	uninstall-binPROGRAMS uninstall-info-am
+ 
+ test.h:
+-	./create-test
++	srcdir=$(srcdir) $(srcdir)/create-test
+ # Tell versions [3.59,3.63) of GNU make to not export all variables.
+ # Otherwise a system limit (for SysV at least) may be exceeded.
+ .NOEXPORT:
+diff --git a/test/create-test b/test/create-test
+index 78ce1a2..34ea063 100755
+--- a/test/create-test
++++ b/test/create-test
+@@ -2,7 +2,7 @@
+ 
+ rm -f test.h
+ 
+-conf_file=./libsysfs.conf
++conf_file=$srcdir/libsysfs.conf
+ 
+ . $conf_file
+ 

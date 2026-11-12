@@ -1,0 +1,16 @@
+menuconfig TUYA_PACKAGE_PIXMAN
+	bool "pixman"
+	help
+	  Cairo pixel manager
+
+	  http://cairographics.org/releases/
+
+if TUYA_PACKAGE_PIXMAN
+
+config TUYA_PACKAGE_PIXMAN_VERSION
+	string "pixman version to use?"
+	default "pixman-0.40.0"
+	help
+	  Select which version to use.
+
+endif

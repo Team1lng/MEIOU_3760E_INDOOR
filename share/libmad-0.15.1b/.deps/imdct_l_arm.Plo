@@ -1,0 +1,1 @@
+imdct_l_arm.lo: imdct_l_arm.S

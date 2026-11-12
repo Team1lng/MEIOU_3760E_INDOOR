@@ -1,0 +1,93 @@
+menuconfig BSP_UBOOT_MADE
+        bool "Bsp uboot made"
+	default y
+        help
+          "for uboot nvram and upgrade"
+
+
+if BSP_UBOOT_MADE
+
+
+config UBOOT_MADE_HW_INIT
+	string "for uboot hardware init functions"
+        default "0"
+        help
+                UBOOT HARDWARE INIT
+
+config UBOOT_MADE_OTA_BACKUP
+	string "for uboot ota backup from persist.oat.src"
+        default "0"
+        help
+                UBOOT OTA BACKUP
+
+config UBOOT_MADE_BOOT_SD
+	string "for uboot boot from sd card"
+        default "0"
+        help
+                UBOOT BOOT SD
+
+config UBOOT_MADE_OTA_SD
+	string "for uboot upgrade ota from sd card"
+        default "0"
+        help
+                UBOOT OTA SD
+
+config UBOOT_MADE_OTA_SD_FW_NAME
+        string "uboot sd ota firmware name"
+        default "sd_ota.bin"
+
+config FLASH_DOUBLE_BACK
+	string "for flash double backup"
+        default "0"
+        help
+                UBOOT DOUBLE BACKUP
+
+config UBOOT_VERSION
+        string "uboot srccode version, 1 for < uboot-2015.01; 2 for >= uboot-2015.01"
+        default "1"
+
+choice
+     prompt "firmware store medium type"
+     default FIRMWARE_STORE_MEDIUM_IS_SPI_NOR
+
+config FIRMWARE_STORE_MEDIUM_IS_SPI_NOR 
+    bool "firmware store medium is spi nor flash"
+
+if FIRMWARE_STORE_MEDIUM_IS_SPI_NOR
+
+config NOR_FLASH_PROTECT_SUPPORT
+        bool "nor flash protect support "
+        default n
+
+endif
+
+
+config FIRMWARE_STORE_MEDIUM_IS_SPI_NAND
+    bool "firmware store medium is spi nand flash"
+
+endchoice
+
+
+config UBOOT_USER_LOAD_ADDR
+        string "uboot user load addr for load ota image"
+        default "0x21000000"
+
+config UBOOT_OTA_BACKUP_ADDR
+        string "uboot backup addr for ota flash align address"
+        default "0x22000000"
+
+config NVRAM_HEADER_LOAD_ADDR
+        string "uboot nvram header load addr"
+        default "0x21C00000"
+
+config NVRAM_VALUE_LOAD_ADDR
+        string "uboot nvram value load addr"
+        default "0x21800000"
+
+config NVRAM_COMMIT_ADDR
+        string "uboot nvram commit addr"
+        default "0x21400000"
+
+
+endif
+

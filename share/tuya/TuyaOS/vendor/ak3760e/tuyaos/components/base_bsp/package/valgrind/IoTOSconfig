@@ -1,0 +1,16 @@
+menuconfig TUYA_PACKAGE_VALGRIND
+	bool "valgrind"
+	help
+	  Tool for debugging and profiling Linux programs.
+
+	  http://valgrind.org/
+
+if TUYA_PACKAGE_VALGRIND
+
+config TUYA_PACKAGE_VALGRIND_VERSION
+	string "valgrind version to use?"
+	default "valgrind-3.19.0"
+	help
+	  Select which version to use.
+
+endif
