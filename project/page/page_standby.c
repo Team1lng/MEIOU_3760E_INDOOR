@@ -127,6 +127,7 @@ static void standby_screen_wake(void);
 static bool standby_click_wake_if_off(void);
 static bool motion_preview_active(void);
 static bool motion_guard_active(void);
+static void motion_sd_recording_update(void);
 
 /************************** 回调实现 **************************/
 
@@ -140,12 +141,14 @@ static void standby_screen_click_cb(lv_event_t *ev)
 /************************** 普通待机熄屏 **************************/
 static void page_standby_tfcard_change_cb(void *arg)
 {
+    motion_sd_recording_update();
     standby_badge_counts_update();
 }
 
 /* 待机页 SD 插拔：刷新未读角标，并保留通用插拔提示框 */
 static void standby_tfcard_change_cb(void *arg)
 {
+    motion_sd_recording_update();
     standby_badge_counts_update();
     page_common_tfcard_change_cb(arg);
 }
@@ -853,6 +856,13 @@ static struct
     record_mode_type_def record_mode;
 } s_motion_ctx;
 
+static void motion_sd_recording_update(void)
+{
+    /* The global SD cleanup hook has already stopped recording. */
+    if (!(Amy_tfcard_status() & SD_STATE_INSERT))
+        s_motion_ctx.recording = false;
+}
+
 static bool motion_preview_active(void)
 {
     return s_motion_ctx.active && s_motion_ctx.preview;
@@ -903,6 +913,7 @@ static void motion_recording_label_update(void)
 
 static void motion_sd_change_cb(void *arg)
 {
+    motion_sd_recording_update();
     motion_recording_label_update();
     if (s_screen_off)
         return;

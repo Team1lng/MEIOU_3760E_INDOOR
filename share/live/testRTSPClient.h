@@ -12,6 +12,8 @@ int live555_rtsp_request_record_start(rtsp_client_context *ctx, int (*recvideo_c
 int live555_rtsp_request_record_stop(rtsp_client_context *ctx);
 
 int live555_rtsp_request_snapshort_start(rtsp_client_context *ctx, int (*snapshort_cb)(const char *, int));
+/* Cancel only a request not yet handed to the encoder; completion runs unlocked. */
+int live555_rtsp_request_snapshort_cancel(rtsp_client_context *ctx);
 
 int live555_rtsp_request_volume_set(rtsp_client_context *ctx, int volume);
 

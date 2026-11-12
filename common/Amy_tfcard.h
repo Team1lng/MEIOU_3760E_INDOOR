@@ -29,6 +29,15 @@ typedef enum
 int Amy_tfcard_init(void);
 int Amy_tfcard_status(void);
 int Amy_tfcard_inserted(void);
+/* The UI acknowledges a state event only after its resource cleanup returns. */
+bool Amy_tfcard_event_is_current(unsigned int sequence);
+void Amy_tfcard_event_processed(unsigned int sequence);
+/* Bind asynchronous persistence to one mounted card; begin/end must pair. */
+unsigned int Amy_tfcard_generation(void);
+bool Amy_tfcard_io_begin(unsigned int generation);
+void Amy_tfcard_io_end(void);
+bool Amy_tfcard_format_pending(void);
+void Amy_tfcard_format_event_processed(void);
 int Amy_tfcard_format(void);
 int tfcard_capacity_get(unsigned long *total_kb, unsigned long *used_kb, unsigned long *free_kb); // hare set
 /**

@@ -299,33 +299,31 @@ static void tuya_sd_status(int reserved)
 
 static void tuya_default_tfcard_format_finish_cb(void *arg)
 {
-  tuya_dp_sd_format_status_response(100);
+  int result = arg ? *(int *)arg : 0;
+  tuya_dp_sd_format_status_response(result == 0 ? 100 : -2003);
   page_common_tfcard_format_finish_cb(arg);
   Amy_event_cb_register(AMY_EVENT_ID_SD_FORMAT_FINISH, page_common_tfcard_format_finish_cb);
 }
 
 static void tuya_sd_format(int reserved)
 {
-  int status = Amy_tfcard_status();
-  switch (status)
+  if (Amy_tfcard_format_pending())
   {
-  case SD_STATE_UNPLUG:
-    tuya_dp_sd_format_status_response(-2002);
-    break;
-  case SD_STATE_ERROR:
-    tuya_dp_sd_format_status_response(-2003);
-    break;
-  case SD_STATE_FORMAT:
     tuya_dp_sd_format_status_response(-2000);
-    break;
-  case SD_STATE_MOUNT:
-  case SD_STATE_FULL:
-    Amy_event_cb_register(AMY_EVENT_ID_SD_FORMAT_FINISH, tuya_default_tfcard_format_finish_cb);
-    Amy_tfcard_format();
+    return;
+  }
+  if (!Amy_tfcard_inserted())
+  {
+    tuya_dp_sd_format_status_response(-2002);
+    return;
+  }
+  Amy_event_cb_register(AMY_EVENT_ID_SD_FORMAT_FINISH, tuya_default_tfcard_format_finish_cb);
+  if (Amy_tfcard_format() == 0)
     tuya_dp_sd_format_status_response(0);
-    break;
-  default:
-    break;
+  else
+  {
+    Amy_event_cb_register(AMY_EVENT_ID_SD_FORMAT_FINISH, page_common_tfcard_format_finish_cb);
+    tuya_dp_sd_format_status_response(-2003);
   }
 }
 

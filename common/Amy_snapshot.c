@@ -28,6 +28,7 @@ static void *snapshot_thread(void *arg)
     stream_data *vst = NULL;
     char *dst_data = NULL;
     snapshot_context_t *ctx = (snapshot_context_t *)arg;
+    bool completed = false;
     struct ak_tde_layer src, dst;
 
     tde_layer_init(src, ctx->pixel_w, ctx->pixel_h, 0, 0, ctx->valid_w, ctx->valid_h, GP_FORMAT_YUV420SP, ctx->data);
@@ -52,29 +53,24 @@ static void *snapshot_thread(void *arg)
     ak_tde_opt_scale(&src, &dst);
     if (mjpeg_encode_send_frame(ctx->venc_dev, (unsigned char *)dst_data, dst_size, ctx->valid_w, ctx->valid_h))
     {
-        if (ctx->finish_cb)
-        {
-            ctx->finish_cb(NULL, 0);
-        }
         AMY_LOG_ERROR("video encode send frame failed\n");
         goto exit;
     }
 
     if (mjpeg_encode_get_stream(ctx->venc_dev, &vst))
     {
-        if (ctx->finish_cb)
-        {
-            ctx->finish_cb(NULL, 0);
-        }
         AMY_LOG_ERROR("video encode get stream failed\n");
         goto exit;
     }
+    completed = true;
     if (ctx->finish_cb)
     {
         ctx->finish_cb((const char *)vst->data, vst->size);
     }
     mjpeg_encode_release_stream(ctx->venc_dev, vst);
 exit:
+    if (!completed && ctx->finish_cb)
+        ctx->finish_cb(NULL, 0);
     if (ctx->venc_dev)
     {
         mjpeg_encode_close(ctx->venc_dev);
@@ -104,9 +100,28 @@ int Amy_snapshot_start(char *data, int pixel_w, int pixel_h, int valid_w, int va
     //!!! 这里不分配数据，因为直接从解码器获取的，但是需要注意的在编码之前不能关闭解码器。
     ctx->data = data;
     ctx->finish_cb = finish_cb;
-    // ctx->run = 1;
+    pthread_attr_t attr;
+    if (pthread_attr_init(&attr) != 0)
+    {
+        Amy_free(ctx);
+        return -1;
+    }
+    if (pthread_attr_setstacksize(&attr, 32 * 1024) != 0 ||
+        pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED) != 0)
+    {
+        pthread_attr_destroy(&attr);
+        Amy_free(ctx);
+        return -1;
+    }
+    pthread_t tid;
     Amy_snapshort_event_put(1);
-    Amy_pthread_create(&ctx->tid, snapshot_thread, ctx, 32 * 1024, 12);
-    Amy_pthread_detach(ctx->tid);
+    int result = pthread_create(&tid, &attr, snapshot_thread, ctx);
+    pthread_attr_destroy(&attr);
+    if (result != 0)
+    {
+        Amy_snapshort_event_put(0);
+        Amy_free(ctx);
+        return -1; /* No worker owns this request; the caller may retry it. */
+    }
     return 0;
 }

@@ -317,6 +317,7 @@ static void Amy_lv_page_quit(power)
   Amy_event_cb_register(AMY_EVENT_ID_CALL, common_call_extern_call_callback);
   Amy_event_cb_register(AMY_EVENT_ID_OTA, page_default_ota_event_cb);
   Amy_event_cb_register(AMY_EVENT_ID_SD_CHANGE, page_common_tfcard_change_cb);
+  Amy_tfcard_cleanup_cb_register(page_common_tfcard_cleanup);
   Amy_event_cb_register(AMY_EVENT_ID_SD_FORMAT_FINISH, page_common_tfcard_format_finish_cb);
   lv_obj_event_pressed_callback_register(page_default_obj_press_event_cb);
 }

@@ -122,11 +122,15 @@ static void adv_upgrade_status_show(const char *msg)
 
 static void adv_format_sd_confirm_cb(lv_event_t *ev)
 {
-    if (Amy_tfcard_status() & SD_STATE_INSERT)
+    if (Amy_tfcard_format_pending())
+        return;
+    if (Amy_tfcard_inserted())
     {
-        Amy_tfcard_format();
-        lv_common_msgbox_notify_create(329, 172, 366, 256, 42,
-                                       lang_str_get(STR_FORMATING));
+        if (Amy_tfcard_format() == 0)
+            lv_common_msgbox_notify_create(329, 172, 366, 256, 42,
+                                           lang_str_get(STR_FORMATING));
+        else
+            adv_upgrade_status_show(lang_str_get(STR_FILE_RW_ERROR));
     }
     else
     {

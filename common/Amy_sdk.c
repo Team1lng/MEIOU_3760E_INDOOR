@@ -6,6 +6,7 @@
 #include "i2c_ctrl.h"
 #include "res.h"
 #include <ctype.h>
+#include <sys/wait.h>
 #include "pwm_ctrl.h"
 #include "boot_time.h"
 #include "../project/pwm.h"
@@ -124,7 +125,11 @@ int system_cmd_execution(cmd_execution_param_t *param)
             reslut = param->cb(param->userdata, (char *)fp, 0);
         }
     }
-    pclose(fp);
+    int status = pclose(fp);
+    if (status == -1 || !WIFEXITED(status) || WEXITSTATUS(status) != 0)
+    {
+        return -1;
+    }
     return reslut;
 }
 

@@ -1174,6 +1174,8 @@ void page_default_ota_event_cb(void *arg);
  * @brief SD卡插拔通用回调，显示插入/拔出消息框
  */
 void page_common_tfcard_change_cb(void *arg);
+/** UI线程执行的全局SD资源释放，完成后才允许卸载旧挂载。 */
+void page_common_tfcard_cleanup(void);
 
 /** SD卡插拔时回退铃声模式：无自定义铃声则回退为标准铃声（跨页面全局生效） */
 void ring_mode_on_sd_changed(void);

@@ -14,6 +14,7 @@
 #include "Amy_sdk.h"
 #include "Amy_lvgl.h"
 #include "Amy_log.h"
+#include "Amy_tfcard.h"
 #include "lvgl.h"
 
 #include "mempool/mempool.h"
@@ -106,6 +107,7 @@ typedef struct lv_event_context
     queues_conetext *q;
 } lv_event_context;
 static lv_event_context lv_ctx;
+static void (*tfcard_cleanup_callback)(void);
 
 typedef struct
 {
@@ -146,6 +148,21 @@ static void lv_event_timer(lv_timer_t *t)
     lv_ev_data *data;
     while (Amy_queues_get(ev->q, (void **)&data, NULL, NULL) == 0)
     {
+        unsigned int sd_sequence = 0;
+        if (data->id == AMY_EVENT_ID_SD_CHANGE)
+        {
+            if (data->argv)
+            {
+                sd_sequence = *(unsigned int *)data->argv;
+                if (!Amy_tfcard_event_is_current(sd_sequence))
+                {
+                    Amy_mempool_free(ev->mp, data);
+                    continue;
+                }
+            }
+            if (!(Amy_tfcard_status() & SD_STATE_INSERT) && tfcard_cleanup_callback)
+                tfcard_cleanup_callback();
+        }
         for (int i = 0; i < sizeof(event_codes) / sizeof(lv_event_param); i++)
         {
             if (event_codes[i].id == data->id)
@@ -157,6 +174,10 @@ static void lv_event_timer(lv_timer_t *t)
                 break;
             }
         }
+        if (sd_sequence)
+            Amy_tfcard_event_processed(sd_sequence);
+        if (data->id == AMY_EVENT_ID_SD_FORMAT_FINISH)
+            Amy_tfcard_format_event_processed();
         Amy_mempool_free(ev->mp, data);
     }
 }
@@ -254,6 +275,7 @@ static int Amy_event_put_base(int event_id, void *param, uint32_t param_size)
     if (Amy_queues_put(lv_ctx.q, data))
     {
         Amy_mempool_free(lv_ctx.mp, data);
+        return -1;
     }
     return 0;
 }
@@ -323,9 +345,24 @@ int Amy_tfcard_event_put(void)
     return Amy_event_put_base(AMY_EVENT_ID_SD_CHANGE, NULL, 0);
 }
 
+int Amy_tfcard_state_event_put(unsigned int sequence)
+{
+    return Amy_event_put_base(AMY_EVENT_ID_SD_CHANGE, &sequence, sizeof(sequence));
+}
+
+void Amy_tfcard_cleanup_cb_register(void (*callback)(void))
+{
+    tfcard_cleanup_callback = callback;
+}
+
 int Amy_tfcard_format_finish_event_put(void)
 {
-    return Amy_event_put_base(AMY_EVENT_ID_SD_FORMAT_FINISH, NULL, 0);
+    return Amy_tfcard_format_result_event_put(0);
+}
+
+int Amy_tfcard_format_result_event_put(int result)
+{
+    return Amy_event_put_base(AMY_EVENT_ID_SD_FORMAT_FINISH, &result, sizeof(result));
 }
 
 int Amy_play_event_put(int play_state)

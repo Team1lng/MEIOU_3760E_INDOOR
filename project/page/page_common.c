@@ -8,6 +8,11 @@
 #include "page_tabel.h"
 #include "tuya/tuya_sdk.h"
 #include "sat_wifi.h"
+#include "../monitor.h"
+#include "Amy_music_player.h"
+#include "Amy_file_manager.h"
+#include "standby_bg_music.h"
+#include "standby_photo_frame.h"
 
 typedef struct
 {
@@ -157,12 +162,25 @@ const char *page_common_door_version_get(int index)
     return g_door_status[index].version;
 }
 
+/* Called on the UI thread before the current page releases its SD resources.
+ * Live network preview stays open; only the SD recording request is stopped. */
+void page_common_tfcard_cleanup(void)
+{
+    if (monitor_video_record_mode_get() >= 0)
+        monitor_video_record_stop();
+    standby_bg_music_stop();
+    Amy_music_player_stop();
+    standby_photo_frame_stop();
+    Amy_fm_refresh(FM_DIR_MUSIC);
+    Amy_fm_refresh(FM_DIR_PHOTO);
+}
+
 /**
  * @brief SD卡插拔通用回调，显示插入/拔出消息框
  *
  * 处理逻辑同步自 EMOS-Indoor setting_sdcard_callback:
  * - 格式化状态守卫：SD_STATE_FORMAT 时不弹窗
- * - 插拔状态跟踪：仅 INSERT BIT 变化时弹窗，避免 MOUNT<->FULL 等冗余通知
+ * - 只在挂载校验完成后提示可用，避免 MOUNT<->FULL 等冗余通知
  */
 void page_common_tfcard_change_cb(void *arg)
 {
@@ -172,17 +190,17 @@ void page_common_tfcard_change_cb(void *arg)
     static int last_inserted = -1;
     int status = Amy_tfcard_status();
 
-    if (status == SD_STATE_FORMAT)
+    if (status == SD_STATE_FORMAT || Amy_tfcard_format_pending())
         return;
 
-    int inserted = (status & SD_STATE_INSERT) ? 1 : 0;
+    int inserted = status == SD_STATE_MOUNT || status == SD_STATE_FULL;
     if (last_inserted == inserted)
         return;
 
     last_inserted = inserted;
     AMY_LOG_DEBUG("创建弹窗\r\n");
     const char *msg = inserted ? lang_str_get(STR_INSET_SD_SUCCEE)
-                               : lang_str_get(STR_NO_SD_CARD);
+                               : lang_str_get(status == SD_STATE_UNPLUG ? STR_NO_SD_CARD : STR_FILE_RW_ERROR);
     lv_common_msgbox_create(329, 172, 366, 256, 42, msg, NULL, NULL);
 }
 
@@ -191,8 +209,9 @@ void page_common_tfcard_change_cb(void *arg)
  */
 void page_common_tfcard_format_finish_cb(void *arg)
 {
+    int result = arg ? *(int *)arg : 0;
     lv_common_msgbox_create(329, 172, 366, 256, 42,
-                            lang_str_get(STR_FORMAT_SUCCE), NULL, NULL);
+                            lang_str_get(result == 0 ? STR_FORMAT_SUCCE : STR_FILE_RW_ERROR), NULL, NULL);
 }
 
 void page_default_device_conflict_event_cb(void *arg)

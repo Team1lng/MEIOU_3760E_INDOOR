@@ -63,14 +63,17 @@ static void avi_record_head_write(avi_record_context *ctx, stream_data *vst)
 
 static int avi_record_tail_write(avi_record_context *ctx)
 {
-    unsigned long long duration = ctx->finish_timestamp - ctx->start_timestamp;
+    unsigned long long duration = ctx->finish_timestamp > ctx->start_timestamp
+                                      ? ctx->finish_timestamp - ctx->start_timestamp : 0;
     /* [FIX] 读取原子变量用 atomic_load */
     unsigned long long vframe_cnt = atomic_load(&ctx->vframe_cnt);
-    ctx->avi_dev->fps = 1000.0 * vframe_cnt / duration;
+    double fps = duration ? 1000.0 * vframe_cnt / duration : 1.0;
+    ctx->avi_dev->fps = fps;
     AVI_close(ctx->avi_dev);
+    ctx->avi_dev = NULL;
     AMY_LOG_INFO("record %s fps:%.2f, duration:%llums, frame cnt:%llu\n",
                  ctx->file_path,
-                 ctx->avi_dev->fps,
+                 fps,
                  duration,
                  vframe_cnt);
     return 0;
@@ -167,8 +170,9 @@ static void *avi_record_thread(void *arg)
     }
     if (ctx->record_finish_cb)
     {
-        ctx->record_finish_cb(ctx->file_path,
-                              (ctx->finish_timestamp - ctx->start_timestamp) / 1000);
+        unsigned long long duration = ctx->finish_timestamp > ctx->start_timestamp
+                                          ? ctx->finish_timestamp - ctx->start_timestamp : 0;
+        ctx->record_finish_cb(ctx->file_path, duration / 1000);
     }
 
     Amy_record_event_put(0);

@@ -349,6 +349,24 @@ extern "C" int live555_rtsp_request_snapshort_start(rtsp_client_context *d, int 
     return 0;
 }
 
+extern "C" int live555_rtsp_request_snapshort_cancel(rtsp_client_context *ctx)
+{
+    if (!ctx)
+        return -1;
+    int (*callback)(const char *, int) = NULL;
+    Amy_mutex_lock(&ctx->mutex);
+    if (ctx->request_snapshort)
+    {
+        ctx->request_snapshort = 0;
+        callback = ctx->snapshort_cb;
+        ctx->snapshort_cb = NULL;
+    }
+    Amy_mutex_unlock(&ctx->mutex);
+    if (callback)
+        callback(NULL, 0);
+    return 0;
+}
+
 extern "C" int live555_rtsp_request_volume_set(rtsp_client_context *ctx, int volume)
 {
     if (ctx == NULL)
@@ -1597,12 +1615,12 @@ void DummySink::afterGettingFrame(unsigned frameSize, unsigned numTruncatedBytes
             struct ak_vdec_frame snap_frame = {0};
             if (video_decodec_get_frame(rtsp_context->video_dev, &snap_frame, NULL) == 0)
             {
-                rtsp_context->request_snapshort = 0;
-                Amy_snapshot_start((char *)snap_frame.frame_obj.data.data,
+                if (Amy_snapshot_start((char *)snap_frame.frame_obj.data.data,
                                    snap_frame.frame_obj.data.pitch_width,
                                    snap_frame.frame_obj.data.pitch_height,
                                    snap_frame.width, snap_frame.height,
-                                   rtsp_context->snapshort_cb);
+                                   rtsp_context->snapshort_cb) == 0)
+                    rtsp_context->request_snapshort = 0;
             }
         }
         Amy_mutex_unlock(&rtsp_context->mutex);
